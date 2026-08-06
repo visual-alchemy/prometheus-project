@@ -8,7 +8,7 @@
   <!-- High-End Typography: Inter + JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" href="style.css">
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
@@ -105,32 +105,32 @@
             <div class="meta-grid">
               <div class="meta-card">
                 <span class="meta-label">Resolution</span>
-                <samp class="meta-value highlight" id="meta-res">640x360</samp>
+                <span class="meta-value highlight" id="meta-res">640x360</span>
               </div>
               <div class="meta-card">
                 <span class="meta-label">Video Codec</span>
-                <samp class="meta-value" id="meta-vcodec">H.264 / AVC</samp>
+                <span class="meta-value" id="meta-vcodec">H.264 / AVC</span>
               </div>
               <div class="meta-card">
                 <span class="meta-label">Frame Rate</span>
-                <samp class="meta-value" id="meta-fps">30.00 fps</samp>
+                <span class="meta-value" id="meta-fps">30.00 fps</span>
               </div>
               <div class="meta-card">
                 <span class="meta-label">Audio Track</span>
-                <samp class="meta-value" id="meta-acodec">AAC (2 Ch)</samp>
+                <span class="meta-value" id="meta-acodec">AAC (2 Ch)</span>
               </div>
               <div class="meta-card">
                 <span class="meta-label">Target Bitrate</span>
-                <samp class="meta-value highlight" id="meta-bitrate">384 kbps</samp>
+                <span class="meta-value highlight" id="meta-bitrate">384 kbps</span>
               </div>
               <div class="meta-card">
                 <span class="meta-label">Buffer Status</span>
-                <samp class="meta-value" id="meta-buffer">Healthy</samp>
+                <span class="meta-value emerald" id="meta-buffer">Healthy</span>
               </div>
             </div>
           </div>
 
-          <!-- Section 2: Distribution Endpoints Breakdown -->
+          <!-- Section 2: Output Endpoints Breakdown -->
           <div class="meta-section">
             <h4 class="section-heading">DISTRIBUTION ENDPOINTS</h4>
             
