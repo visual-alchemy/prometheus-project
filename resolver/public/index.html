@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prometheus Stream Gateway — IP Video Control Console</title>
+  
+  <!-- High-End Typography: Inter + JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+</head>
+<body>
+  <!-- Top App Header -->
+  <header class="app-header">
+    <div class="brand">
+      <div class="status-indicator active pulse"></div>
+      <span class="app-title">PROMETHEUS</span>
+      <span class="badge">IP STREAM GATEWAY</span>
+    </div>
+    
+    <div class="header-center">
+      <div class="telemetry-pill">
+        <span class="pill-dot"></span>
+        <span class="pill-text"><strong id="channel-count">24</strong> ACTIVE STREAMS</span>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <button class="btn secondary" onclick="refreshAllChannels()">
+        <svg class="btn-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        <span>Sync All Tokens</span>
+      </button>
+      <button class="btn primary" onclick="openAddModal()">
+        <svg class="btn-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+        <span>Add New Stream</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Gateway Workspace -->
+  <main class="workspace" id="workspace">
+    <!-- Full-Width Stream Inventory Table -->
+    <section class="panel table-panel">
+      <div class="panel-header">
+        <div class="header-left">
+          <h2>STREAM INVENTORY</h2>
+          <span class="sub-label">Click channel row or title to inspect telemetry</span>
+        </div>
+        <div class="header-right">
+          <div class="search-wrapper">
+            <svg class="search-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            <input type="text" id="search-input" placeholder="Search channels, IDs, slugs..." onkeyup="filterChannels()">
+          </div>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <table id="channel-table">
+          <thead>
+            <tr>
+              <th style="width: 48px;">State</th>
+              <th>Channel Name & Identifier</th>
+              <th>Upstream Akamai Origin Source</th>
+              <th>Local Gateway HLS Endpoint</th>
+              <th style="width: 140px; text-align: right;">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="channel-list">
+            <!-- Populated dynamically -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Slide-out Sidebar Inspector Panel -->
+    <aside class="sidebar-inspector" id="sidebar-inspector">
+      <div class="sidebar-header">
+        <div class="sidebar-title-group">
+          <span class="live-pill">LIVE FEED INSPECTOR</span>
+          <h3 id="inspector-title">Select a Stream</h3>
+        </div>
+        <button class="close-btn" onclick="closeSidebar()" title="Close Inspector">✕</button>
+      </div>
+
+      <div class="sidebar-player-container">
+        <video id="sidebar-video" controls autoplay muted playsinline></video>
+        <div class="player-overlay-tag">
+          <span class="live-dot"></span> LIVE
+        </div>
+      </div>
+
+      <div class="sidebar-body" id="inspector-body">
+        <div class="empty-state" id="inspector-empty">
+          <p>Click on any channel in the inventory table to launch stream preview and telemetry analytics.</p>
+        </div>
+
+        <div class="inspector-details" id="inspector-details" style="display: none;">
+          <!-- Section 1: Stream Technical Metadata -->
+          <div class="meta-section">
+            <h4 class="section-heading">STREAM TELEMETRY</h4>
+            <div class="meta-grid">
+              <div class="meta-card">
+                <span class="meta-label">Resolution</span>
+                <span class="meta-value highlight" id="meta-res">640x360</span>
+              </div>
+              <div class="meta-card">
+                <span class="meta-label">Video Codec</span>
+                <span class="meta-value" id="meta-vcodec">H.264 / AVC</span>
+              </div>
+              <div class="meta-card">
+                <span class="meta-label">Frame Rate</span>
+                <span class="meta-value" id="meta-fps">30.00 fps</span>
+              </div>
+              <div class="meta-card">
+                <span class="meta-label">Audio Track</span>
+                <span class="meta-value" id="meta-acodec">AAC (2 Ch)</span>
+              </div>
+              <div class="meta-card">
+                <span class="meta-label">Target Bitrate</span>
+                <span class="meta-value highlight" id="meta-bitrate">384 kbps</span>
+              </div>
+              <div class="meta-card">
+                <span class="meta-label">Buffer Status</span>
+                <span class="meta-value emerald" id="meta-buffer">Healthy</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 2: Output Endpoints Breakdown -->
+          <div class="meta-section">
+            <h4 class="section-heading">DISTRIBUTION ENDPOINTS</h4>
+            
+            <div class="endpoint-group">
+              <label>HLS Endpoint (Browser & Multiviewer)</label>
+              <div class="endpoint-input-row">
+                <input type="text" id="endpoint-hls" readonly>
+                <button class="btn-copy" onclick="copyToClipboard(document.getElementById('endpoint-hls').value, this)">
+                  <svg class="copy-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  <span>Copy</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="endpoint-group">
+              <label>RTSP Stream (VLC / OBS / Decoders)</label>
+              <div class="endpoint-input-row">
+                <input type="text" id="endpoint-rtsp" readonly>
+                <button class="btn-copy" onclick="copyToClipboard(document.getElementById('endpoint-rtsp').value, this)">
+                  <svg class="copy-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  <span>Copy</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="endpoint-group">
+              <label>WebRTC Ultra-Low Latency (< 500ms)</label>
+              <div class="endpoint-input-row">
+                <input type="text" id="endpoint-webrtc" readonly>
+                <button class="btn-copy" onclick="copyToClipboard(document.getElementById('endpoint-webrtc').value, this)">
+                  <svg class="copy-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  <span>Copy</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 3: Upstream Source Information -->
+          <div class="meta-section">
+            <h4 class="section-heading">UPSTREAM ORIGIN SOURCE</h4>
+            <div class="endpoint-group">
+              <label>Akamai Master Playlist URL</label>
+              <textarea id="endpoint-upstream" rows="3" readonly></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <!-- Add / Edit Stream Modal -->
+  <div class="modal-overlay" id="stream-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="modal-title">Configure Stream Source</h3>
+        <button class="close-btn" onclick="closeModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="edit-id">
+        
+        <div class="form-group">
+          <label for="form-title">Display Title</label>
+          <input type="text" id="form-title" placeholder="e.g. 204 | SCTV Akamai">
+        </div>
+
+        <div class="form-group">
+          <label for="form-slug">Channel Slug Identifier</label>
+          <input type="text" id="form-slug" placeholder="e.g. sctv">
+        </div>
+
+        <div class="form-group">
+          <label for="form-vidio-id">Vidio Channel ID</label>
+          <input type="text" id="form-vidio-id" placeholder="e.g. 204">
+        </div>
+
+        <div class="form-group">
+          <label for="form-custom-url">Custom HLS Akamai Source URL</label>
+          <textarea id="form-custom-url" rows="3" placeholder="http://192.168.40.54:80/primary/etslive.../master.m3u8?hdnts=..."></textarea>
+          <small>Leave blank to auto-resolve tokenized URL using Vidio Channel ID.</small>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn secondary" onclick="closeModal()">Cancel</button>
+        <button class="btn primary" onclick="saveStreamForm()">Save Stream Configuration</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

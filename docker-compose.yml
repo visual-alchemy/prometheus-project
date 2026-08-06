@@ -1,0 +1,43 @@
+services:
+  # ==========================================
+  # MediaMTX Gateway Service (HLS / RTSP / WebRTC Fan-Out)
+  # ==========================================
+  mediamtx:
+    image: bluenviron/mediamtx:latest
+    container_name: prometheus-mediamtx
+    restart: unless-stopped
+    ports:
+      - "8888:8888" # HLS Output
+      - "8554:8554" # RTSP Output
+      - "8889:8889" # WebRTC Output
+      - "9997:9997" # REST API (Internal)
+      - "9998:9998" # Prometheus Metrics
+    volumes:
+      - ./mediamtx.yml:/mediamtx.yml:ro
+    networks:
+      - prometheus-net
+
+  # ==========================================
+  # Automated Vidio Stream Resolver & Gateway Dashboard
+  # ==========================================
+  gateway-resolver:
+    build:
+      context: ./resolver
+      dockerfile: Dockerfile
+    container_name: prometheus-gateway-resolver
+    restart: unless-stopped
+    ports:
+      - "3000:3000" # Gateway Web Management Console
+    environment:
+      - PORT=3000
+      - MEDIAMTX_API=http://mediamtx:9997
+      - PROXY_HOST=http://192.168.40.54:80
+      - REFRESH_INTERVAL_MINUTES=15
+    depends_on:
+      - mediamtx
+    networks:
+      - prometheus-net
+
+networks:
+  prometheus-net:
+    driver: bridge

@@ -1,0 +1,146 @@
+[
+  {
+    "id": "204",
+    "name": "sctv",
+    "title": "204 | SCTV Akamai",
+    "customUrl": "http://192.168.40.54:80/primary/etslive-v3-vidio-com-tokenized.akamaized.net/stream/204/file/master.m3u8?hdnts=exp=1796951962~acl=/stream/204/file/master.m3u8!/stream/204/file/*/aac/*!/stream/204/file/*/*-1080p/*!/stream/204/file/*/*-720p/*!/stream/204/file/*/*-480p/*!/stream/204/file/*/*-360p/*~id=45674768~hmac=7df9f106a04d994f75e690ae1e958cf3f310e7f7cfa07addc8d021ebdaa803a6"
+  },
+  {
+    "id": "205",
+    "name": "indosiar",
+    "title": "205 | Indosiar Akamai",
+    "customUrl": "http://192.168.40.54:80/primary/etslive-v3-vidio-com-tokenized.akamaized.net/stream/205/file/master.m3u8?hdnts=exp=1809094440~acl=/stream/205/file/master.m3u8!/stream/205/file/*/aac/*!/stream/205/file/*/*-2160p/*!/stream/205/file/*/*-1440p/*!/stream/205/file/*/*-1080p/*!/stream/205/file/*/*-720p/*!/stream/205/file/*/*-480p/*!/stream/205/file/*/*-360p/*~id=93224450~hmac=d9e5e29af6efad6185f59a39075ab013e3c3d84aa85868e81a2f2cab7d7594e1"
+  },
+  {
+    "id": "206",
+    "name": "moji",
+    "title": "206 | MOJI Akamai",
+    "customUrl": "http://192.168.40.54:80/primary/etslive-v3-vidio-com-tokenized.akamaized.net/stream/206/file/master.m3u8?hdnts=exp=1799834594~acl=/stream/206/file/master.m3u8!/stream/206/file/*/aac/*!/stream/206/file/*/*-1080p/*!/stream/206/file/*/*-720p/*!/stream/206/file/*/*-480p/*!/stream/206/file/*/*-360p/*~id=93224450~hmac=f01d5bf8c1d8d18a137bf8e1a306fc6eb0230f3d9b1001a5a873f9db2189790e"
+  },
+  {
+    "id": "733",
+    "name": "transtv",
+    "title": "733 | Trans TV Primary",
+    "customUrl": "http://192.168.40.54:80/primary/etslive-v3-vidio-com-tokenized.akamaized.net/stream/733/file/master.m3u8?hdnts=exp=1799834623~acl=/stream/733/file/master.m3u8!/stream/733/file/*/aac/*!/stream/733/file/*/*-1080p/*!/stream/733/file/*/*-720p/*!/stream/733/file/*/*-480p/*!/stream/733/file/*/*-360p/*~id=93224450~hmac=be6417e569fccaea9e9c74d9eaef6e20880a119cefb72787397452a2b2d0082b"
+  },
+  {
+    "id": "734",
+    "name": "trans7",
+    "title": "734 | Trans 7 Primary",
+    "customUrl": "http://192.168.40.54:80/primary/etslive-v3-vidio-com-tokenized.akamaized.net/stream/734/file/master.m3u8?hdnts=exp=1799834650~acl=/stream/734/file/master.m3u8!/stream/734/file/*/aac/*!/stream/734/file/*/*-1080p/*!/stream/734/file/*/*-720p/*!/stream/734/file/*/*-480p/*!/stream/734/file/*/*-360p/*~id=93224450~hmac=d441ba0fb87f6d47c8f40af756a59ff2fd4ee04243f56a1ee624778a122b67fc"
+  },
+  {
+    "id": "782",
+    "name": "antv",
+    "title": "782 | ANTV",
+    "customUrl": "http://192.168.40.54:80/primary/geo-id-etslive-v3-vidio-com-tokenized.akamaized.net/stream/782/file/master.m3u8?hdnts=exp=1799834676~acl=/stream/782/file/master.m3u8!/stream/782/file/*/aac/*!/stream/782/file/*/*-1080p/*!/stream/782/file/*/*-720p/*!/stream/782/file/*/*-480p/*!/stream/782/file/*/*-360p/*~id=93224450~hmac=48366dce853245fbb0c9e0c70b0550c3c8bcc3e5014dbf87dee920fc6961c92a"
+  },
+  {
+    "id": "874",
+    "name": "kompastv",
+    "title": "874 | Kompas TV",
+    "customUrl": "http://192.168.40.54:80/primary/etslive-v3-vidio-com-tokenized.akamaized.net/stream/874/file/master.m3u8?hdnts=exp=1799834720~acl=/stream/874/file/master.m3u8!/stream/874/file/*/aac/*!/stream/874/file/*/*-1080p/*!/stream/874/file/*/*-720p/*!/stream/874/file/*/*-480p/*!/stream/874/file/*/*-360p/*~id=93224450~hmac=aefee2e1031a978ca7845857794b9801ae864f17d7534d74c7145772eb5f3f24"
+  },
+  {
+    "id": "777",
+    "name": "metrotv",
+    "title": "777 | Metro TV",
+    "customUrl": "http://192.168.40.54:80/primary/etslive-v3-vidio-com-tokenized.akamaized.net/stream/777/file/master.m3u8?hdnts=exp=1799834744~acl=/stream/777/file/master.m3u8!/stream/777/file/*/aac/*!/stream/777/file/*/*-1080p/*!/stream/777/file/*/*-720p/*!/stream/777/file/*/*-480p/*!/stream/777/file/*/*-360p/*~id=93224450~hmac=68dce000a0cd29b48596cebc4826ba535e01dca78c7b1697caed2bc64842c67b"
+  },
+  {
+    "id": "6441",
+    "name": "tvri",
+    "title": "6441 | TVRI",
+    "customUrl": "http://192.168.40.54:80/primary/etslive-v3-vidio-com-tokenized.akamaized.net/stream/6441/file/master.m3u8?hdnts=exp=1796952934~acl=/stream/6441/file/master.m3u8!/stream/6441/file/*/aac/*!/stream/6441/file/*/*-1080p/*!/stream/6441/file/*/*-720p/*!/stream/6441/file/*/*-480p/*!/stream/6441/file/*/*-360p/*~id=45674768~hmac=2766e3e9ba9b87c63f7721b1806d1bb7b71a0431f6a4059b67c1a3b7897444f0"
+  },
+  {
+    "id": "783",
+    "name": "tvone",
+    "title": "783 | TV ONE | P",
+    "customUrl": "http://192.168.40.54:80/primary/geo-id-etslive-v3-vidio-com-tokenized.akamaized.net/stream/783/file/master.m3u8?hdnts=exp=1799834833~acl=/stream/783/file/master.m3u8!/stream/783/file/*/aac/*!/stream/783/file/*/*-1080p/*!/stream/783/file/*/*-720p/*!/stream/783/file/*/*-480p/*!/stream/783/file/*/*-360p/*~id=93224450~hmac=b65338863466224d2719af926d53a54284990bbfe3fbee0ef98e7414dcda6cf4"
+  },
+  {
+    "id": "6165",
+    "name": "btv",
+    "title": "6165 | BTV",
+    "customUrl": "http://192.168.40.54:80/primary/etslive-v3-vidio-com-tokenized.akamaized.net/stream/6165/file/master.m3u8?hdnts=exp=1799834884~acl=/stream/6165/file/master.m3u8!/stream/6165/file/*/aac/*!/stream/6165/file/*/*-1080p/*!/stream/6165/file/*/*-720p/*!/stream/6165/file/*/*-480p/*!/stream/6165/file/*/*-360p/*~id=93224450~hmac=38c06475fc2792a0726b8afb0f6e0735c175a1989d082dcca2d0077038f9890b"
+  },
+  {
+    "id": "5075",
+    "name": "dwtv",
+    "title": "5075 | DW TV",
+    "customUrl": "http://192.168.40.54:80/primary/geo-id-etslive-v3-vidio-com-tokenized.akamaized.net/stream/5075/file/master.m3u8?hdnts=exp=1799834904~acl=/stream/5075/file/master.m3u8!/stream/5075/file/*/aac/*!/stream/5075/file/*/*-1080p/*!/stream/5075/file/*/*-720p/*!/stream/5075/file/*/*-480p/*!/stream/5075/file/*/*-360p/*~id=93224450~hmac=c6a68310cc7a20f95ff6c5f219fa58b44b721ef81bd23841893c9897b09b059a"
+  },
+  {
+    "id": "6482",
+    "name": "daaitv",
+    "title": "6482 | DAAI TV",
+    "customUrl": "http://192.168.40.54:80/primary/etslive-v3-vidio-com-tokenized.akamaized.net/stream/6482/file/master.m3u8?hdnts=exp=1799835256~acl=/stream/6482/file/master.m3u8!/stream/6482/file/*/aac/*!/stream/6482/file/*/*-1080p/*!/stream/6482/file/*/*-720p/*!/stream/6482/file/*/*-480p/*!/stream/6482/file/*/*-360p/*~id=93224450~hmac=9804e69d12055c44e51bef673b2c69b7d014a3ad7d5ace08bc36f375774bfc01"
+  },
+  {
+    "id": "18280",
+    "name": "beritasatu",
+    "title": "BeritaSatu | 18280 P",
+    "customUrl": "http://192.168.40.54:80/primary/etslive-v3-vidio-com-tokenized.akamaized.net/stream/18280/file/master.m3u8?hdnts=exp=1799835281~acl=/stream/18280/file/master.m3u8!/stream/18280/file/*/aac/*!/stream/18280/file/*/*-1080p/*!/stream/18280/file/*/*-720p/*!/stream/18280/file/*/*-480p/*!/stream/18280/file/*/*-360p/*~id=93224450~hmac=87d903b3283a5294a54bb5f86b05ebbd3d5b81a1d1950338c18f40db918c85af"
+  },
+  {
+    "id": "7432",
+    "name": "nusantaratv",
+    "title": "7432 | Nusantara TV",
+    "customUrl": "http://192.168.40.54:80/primary/etslive-v3-vidio-com-tokenized.akamaized.net/stream/7432/file/master.m3u8?hdnts=exp=1799835303~acl=/stream/7432/file/master.m3u8!/stream/7432/file/*/aac/*!/stream/7432/file/*/*-1080p/*!/stream/7432/file/*/*-720p/*!/stream/7432/file/*/*-480p/*!/stream/7432/file/*/*-360p/*~id=93224450~hmac=f7acf51e746848e5bb9c39697993229e0c5db914f539d9771441bc6872ecc71b"
+  },
+  {
+    "id": "6410",
+    "name": "aljazeera",
+    "title": "6410 | Al Jazeera",
+    "customUrl": "http://192.168.40.54:80/primary/geo-id-etslive-v3-vidio-com-tokenized.akamaized.net/stream/6410/file/master.m3u8?hdnts=exp=1799835322~acl=/stream/6410/file/master.m3u8!/stream/6410/file/*/aac/*!/stream/6410/file/*/*-1080p/*!/stream/6410/file/*/*-720p/*!/stream/6410/file/*/*-480p/*!/stream/6410/file/*/*-360p/*~id=93224450~hmac=63dbbbf7ed88abb0763e9c6c22df5d558d166687a58db256e56cc14363789d3b"
+  },
+  {
+    "id": "1561",
+    "name": "rtv",
+    "title": "1561 | RTV",
+    "customUrl": "http://192.168.40.54:80/primary/geo-id-etslive-v3-vidio-com-tokenized.akamaized.net/stream/1561/file/master.m3u8?hdnts=exp=1796952891~acl=/stream/1561/file/master.m3u8!/stream/1561/file/*/aac/*!/stream/1561/file/*/*-1080p/*!/stream/1561/file/*/*-720p/*!/stream/1561/file/*/*-480p/*!/stream/1561/file/*/*-360p/*~id=45674768~hmac=ec0905b8c8745ef33e6d40c7d633d9a3483fb6933960bfb029f2c4650533d1d9"
+  },
+  {
+    "id": "8237",
+    "name": "mentari",
+    "title": "8237 | Mentari",
+    "customUrl": "http://192.168.40.54:80/primary/geo-id-etslive-v3-vidio-com-tokenized.akamaized.net/stream/8237/file/master.m3u8?hdnts=exp=1806459582~acl=/stream/8237/file/master.m3u8!/stream/8237/file/*/aac/*!/stream/8237/file/*/*-1080p/*!/stream/8237/file/*/*-720p/*!/stream/8237/file/*/*-480p/*!/stream/8237/file/*/*-360p/*~id=93224450~hmac=e7c9ab413df20ced0af58c0b52aa6bfdaf3f448403676c2d06dbaa6a9b7c8630"
+  },
+  {
+    "id": "12607",
+    "name": "dmitv",
+    "title": "12607 | DMI TV",
+    "customUrl": "http://192.168.40.54:80/primary/etslive-v3-vidio-com-tokenized.akamaized.net/stream/12607/file/master.m3u8?hdnts=exp=1799835488~acl=/stream/12607/file/master.m3u8!/stream/12607/file/*/aac/*!/stream/12607/file/*/*-1080p/*!/stream/12607/file/*/*-720p/*!/stream/12607/file/*/*-480p/*!/stream/12607/file/*/*-360p/*~id=93224450~hmac=c9af42187fa4289e1f2517b80f375ff42081b206312f4d93f82af9d0ae7bc258"
+  },
+  {
+    "id": "19046",
+    "name": "sinpotv",
+    "title": "SinPo TV | 19046",
+    "customUrl": "http://192.168.40.54:80/primary/etslive-v3-vidio-com-tokenized.akamaized.net/stream/19046/file/master.m3u8?hdnts=exp=1799835507~acl=/stream/19046/file/master.m3u8!/stream/19046/file/*/aac/*!/stream/19046/file/*/*-1080p/*!/stream/19046/file/*/*-720p/*!/stream/19046/file/*/*-480p/*!/stream/19046/file/*/*-360p/*~id=93224450~hmac=2648b673e661accf445e946e965fae0335a1261bed2787692443a8b18df75652"
+  },
+  {
+    "id": "875",
+    "name": "mdtv",
+    "title": "875 | MD TV",
+    "customUrl": "http://192.168.40.54:80/primary/geo-id-etslive-v3-vidio-com-tokenized.akamaized.net/stream/875/file/master.m3u8?hdnts=exp=1799835465~acl=/stream/875/file/master.m3u8!/stream/875/file/*/aac/*!/stream/875/file/*/*-1080p/*!/stream/875/file/*/*-720p/*!/stream/875/file/*/*-480p/*!/stream/875/file/*/*-360p/*~id=93224450~hmac=d5e3e90182a4d594b0f0bd028b24ac57e5ed434ac404243a786ed7fece0320c4"
+  },
+  {
+    "id": "7464",
+    "name": "ajwa",
+    "title": "7464 | AJWA",
+    "customUrl": "http://192.168.40.54:80/primary/etslive-v3-vidio-com-tokenized.akamaized.net/stream/7464/file/master.m3u8?hdnts=exp=1799835201~acl=/stream/7464/file/master.m3u8!/stream/7464/file/*/aac/*!/stream/7464/file/*/*-1080p/*!/stream/7464/file/*/*-480p/*!/stream/7464/file/*/*-360p/*~id=93224450~hmac=cb74d46c4b4d9a79f982d04e4f61f17ebed7b231db2b79b191e7ca6f78a46027"
+  },
+  {
+    "id": "6852",
+    "name": "makkahtv",
+    "title": "6852 | Makkah TV",
+    "customUrl": "http://192.168.40.54:80/primary/etslive-v3-vidio-com-tokenized.akamaized.net/stream/6852/file/master.m3u8?hdnts=exp=1799834925~acl=/stream/6852/file/master.m3u8!/stream/6852/file/*/aac/*!/stream/6852/file/*/*-1080p/*!/stream/6852/file/*/*-720p/*!/stream/6852/file/*/*-480p/*!/stream/6852/file/*/*-360p/*~id=93224450~hmac=2d22135e94bdd07c2dc8f68dd326b8677ac621a06b889851c67ee316ae5d7372"
+  },
+  {
+    "id": "5415",
+    "name": "jaktv",
+    "title": "5415 | Jak TV",
+    "customUrl": "http://192.168.40.54:80/primary/etslive-v3-vidio-com-tokenized.akamaized.net/stream/5415/file/master.m3u8?hdnts=exp=1796952934~acl=/stream/5415/file/master.m3u8!/stream/5415/file/*/aac/*!/stream/5415/file/*/*-1080p/*!/stream/5415/file/*/*-720p/*!/stream/5415/file/*/*-480p/*!/stream/5415/file/*/*-360p/*~id=45674768~hmac=88b1e900f9de73eccb60b059df88b8f996241117758900d954a9eda579745172"
+  }
+]

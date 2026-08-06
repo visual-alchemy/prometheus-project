@@ -1,0 +1,41 @@
+# MediaMTX Configuration for Prometheus Stream Gateway
+logLevel: info
+logDestinations: [stdout]
+
+# Global Internal User Permissions (Allows API and Playback without password)
+authMethod: internal
+authInternalUsers:
+  - user: any
+    pass:
+    permissions:
+      - action: api
+      - action: read
+      - action: publish
+      - action: metrics
+
+# API Configuration (Used by resolver worker to dynamically add/update stream paths)
+api: yes
+apiAddress: :9997
+
+# Metrics Configuration
+metrics: yes
+metricsAddress: :9998
+
+# HLS Output Configuration (Consumed by Frontend Multiviewer & Monitoring PCs)
+hls: yes
+hlsAddress: :8888
+hlsAlwaysRemux: no
+hlsVariant: fmp4
+hlsSegmentCount: 5
+hlsSegmentDuration: 6s
+hlsPartDuration: 1000ms
+hlsAllowOrigins: ["*"]
+
+# RTSP Output Configuration
+rtsp: yes
+rtspAddress: :8554
+
+# WebRTC Output Configuration
+webrtc: yes
+webrtcAddress: :8889
+webrtcAllowOrigins: ["*"]
