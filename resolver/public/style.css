@@ -175,20 +175,20 @@ tr:hover { background: rgba(74,246,38,.06); }
 .endpoint-group label { font-size: 10px; color: var(--fg-muted); font-weight: 600; text-transform: uppercase; letter-spacing: .5px; }
 .endpoint-input-row { display: flex; gap: 8px; width: 100%; }
 .endpoint-input-row input { flex: 1; min-width: 0; background: var(--bg-input); border: 1px solid var(--line); color: var(--fg); font-family: var(--font-mono); font-size: 11px; padding: 8px 10px; }
-.endpoint-group textarea { width: 100%; min-width: 0; background: var(--bg-input); border: 1px solid var(--line); color: var(--fg); font-family: var(--font-mono); font-size: 11px; padding: 8px 10px; resize: vertical; }
+.endpoint-group textarea { width: 100%; min-width: 0; background: var(--bg-input); border: 1px solid var(--line); color: var(--fg); font-family: var(--font-mono); font-size: 11px; padding: 8px 10px; resize: vertical; min-height: 60px; max-height: 140px; }
 
 /* Modal — Industrial Brutalism */
 .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, .88); justify-content: center; align-items: center; z-index: 100; }
 .modal-overlay.open { display: flex; }
-.modal { background: var(--bg-panel); border: 2px solid var(--line); width: 480px; display: flex; flex-direction: column; }
+.modal { background: var(--bg-panel); border: 2px solid var(--line); width: 520px; max-width: 90vw; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
 .modal-header { padding: 16px 20px; background: var(--bg-panel-hdr); border-bottom: 2px solid var(--line); display: flex; justify-content: space-between; align-items: center; }
 .modal-header h3 { color: var(--fg); font-weight: 800; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; }
 .close-btn { background: none; border: none; color: var(--fg-muted); font-size: 16px; cursor: pointer; transition: color .15s; }
 .close-btn:hover { color: var(--accent); }
-.modal-body { padding: 20px; display: flex; flex-direction: column; gap: 14px; }
-.form-group { display: flex; flex-direction: column; gap: 6px; }
+.modal-body { padding: 20px; display: flex; flex-direction: column; gap: 14px; max-height: 75vh; overflow-y: auto; }
+.form-group { display: flex; flex-direction: column; gap: 6px; width: 100%; }
 .form-group label { font-size: 10px; color: var(--fg-muted); font-weight: 600; text-transform: uppercase; letter-spacing: .5px; }
-.form-group input, .form-group textarea { background: var(--bg-input); border: 1px solid var(--line); color: var(--fg); padding: 8px 12px; font-size: 12px; font-family: var(--font-sans); transition: all .15s ease; }
-.form-group textarea { font-family: var(--font-mono); }
+.form-group input { background: var(--bg-input); border: 1px solid var(--line); color: var(--fg); padding: 8px 12px; font-size: 12px; font-family: var(--font-sans); transition: all .15s ease; width: 100%; }
+.form-group textarea { background: var(--bg-input); border: 1px solid var(--line); color: var(--fg); padding: 8px 12px; font-size: 11px; font-family: var(--font-mono); transition: all .15s ease; width: 100%; resize: vertical; min-height: 80px; max-height: 160px; box-sizing: border-box; }
 .form-group input:focus, .form-group textarea:focus { outline: 2px solid var(--signal); outline-offset: 2px; border-color: var(--signal); }
 .modal-footer { padding: 14px 20px; background: var(--bg-panel-hdr); border-top: 2px solid var(--line); display: flex; justify-content: flex-end; gap: 10px; }

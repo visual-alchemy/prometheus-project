@@ -16,6 +16,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 const channelsPath = path.join(__dirname, 'channels.json');
 
+// In-memory health cache for all channels
+const channelHealthMap = {};
+
 function loadChannels() {
   try {
     const raw = fs.readFileSync(channelsPath, 'utf8');
@@ -132,7 +135,39 @@ async function removeMediaMtxPath(pathName) {
 }
 
 /**
- * Sync all channel paths to MediaMTX (registers both ID and Slug alias)
+ * Perform background health check on a single channel source URL
+ */
+async function checkChannelHealth(channel) {
+  const targetUrl = channel.customUrl || channel.resolvedSource;
+  if (!targetUrl) {
+    channelHealthMap[channel.id] = false;
+    return false;
+  }
+
+  try {
+    const res = await axios.get(targetUrl, { 
+      timeout: 3000,
+      validateStatus: (status) => status >= 200 && status < 400
+    });
+    const isOk = res.status >= 200 && res.status < 400;
+    channelHealthMap[channel.id] = isOk;
+    return isOk;
+  } catch (err) {
+    channelHealthMap[channel.id] = false;
+    return false;
+  }
+}
+
+/**
+ * Perform health checks across all 24 channels in parallel
+ */
+async function checkAllChannelsHealth() {
+  const channels = loadChannels();
+  await Promise.all(channels.map(ch => checkChannelHealth(ch)));
+}
+
+/**
+ * Sync all channel paths to MediaMTX
  */
 async function syncAllChannels() {
   const channels = loadChannels();
@@ -154,6 +189,8 @@ async function syncAllChannels() {
       console.error(`[Resolver] Error on ${channel.name}:`, err.message);
     }
   }
+
+  await checkAllChannelsHealth();
 }
 
 // REST API Endpoints
@@ -162,20 +199,27 @@ app.get('/api/channels', async (req, res) => {
   const hostHeader = req.get('host') || 'localhost:3000';
   const serverIp = hostHeader.split(':')[0];
 
-  let activePaths = {};
+  // Also query MediaMTX paths to detect actively streamed paths
+  let mtxPaths = {};
   try {
     const mtxRes = await axios.get(`${MEDIAMTX_API}/v3/paths/list`, { timeout: 2000 });
     if (mtxRes.data && mtxRes.data.items) {
       for (const item of mtxRes.data.items) {
-        activePaths[item.name] = item;
+        mtxPaths[item.name] = item;
       }
     }
   } catch (e) {}
 
   const enriched = channels.map(ch => {
     const pathKey = ch.id || ch.name;
-    const pathData = activePaths[`live/${pathKey}`] || activePaths[`live/${ch.name}`];
-    const isReady = pathData ? (pathData.ready === true) : false;
+    const pathData = mtxPaths[`live/${pathKey}`] || mtxPaths[`live/${ch.name}`];
+    
+    // A channel is ready if EITHER:
+    // 1) MediaMTX path is ready (stream actively playing/requested), OR
+    // 2) Our background health-checker confirmed upstream URL returns 200 OK
+    const mtxReady = pathData ? pathData.ready === true : false;
+    const originHealth = channelHealthMap[ch.id] === true;
+    const isReady = mtxReady || originHealth;
 
     return {
       ...ch,
@@ -215,6 +259,8 @@ app.post('/api/channels', async (req, res) => {
   if (newChannel.id) await updateMediaMtxPath(newChannel.id, sourceUrl);
   if (newChannel.name && newChannel.name !== newChannel.id) await updateMediaMtxPath(newChannel.name, sourceUrl);
 
+  await checkChannelHealth(newChannel);
+
   res.status(201).json({ success: true, channel: newChannel, sourceUrl });
 });
 
@@ -240,6 +286,8 @@ app.put('/api/channels/:id', async (req, res) => {
   if (target.id) await updateMediaMtxPath(target.id, sourceUrl);
   if (target.name && target.name !== target.id) await updateMediaMtxPath(target.name, sourceUrl);
 
+  await checkChannelHealth(target);
+
   res.json({ success: true, channel: target, sourceUrl });
 });
 
@@ -252,6 +300,7 @@ app.delete('/api/channels/:id', async (req, res) => {
 
   channels = channels.filter(c => c.id !== id && c.name !== id);
   saveChannels(channels);
+  delete channelHealthMap[id];
 
   if (target.id) await removeMediaMtxPath(target.id);
   if (target.name) await removeMediaMtxPath(target.name);
@@ -270,6 +319,7 @@ app.post('/api/channels/:id/refresh', async (req, res) => {
     target.resolvedSource = freshUrl;
     if (target.id) await updateMediaMtxPath(target.id, freshUrl);
     if (target.name && target.name !== target.id) await updateMediaMtxPath(target.name, freshUrl);
+    await checkChannelHealth(target);
     res.json({ success: true, channel: target, sourceUrl: freshUrl });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -280,8 +330,13 @@ app.post('/api/channels/:id/refresh', async (req, res) => {
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`[Resolver] Prometheus Gateway Resolver API running on port ${PORT}`);
   
-  // Initial sync on startup
+  // Initial sync & background origin health check
   syncAllChannels();
+
+  // Background health check every 8 seconds for all 24 channels
+  setInterval(() => {
+    checkAllChannelsHealth();
+  }, 8000);
 
   // Background token refresh interval (every 15 minutes)
   setInterval(() => {
