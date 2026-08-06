@@ -68,8 +68,12 @@ function renderTable(channels) {
     tr.id = `row-${ch.id}`;
     if (currentInspectedId === ch.id) tr.classList.add('active-row');
 
+    const isOnline = ch.isReady || ch.isConfigured;
+    const statusDotClass = isOnline ? 'status-indicator active pulse' : 'status-indicator offline';
+    const statusTitle = isOnline ? 'MediaMTX Path Active & Ready' : 'Stream Disconnected / Token Expired';
+
     tr.innerHTML = `
-      <td><span class="status-indicator active pulse"></span></td>
+      <td><span class="${statusDotClass}" title="${statusTitle}"></span></td>
       <td>
         <button class="channel-btn" onclick="inspectChannel('${ch.id}')" title="Click to inspect telemetry">
           <svg class="play-icon-svg" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
@@ -271,5 +275,6 @@ async function deleteChannel(id) {
   }
 }
 
-// Initial fetch
+// Initial fetch & 5s status polling
 fetchChannels();
+setInterval(fetchChannels, 5000);

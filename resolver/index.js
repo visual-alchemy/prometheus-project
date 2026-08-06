@@ -56,7 +56,6 @@ function findM3u8Urls(obj) {
  * Resolve fresh M3U8 source URL for a channel
  */
 async function resolveStreamUrl(channel) {
-  // If user provided a custom HLS Akamai URL, use it directly
   if (channel.customUrl && channel.customUrl.trim() !== '') {
     return channel.customUrl.trim();
   }
@@ -144,12 +143,10 @@ async function syncAllChannels() {
       const sourceUrl = await resolveStreamUrl(channel);
       channel.resolvedSource = sourceUrl;
       
-      // Primary: Register ID path (e.g. live/204)
       if (channel.id) {
         await updateMediaMtxPath(channel.id, sourceUrl);
       }
       
-      // Secondary: Register Slug alias path (e.g. live/sctv)
       if (channel.name && channel.name !== channel.id) {
         await updateMediaMtxPath(channel.name, sourceUrl);
       }
@@ -165,10 +162,27 @@ app.get('/api/channels', async (req, res) => {
   const hostHeader = req.get('host') || 'localhost:3000';
   const serverIp = hostHeader.split(':')[0];
 
+  let activePaths = {};
+  try {
+    const mtxRes = await axios.get(`${MEDIAMTX_API}/v3/paths/list`, { timeout: 2000 });
+    if (mtxRes.data && mtxRes.data.items) {
+      for (const item of mtxRes.data.items) {
+        activePaths[item.name] = item;
+      }
+    }
+  } catch (e) {}
+
   const enriched = channels.map(ch => {
     const pathKey = ch.id || ch.name;
+    const pathData = activePaths[`live/${pathKey}`] || activePaths[`live/${ch.name}`];
+    const isConfigured = !!pathData;
+    const isReady = pathData ? pathData.ready : false;
+
     return {
       ...ch,
+      isConfigured,
+      isReady,
+      status: isReady ? 'online' : (isConfigured ? 'ready' : 'offline'),
       resolvedSource: ch.customUrl || ch.resolvedSource || `${PROXY_HOST}/primary/etslive-v3-vidio-com-tokenized.akamaized.net/stream/${ch.id}/file/master.m3u8`,
       outputHls: `http://${serverIp}:8888/live/${pathKey}/index.m3u8?cookieCheck=1`,
       outputRtsp: `rtsp://${serverIp}:8554/live/${pathKey}`,
