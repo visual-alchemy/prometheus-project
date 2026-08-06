@@ -175,14 +175,12 @@ app.get('/api/channels', async (req, res) => {
   const enriched = channels.map(ch => {
     const pathKey = ch.id || ch.name;
     const pathData = activePaths[`live/${pathKey}`] || activePaths[`live/${ch.name}`];
-    const isConfigured = !!pathData;
-    const isReady = pathData ? pathData.ready : false;
+    const isReady = pathData ? (pathData.ready === true) : false;
 
     return {
       ...ch,
-      isConfigured,
       isReady,
-      status: isReady ? 'online' : (isConfigured ? 'ready' : 'offline'),
+      status: isReady ? 'online' : 'offline',
       resolvedSource: ch.customUrl || ch.resolvedSource || `${PROXY_HOST}/primary/etslive-v3-vidio-com-tokenized.akamaized.net/stream/${ch.id}/file/master.m3u8`,
       outputHls: `http://${serverIp}:8888/live/${pathKey}/index.m3u8?cookieCheck=1`,
       outputRtsp: `rtsp://${serverIp}:8554/live/${pathKey}`,

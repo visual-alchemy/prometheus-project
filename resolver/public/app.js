@@ -68,9 +68,9 @@ function renderTable(channels) {
     tr.id = `row-${ch.id}`;
     if (currentInspectedId === ch.id) tr.classList.add('active-row');
 
-    const isOnline = ch.isReady || ch.isConfigured;
+    const isOnline = ch.isReady === true;
     const statusDotClass = isOnline ? 'status-indicator active pulse' : 'status-indicator offline';
-    const statusTitle = isOnline ? 'MediaMTX Path Active & Ready' : 'Stream Disconnected / Token Expired';
+    const statusTitle = isOnline ? 'MediaMTX Path Active & Ready' : 'Stream Disconnected / Token Expired / Error';
 
     tr.innerHTML = `
       <td><span class="${statusDotClass}" title="${statusTitle}"></span></td>
