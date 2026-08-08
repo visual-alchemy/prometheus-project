@@ -226,7 +226,7 @@ app.get('/api/channels', async (req, res) => {
       isReady,
       status: isReady ? 'online' : 'offline',
       resolvedSource: ch.customUrl || ch.resolvedSource || `${PROXY_HOST}/primary/etslive-v3-vidio-com-tokenized.akamaized.net/stream/${ch.id}/file/master.m3u8`,
-      outputHls: `http://${serverIp}:8888/live/${pathKey}/index.m3u8?cookieCheck=1`,
+      outputHls: `http://${serverIp}:8880/live/${pathKey}/index.m3u8?cookieCheck=1`,
       outputRtsp: `rtsp://${serverIp}:8554/live/${pathKey}`,
       outputWebRtc: `http://${serverIp}:8889/live/${pathKey}`,
     };

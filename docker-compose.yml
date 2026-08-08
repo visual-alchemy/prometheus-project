@@ -7,7 +7,7 @@ services:
     container_name: prometheus-mediamtx
     restart: unless-stopped
     ports:
-      - "8888:8888" # HLS Output
+      - "8880:8880" # HLS Output
       - "8554:8554" # RTSP Output
       - "8889:8889" # WebRTC Output
       - "9997:9997" # REST API (Internal)

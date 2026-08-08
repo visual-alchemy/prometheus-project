@@ -23,7 +23,7 @@ metricsAddress: :9998
 
 # HLS Output Configuration (Consumed by Frontend Multiviewer & Monitoring PCs)
 hls: yes
-hlsAddress: :8888
+hlsAddress: :8880
 hlsAlwaysRemux: no
 hlsVariant: fmp4
 hlsSegmentCount: 5
