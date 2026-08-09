@@ -24,10 +24,10 @@ metricsAddress: :9998
 # HLS Output Configuration (Consumed by Frontend Multiviewer & Monitoring PCs)
 hls: yes
 hlsAddress: :8880
-hlsAlwaysRemux: yes
-hlsVariant: mpegts
-hlsSegmentCount: 10
-hlsSegmentDuration: 4s
+hlsAlwaysRemux: no
+hlsVariant: fmp4
+hlsSegmentCount: 5
+hlsSegmentDuration: 6s
 hlsAllowOrigins: ["*"]
 
 # RTSP Output Configuration
