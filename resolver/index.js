@@ -268,6 +268,7 @@ app.get('/live/:id/:feed/index.m3u8', async (req, res) => {
       manifestBody = manifestBody.replace(/(URI=")?(\/etslive-v3-[^"\s\n]+)/g, (match, p1, p2) => {
         return (p1 || '') + `${PROXY_HOST}${p2}`;
       });
+      manifestBody = manifestBody.replace(/^(\/etslive-v3-[^\s\n]+)/gm, `${PROXY_HOST}$1`);
     }
 
     res.send(manifestBody);
