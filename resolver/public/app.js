@@ -59,6 +59,8 @@ function copyToClipboard(text, btnElement) {
   }
 }
 
+let currentFeedType = 'primary';
+
 function renderTable(channels) {
   const tbody = document.getElementById('channel-list');
   tbody.innerHTML = '';
@@ -68,12 +70,22 @@ function renderTable(channels) {
     tr.id = `row-${ch.id}`;
     if (currentInspectedId === ch.id) tr.classList.add('active-row');
 
-    const isOnline = ch.isReady === true;
-    const statusDotClass = isOnline ? 'status-indicator active pulse' : 'status-indicator offline';
-    const statusTitle = isOnline ? 'MediaMTX Path Active & Ready' : 'Stream Disconnected / Token Expired / Error';
+    const priOk = ch.primary ? ch.primary.isReady : ch.isReady;
+    const bakOk = ch.backup ? ch.backup.isReady : ch.isReady;
+
+    const priDotClass = priOk ? 'status-indicator active pulse' : 'status-indicator offline';
+    const bakDotClass = bakOk ? 'status-indicator active pulse' : 'status-indicator offline';
+
+    const priHls = ch.primary ? ch.primary.outputHls : ch.outputHls;
+    const bakHls = ch.backup ? ch.backup.outputHls : ch.outputHls;
 
     tr.innerHTML = `
-      <td><span class="${statusDotClass}" title="${statusTitle}"></span></td>
+      <td>
+        <div style="display:flex; flex-direction:column; gap:4px; align-items:center;">
+          <span class="${priDotClass}" title="Primary Feed (ISP 1): ${priOk ? 'Online' : 'Offline'}"></span>
+          <span class="${bakDotClass}" title="Backup Feed (ISP 2): ${bakOk ? 'Online' : 'Offline'}"></span>
+        </div>
+      </td>
       <td>
         <button class="channel-btn" onclick="inspectChannel('${ch.id}')" title="Click to inspect telemetry">
           <svg class="play-icon-svg" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
@@ -82,17 +94,29 @@ function renderTable(channels) {
         <div style="color: var(--text-muted); font-size:10px; padding-left: 22px;">ID: ${ch.id} | Slug: ${ch.name}</div>
       </td>
       <td>
-        <div class="url-text" title="${ch.customUrl || ch.resolvedSource || 'Auto-resolving...'}">
-          ${ch.customUrl ? '<span class="pin-badge">PINNED</span> ' + ch.customUrl : (ch.resolvedSource || 'Auto-resolving...')}
+        <div class="url-text" style="font-size:10px;" title="Primary: ${ch.primary?.source || ch.resolvedSource}">
+          <div><span class="feed-badge-pri">PRI</span> ${ch.primary?.source || ch.resolvedSource || 'Resolving...'}</div>
+          <div style="margin-top:2px; opacity:0.8;"><span class="feed-badge-bak">BAK</span> ${ch.backup?.source || 'Resolving...'}</div>
         </div>
       </td>
       <td>
-        <div class="endpoint-cell">
-          <span class="url-text full-url" title="${ch.outputHls}">${ch.outputHls}</span>
-          <button class="btn-copy" onclick="copyToClipboard('${ch.outputHls}', this)" title="Copy HLS URL">
-            <svg class="copy-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-            <span>Copy</span>
-          </button>
+        <div class="endpoint-cell" style="display:flex; flex-direction:column; gap:4px;">
+          <div style="display:flex; align-items:center; gap:6px;">
+            <span class="feed-badge-pri">PRI</span>
+            <span class="url-text full-url" style="font-size:10px;" title="${priHls}">${priHls}</span>
+            <button class="btn-copy" onclick="copyToClipboard('${priHls}', this)" title="Copy Primary HLS URL">
+              <svg class="copy-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              <span>Copy</span>
+            </button>
+          </div>
+          <div style="display:flex; align-items:center; gap:6px;">
+            <span class="feed-badge-bak">BAK</span>
+            <span class="url-text full-url" style="font-size:10px;" title="${bakHls}">${bakHls}</span>
+            <button class="btn-copy" onclick="copyToClipboard('${bakHls}', this)" title="Copy Backup HLS URL">
+              <svg class="copy-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              <span>Copy</span>
+            </button>
+          </div>
         </div>
       </td>
       <td>
@@ -107,27 +131,36 @@ function renderTable(channels) {
   });
 }
 
-function inspectChannel(id) {
-  const ch = channelsData.find(c => c.id === id || c.name === id);
-  if (!ch) return;
+function switchInspectorFeed(feedType) {
+  currentFeedType = feedType;
+  const btnPri = document.getElementById('btn-feed-primary');
+  const btnBak = document.getElementById('btn-feed-backup');
+  const feedLabel = document.getElementById('player-feed-label');
 
-  document.querySelectorAll('#channel-list tr').forEach(tr => tr.classList.remove('active-row'));
-  const activeRow = document.getElementById(`row-${ch.id}`);
-  if (activeRow) activeRow.classList.add('active-row');
+  if (feedType === 'primary') {
+    btnPri.classList.add('active');
+    btnBak.classList.remove('active');
+    if (feedLabel) feedLabel.textContent = 'PRIMARY LIVE';
+  } else {
+    btnBak.classList.add('active');
+    btnPri.classList.remove('active');
+    if (feedLabel) feedLabel.textContent = 'BACKUP LIVE';
+  }
 
-  currentInspectedId = ch.id;
-  populateInspector(ch);
+  const activeCh = channelsData.find(c => c.id === currentInspectedId || c.name === currentInspectedId);
+  if (activeCh) loadVideoPlayerForFeed(activeCh, feedType);
+}
 
-  document.getElementById('workspace').classList.add('sidebar-open');
-  const sidebar = document.getElementById('sidebar-inspector');
-  sidebar.classList.add('open');
-
+function loadVideoPlayerForFeed(ch, feedType) {
   const video = document.getElementById('sidebar-video');
   if (sidebarHls) sidebarHls.destroy();
 
+  const feedObj = (feedType === 'backup' && ch.backup) ? ch.backup : (ch.primary || ch);
+  const streamUrl = feedObj.outputHls || ch.outputHls;
+
   if (Hls.isSupported()) {
     sidebarHls = new Hls({ enableWorker: true, lowLatencyMode: true });
-    sidebarHls.loadSource(ch.outputHls);
+    sidebarHls.loadSource(streamUrl);
     sidebarHls.attachMedia(video);
     
     sidebarHls.on(Hls.Events.MANIFEST_PARSED, (event, data) => {
@@ -148,9 +181,35 @@ function inspectChannel(id) {
       }
     });
   } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-    video.src = ch.outputHls;
+    video.src = streamUrl;
     video.play().catch(() => {});
   }
+}
+
+function inspectChannel(id) {
+  const ch = channelsData.find(c => c.id === id || c.name === id);
+  if (!ch) return;
+
+  document.querySelectorAll('#channel-list tr').forEach(tr => tr.classList.remove('active-row'));
+  const activeRow = document.getElementById(`row-${ch.id}`);
+  if (activeRow) activeRow.classList.add('active-row');
+
+  currentInspectedId = ch.id;
+  populateInspector(ch);
+
+  document.getElementById('workspace').classList.add('sidebar-open');
+  const sidebar = document.getElementById('sidebar-inspector');
+  sidebar.classList.add('open');
+
+  const toggleContainer = document.getElementById('feed-toggle-container');
+  if (toggleContainer) toggleContainer.style.display = 'flex';
+
+  const priDot = document.getElementById('inspector-pri-dot');
+  const bakDot = document.getElementById('inspector-bak-dot');
+  if (priDot) priDot.className = ch.primary?.isReady ? 'status-indicator active pulse' : 'status-indicator offline';
+  if (bakDot) bakDot.className = ch.backup?.isReady ? 'status-indicator active pulse' : 'status-indicator offline';
+
+  switchInspectorFeed(currentFeedType || 'primary');
 }
 
 function populateInspector(ch) {

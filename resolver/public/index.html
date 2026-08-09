@@ -86,10 +86,21 @@
         <button class="close-btn" onclick="closeSidebar()" title="Close Inspector">✕</button>
       </div>
 
+      <div class="feed-toggle-wrapper" id="feed-toggle-container" style="display: none; padding: 0 16px 12px; display: flex; gap: 8px;">
+        <button class="feed-toggle-btn active" id="btn-feed-primary" onclick="switchInspectorFeed('primary')">
+          <span class="status-indicator active" id="inspector-pri-dot"></span>
+          <span>PRIMARY FEED (ISP 1)</span>
+        </button>
+        <button class="feed-toggle-btn" id="btn-feed-backup" onclick="switchInspectorFeed('backup')">
+          <span class="status-indicator active" id="inspector-bak-dot"></span>
+          <span>BACKUP FEED (ISP 2)</span>
+        </button>
+      </div>
+
       <div class="sidebar-player-container">
         <video id="sidebar-video" controls autoplay muted playsinline></video>
         <div class="player-overlay-tag">
-          <span class="live-dot"></span> LIVE
+          <span class="live-dot"></span> <span id="player-feed-label">PRIMARY LIVE</span>
         </div>
       </div>
 
