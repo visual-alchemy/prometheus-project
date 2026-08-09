@@ -388,6 +388,54 @@ async function deleteChannel(id) {
   }
 }
 
+function exportChannelsConfig() {
+  window.location.href = '/api/channels/export';
+}
+
+function triggerImportFileInput() {
+  const input = document.getElementById('import-file-input');
+  if (input) {
+    input.value = '';
+    input.click();
+  }
+}
+
+async function handleImportFile(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = async (e) => {
+    try {
+      const parsedData = JSON.parse(e.target.result);
+      if (!Array.isArray(parsedData)) {
+        alert('Invalid JSON file format: Content must be an array of channel objects.');
+        return;
+      }
+
+      const confirmed = confirm(`⚠️ WARNING: Importing will COMPLETELY REPLACE all ${channelsData.length} existing channel configurations with ${parsedData.length} channels from "${file.name}".\n\nDo you want to proceed?`);
+      if (!confirmed) return;
+
+      const res = await fetch('/api/channels/import', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(parsedData)
+      });
+
+      const result = await res.json();
+      if (res.ok && result.success) {
+        alert(`✅ Configuration Replaced Successfully!\n\n${result.count} channels imported and synced to MediaMTX.`);
+        fetchChannels();
+      } else {
+        alert('❌ Import failed: ' + (result.error || 'Unknown error'));
+      }
+    } catch (err) {
+      alert('❌ Failed to parse JSON file: ' + err.message);
+    }
+  };
+  reader.readAsText(file);
+}
+
 // Initial fetch & 5s status polling
 fetchChannels();
 setInterval(fetchChannels, 5000);

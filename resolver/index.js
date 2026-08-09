@@ -406,6 +406,35 @@ app.post('/api/channels/:id/refresh', async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+app.get('/api/channels/export', (req, res) => {
+  const channels = loadChannels();
+  const jsonContent = JSON.stringify(channels, null, 2);
+  const fileName = `prometheus-channels-${new Date().toISOString().split('T')[0]}.json`;
+  
+  res.setHeader('Content-Type', 'application/json');
+  res.setHeader('Content-Disposition', `attachment; filename="${fileName}"`);
+  res.send(jsonContent);
+});
+
+app.post('/api/channels/import', async (req, res) => {
+  const importedChannels = req.body;
+  if (!Array.isArray(importedChannels)) {
+    return res.status(400).json({ error: 'Import payload must be a JSON array of channel objects.' });
+  }
+
+  for (const k of Object.keys(channelHealthMap)) {
+    delete channelHealthMap[k];
+  }
+
+  saveChannels(importedChannels);
+
+  try {
+    await syncAllChannels();
+    res.json({ success: true, count: importedChannels.length, message: `Successfully replaced configuration with ${importedChannels.length} channels.` });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to sync imported channels: ' + err.message });
+  }
+});
 
 // Start Express server
 app.listen(PORT, '0.0.0.0', () => {

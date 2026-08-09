@@ -30,13 +30,25 @@
     </div>
 
     <div class="header-actions">
-      <button class="btn secondary" onclick="refreshAllChannels()">
-        <svg class="btn-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-        <span>Sync All Tokens</span>
+      <button class="btn secondary" onclick="exportChannelsConfig()" title="Download current channels configuration JSON">
+        <svg class="btn-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        <span>Export Config</span>
       </button>
+
+      <button class="btn secondary" onclick="triggerImportFileInput()" title="Import JSON channels configuration to replace current list">
+        <svg class="btn-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        <span>Import Config</span>
+      </button>
+      <input type="file" id="import-file-input" accept=".json" style="display:none;" onchange="handleImportFile(event)">
+
+      <button class="btn secondary" onclick="refreshAllChannels()" title="Sync all tokens">
+        <svg class="btn-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        <span>Sync Tokens</span>
+      </button>
+
       <button class="btn primary" onclick="openAddModal()">
         <svg class="btn-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
-        <span>Add New Stream</span>
+        <span>Add Stream</span>
       </button>
     </div>
   </header>
