@@ -148,7 +148,10 @@ function switchInspectorFeed(feedType) {
   }
 
   const activeCh = channelsData.find(c => c.id === currentInspectedId || c.name === currentInspectedId);
-  if (activeCh) loadVideoPlayerForFeed(activeCh, feedType);
+  if (activeCh) {
+    populateInspector(activeCh, feedType);
+    loadVideoPlayerForFeed(activeCh, feedType);
+  }
 }
 
 function loadVideoPlayerForFeed(ch, feedType) {
@@ -195,7 +198,6 @@ function inspectChannel(id) {
   if (activeRow) activeRow.classList.add('active-row');
 
   currentInspectedId = ch.id;
-  populateInspector(ch);
 
   document.getElementById('workspace').classList.add('sidebar-open');
   const sidebar = document.getElementById('sidebar-inspector');
@@ -212,15 +214,20 @@ function inspectChannel(id) {
   switchInspectorFeed(currentFeedType || 'primary');
 }
 
-function populateInspector(ch) {
+function populateInspector(ch, feedType = 'primary') {
   document.getElementById('inspector-title').textContent = ch.title;
   document.getElementById('inspector-empty').style.display = 'none';
   document.getElementById('inspector-details').style.display = 'flex';
 
-  document.getElementById('endpoint-hls').value = ch.outputHls;
-  document.getElementById('endpoint-rtsp').value = ch.outputRtsp;
-  document.getElementById('endpoint-webrtc').value = ch.outputWebRtc;
-  document.getElementById('endpoint-upstream').value = ch.customUrl || ch.resolvedSource || 'Auto-resolving...';
+  const feedObj = (feedType === 'backup' && ch.backup) ? ch.backup : (ch.primary || ch);
+
+  const hlsInput = document.getElementById('endpoint-hls');
+  const rtspInput = document.getElementById('endpoint-rtsp');
+  const upstreamInput = document.getElementById('endpoint-upstream');
+
+  if (hlsInput) hlsInput.value = feedObj.outputHls || ch.outputHls;
+  if (rtspInput) rtspInput.value = feedObj.outputRtsp || ch.outputRtsp;
+  if (upstreamInput) upstreamInput.value = feedObj.source || ch.customPrimaryUrl || ch.customUrl || ch.resolvedSource || 'Auto-resolving...';
 }
 
 function closeSidebar() {
