@@ -16,7 +16,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 const channelsPath = path.join(__dirname, 'channels.json');
 
-// In-memory health cache for all channels: { [id]: { primary: boolean, backup: boolean } }
+// In-memory health cache for all channels: { [id]: { primary: boolean, backup: boolean | null } }
 const channelHealthMap = {};
 
 function loadChannels() {
@@ -56,19 +56,27 @@ function findM3u8Urls(obj) {
 }
 
 /**
- * Resolve fresh Primary and Backup M3U8 source URLs for a channel
+ * Resolve Primary and Backup M3U8 source URLs for a channel.
+ * If backup source is empty/blank, backup is set to null (no registration/probing).
  */
 async function resolveStreamUrl(channel) {
   const primaryFallback = `${PROXY_HOST}/primary/etslive-v3-vidio-com-tokenized.akamaized.net/stream/${channel.id}/file/master.m3u8`;
   const backupFallback = `${PROXY_HOST}/backup/etslive-v3-vidio-com-tokenized.akamaized.net/stream/${channel.id}/file/master.m3u8`;
 
-  let primaryUrl = channel.customPrimaryUrl || channel.customUrl || '';
-  let backupUrl = channel.customBackupUrl || '';
+  let primaryUrl = (channel.customPrimaryUrl || channel.customUrl || '').trim();
+  let backupUrl = (channel.customBackupUrl || '').trim();
 
-  if (primaryUrl && backupUrl) {
-    return { primary: primaryUrl.trim(), backup: backupUrl.trim() };
+  // If customPrimaryUrl is set but customBackupUrl is explicitly empty (""), do NOT resolve backup
+  if (primaryUrl && channel.customBackupUrl === '') {
+    return { primary: primaryUrl, backup: null };
   }
 
+  // If both custom URLs are set
+  if (primaryUrl && backupUrl) {
+    return { primary: primaryUrl, backup: backupUrl };
+  }
+
+  // For auto-resolving channels
   const vidioApiUrl = `https://api.vidio.com/livestreamings/${channel.id}/stream?initialize=true`;
   const headers = {
     'Referer': 'https://www.vidio.com/',
@@ -90,7 +98,9 @@ async function resolveStreamUrl(channel) {
       const proxyPrefixMatch = resolvedUrl.match(/^(https?:\/\/[^\/]+\/)(.*)$/);
       if (proxyPrefixMatch) {
         if (!primaryUrl) primaryUrl = `${PROXY_HOST}/primary/${proxyPrefixMatch[2]}`;
-        if (!backupUrl) backupUrl = `${PROXY_HOST}/backup/${proxyPrefixMatch[2]}`;
+        if (!backupUrl && channel.customBackupUrl !== '') {
+          backupUrl = `${PROXY_HOST}/backup/${proxyPrefixMatch[2]}`;
+        }
       }
     }
   } catch (err) {
@@ -99,7 +109,7 @@ async function resolveStreamUrl(channel) {
 
   return {
     primary: primaryUrl || primaryFallback,
-    backup: backupUrl || backupFallback
+    backup: channel.customBackupUrl === '' ? null : (backupUrl || backupFallback)
   };
 }
 
@@ -131,21 +141,37 @@ async function registerSingleMtxPath(fullPath, sourceUrl) {
 }
 
 /**
- * Register primary and backup stream paths in MediaMTX via REST API
+ * Remove path from MediaMTX
+ */
+async function removeSingleMtxPath(fullPath) {
+  const deleteEndpoint = `${MEDIAMTX_API}/v3/config/paths/delete/${fullPath}`;
+  try {
+    await axios.delete(deleteEndpoint);
+    console.log(`[Resolver] Removed ${fullPath}`);
+  } catch (err) {}
+}
+
+/**
+ * Register primary and backup stream paths in MediaMTX
  */
 async function updateMediaMtxPath(pathName, sources) {
-  await registerSingleMtxPath(`live/${pathName}/primary`, sources.primary);
-  await registerSingleMtxPath(`live/${pathName}/backup`, sources.backup);
+  if (sources.primary) {
+    await registerSingleMtxPath(`live/${pathName}/primary`, sources.primary);
+  }
+  
+  if (sources.backup) {
+    await registerSingleMtxPath(`live/${pathName}/backup`, sources.backup);
+  } else {
+    await removeSingleMtxPath(`live/${pathName}/backup`);
+  }
 }
 
 /**
  * Remove primary & backup sub-paths from MediaMTX
  */
 async function removeMediaMtxPath(pathName) {
-  const deletePrimary = `${MEDIAMTX_API}/v3/config/paths/delete/live/${pathName}/primary`;
-  const deleteBackup = `${MEDIAMTX_API}/v3/config/paths/delete/live/${pathName}/backup`;
-  try { await axios.delete(deletePrimary); } catch (e) {}
-  try { await axios.delete(deleteBackup); } catch (e) {}
+  await removeSingleMtxPath(`live/${pathName}/primary`);
+  await removeSingleMtxPath(`live/${pathName}/backup`);
 }
 
 /**
@@ -170,13 +196,11 @@ async function pingUrl(url) {
 async function checkChannelHealth(channel) {
   const sources = channel.resolvedSources || {
     primary: channel.customPrimaryUrl || channel.customUrl || `${PROXY_HOST}/primary/etslive-v3-vidio-com-tokenized.akamaized.net/stream/${channel.id}/file/master.m3u8`,
-    backup: channel.customBackupUrl || `${PROXY_HOST}/backup/etslive-v3-vidio-com-tokenized.akamaized.net/stream/${channel.id}/file/master.m3u8`
+    backup: channel.customBackupUrl !== '' ? (channel.customBackupUrl || `${PROXY_HOST}/backup/etslive-v3-vidio-com-tokenized.akamaized.net/stream/${channel.id}/file/master.m3u8`) : null
   };
 
-  const [primaryOk, backupOk] = await Promise.all([
-    pingUrl(sources.primary),
-    pingUrl(sources.backup)
-  ]);
+  const primaryOk = sources.primary ? await pingUrl(sources.primary) : false;
+  const backupOk = sources.backup ? await pingUrl(sources.backup) : null;
 
   channelHealthMap[channel.id] = { primary: primaryOk, backup: backupOk };
   return channelHealthMap[channel.id];
@@ -191,11 +215,11 @@ async function checkAllChannelsHealth() {
 }
 
 /**
- * Sync all channel paths (Primary & Backup) to MediaMTX
+ * Sync all channel paths to MediaMTX
  */
 async function syncAllChannels() {
   const channels = loadChannels();
-  console.log(`[Resolver] Syncing ${channels.length} channels (Primary & Backup) to MediaMTX...`);
+  console.log(`[Resolver] Syncing ${channels.length} channels to MediaMTX...`);
 
   for (const channel of channels) {
     try {
@@ -238,38 +262,42 @@ app.get('/api/channels', async (req, res) => {
     const primaryMtxData = mtxPaths[`live/${pathKey}/primary`] || mtxPaths[`live/${ch.name}/primary`];
     const backupMtxData = mtxPaths[`live/${pathKey}/backup`] || mtxPaths[`live/${ch.name}/backup`];
 
-    const health = channelHealthMap[ch.id] || { primary: false, backup: false };
+    const health = channelHealthMap[ch.id] || { primary: false, backup: null };
 
-    const isPrimaryReady = (primaryMtxData ? primaryMtxData.ready === true : false) || health.primary;
-    const isBackupReady = (backupMtxData ? backupMtxData.ready === true : false) || health.backup;
-    const isReady = isPrimaryReady || isBackupReady;
-
+    const isPrimaryReady = (primaryMtxData ? primaryMtxData.ready === true : false) || (health.primary === true);
+    
     const sources = ch.resolvedSources || {
       primary: ch.customPrimaryUrl || ch.customUrl || `${PROXY_HOST}/primary/etslive-v3-vidio-com-tokenized.akamaized.net/stream/${ch.id}/file/master.m3u8`,
-      backup: ch.customBackupUrl || `${PROXY_HOST}/backup/etslive-v3-vidio-com-tokenized.akamaized.net/stream/${ch.id}/file/master.m3u8`
+      backup: ch.customBackupUrl !== '' ? (ch.customBackupUrl || `${PROXY_HOST}/backup/etslive-v3-vidio-com-tokenized.akamaized.net/stream/${ch.id}/file/master.m3u8`) : null
     };
+
+    const hasBackup = Boolean(sources.backup);
+    let backupObj = null;
+
+    if (hasBackup) {
+      const isBackupReady = (backupMtxData ? backupMtxData.ready === true : false) || (health.backup === true);
+      backupObj = {
+        source: sources.backup,
+        isReady: isBackupReady,
+        status: isBackupReady ? 'online' : 'offline',
+        outputHls: `http://${serverIp}:8880/live/${pathKey}/backup/index.m3u8?cookieCheck=1`,
+        outputRtsp: `rtsp://${serverIp}:8554/live/${pathKey}/backup`
+      };
+    }
 
     return {
       ...ch,
-      isReady,
-      status: isReady ? 'online' : 'offline',
+      isReady: isPrimaryReady || (backupObj ? backupObj.isReady : false),
+      status: isPrimaryReady ? 'online' : 'offline',
       primary: {
         source: sources.primary,
         isReady: isPrimaryReady,
         status: isPrimaryReady ? 'online' : 'offline',
         outputHls: `http://${serverIp}:8880/live/${pathKey}/primary/index.m3u8?cookieCheck=1`,
-        outputRtsp: `rtsp://${serverIp}:8554/live/${pathKey}/primary`,
-        outputWebRtc: `http://${serverIp}:8889/live/${pathKey}/primary`
+        outputRtsp: `rtsp://${serverIp}:8554/live/${pathKey}/primary`
       },
-      backup: {
-        source: sources.backup,
-        isReady: isBackupReady,
-        status: isBackupReady ? 'online' : 'offline',
-        outputHls: `http://${serverIp}:8880/live/${pathKey}/backup/index.m3u8?cookieCheck=1`,
-        outputRtsp: `rtsp://${serverIp}:8554/live/${pathKey}/backup`,
-        outputWebRtc: `http://${serverIp}:8889/live/${pathKey}/backup`
-      },
-      // Backward compatibility aliases (default to primary)
+      backup: backupObj,
+      // Backward compatibility aliases
       resolvedSource: sources.primary,
       outputHls: `http://${serverIp}:8880/live/${pathKey}/primary/index.m3u8?cookieCheck=1`,
       outputRtsp: `rtsp://${serverIp}:8554/live/${pathKey}/primary`
@@ -293,8 +321,8 @@ app.post('/api/channels', async (req, res) => {
     id: id || Date.now().toString(),
     name: cleanName,
     title: title || cleanName.toUpperCase(),
-    customPrimaryUrl: customPrimaryUrl || customUrl || '',
-    customBackupUrl: customBackupUrl || ''
+    customPrimaryUrl: (customPrimaryUrl || customUrl || '').trim(),
+    customBackupUrl: customBackupUrl !== undefined ? customBackupUrl.trim() : ''
   };
 
   channels.push(newChannel);
@@ -320,9 +348,9 @@ app.put('/api/channels/:id', async (req, res) => {
 
   const target = channels[idx];
   if (title) target.title = title;
-  if (customPrimaryUrl !== undefined) target.customPrimaryUrl = customPrimaryUrl;
-  if (customBackupUrl !== undefined) target.customBackupUrl = customBackupUrl;
-  if (customUrl !== undefined && !customPrimaryUrl) target.customPrimaryUrl = customUrl;
+  if (customPrimaryUrl !== undefined) target.customPrimaryUrl = customPrimaryUrl.trim();
+  if (customBackupUrl !== undefined) target.customBackupUrl = customBackupUrl.trim();
+  if (customUrl !== undefined && !customPrimaryUrl) target.customPrimaryUrl = customUrl.trim();
 
   if (name && name !== target.name) {
     await removeMediaMtxPath(target.name);

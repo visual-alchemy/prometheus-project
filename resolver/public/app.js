@@ -70,20 +70,41 @@ function renderTable(channels) {
     tr.id = `row-${ch.id}`;
     if (currentInspectedId === ch.id) tr.classList.add('active-row');
 
+    const hasBackup = Boolean(ch.backup);
     const priOk = ch.primary ? ch.primary.isReady : ch.isReady;
-    const bakOk = ch.backup ? ch.backup.isReady : ch.isReady;
+    const bakOk = hasBackup ? ch.backup.isReady : false;
 
     const priDotClass = priOk ? 'status-indicator active pulse' : 'status-indicator offline';
-    const bakDotClass = bakOk ? 'status-indicator active pulse' : 'status-indicator offline';
+    const bakDotHtml = hasBackup 
+      ? `<span class="${bakOk ? 'status-indicator active pulse' : 'status-indicator offline'}" title="Backup Feed (ISP 2): ${bakOk ? 'Online' : 'Offline'}"></span>`
+      : `<span class="status-indicator" style="background:#4b5563; box-shadow:none; opacity:0.5;" title="No Backup Source Configured (Single Encoder)"></span>`;
 
     const priHls = ch.primary ? ch.primary.outputHls : ch.outputHls;
-    const bakHls = ch.backup ? ch.backup.outputHls : ch.outputHls;
+    const bakHls = hasBackup ? ch.backup.outputHls : '';
+
+    const backupUrlRow = hasBackup
+      ? `<div style="margin-top:2px; opacity:0.8;"><span class="feed-badge-bak">BAK</span> ${ch.backup.source}</div>`
+      : `<div style="margin-top:2px; opacity:0.5;"><span class="feed-badge-na" style="background:rgba(255,255,255,0.08); color:#9ca3af; border:1px solid rgba(255,255,255,0.15); font-size:9px; padding:2px 5px; border-radius:4px; font-weight:800;">N/A</span> <span style="font-style:italic; color:#9ca3af;">Single Encoder (No Backup)</span></div>`;
+
+    const backupEndpointRow = hasBackup
+      ? `<div style="display:flex; align-items:center; gap:6px;">
+            <span class="feed-badge-bak">BAK</span>
+            <span class="url-text full-url" style="font-size:10px;" title="${bakHls}">${bakHls}</span>
+            <button class="btn-copy" onclick="copyToClipboard('${bakHls}', this)" title="Copy Backup HLS URL">
+              <svg class="copy-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              <span>Copy</span>
+            </button>
+          </div>`
+      : `<div style="display:flex; align-items:center; gap:6px; opacity:0.5;">
+            <span class="feed-badge-na" style="background:rgba(255,255,255,0.08); color:#9ca3af; border:1px solid rgba(255,255,255,0.15); font-size:9px; padding:2px 5px; border-radius:4px; font-weight:800;">N/A</span>
+            <span class="url-text" style="font-size:10px; font-style:italic; color:#9ca3af;">No Backup Endpoint</span>
+          </div>`;
 
     tr.innerHTML = `
       <td>
         <div style="display:flex; flex-direction:column; gap:4px; align-items:center;">
           <span class="${priDotClass}" title="Primary Feed (ISP 1): ${priOk ? 'Online' : 'Offline'}"></span>
-          <span class="${bakDotClass}" title="Backup Feed (ISP 2): ${bakOk ? 'Online' : 'Offline'}"></span>
+          ${bakDotHtml}
         </div>
       </td>
       <td>
@@ -96,7 +117,7 @@ function renderTable(channels) {
       <td>
         <div class="url-text" style="font-size:10px;" title="Primary: ${ch.primary?.source || ch.resolvedSource}">
           <div><span class="feed-badge-pri">PRI</span> ${ch.primary?.source || ch.resolvedSource || 'Resolving...'}</div>
-          <div style="margin-top:2px; opacity:0.8;"><span class="feed-badge-bak">BAK</span> ${ch.backup?.source || 'Resolving...'}</div>
+          ${backupUrlRow}
         </div>
       </td>
       <td>
@@ -109,14 +130,7 @@ function renderTable(channels) {
               <span>Copy</span>
             </button>
           </div>
-          <div style="display:flex; align-items:center; gap:6px;">
-            <span class="feed-badge-bak">BAK</span>
-            <span class="url-text full-url" style="font-size:10px;" title="${bakHls}">${bakHls}</span>
-            <button class="btn-copy" onclick="copyToClipboard('${bakHls}', this)" title="Copy Backup HLS URL">
-              <svg class="copy-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-              <span>Copy</span>
-            </button>
-          </div>
+          ${backupEndpointRow}
         </div>
       </td>
       <td>
@@ -206,12 +220,35 @@ function inspectChannel(id) {
   const toggleContainer = document.getElementById('feed-toggle-container');
   if (toggleContainer) toggleContainer.style.display = 'flex';
 
+  const btnBak = document.getElementById('btn-feed-backup');
+  if (btnBak) {
+    if (!ch.backup) {
+      btnBak.style.opacity = '0.4';
+      btnBak.style.pointerEvents = 'none';
+      btnBak.title = 'No Backup Source Configured (Single Encoder)';
+    } else {
+      btnBak.style.opacity = '1.0';
+      btnBak.style.pointerEvents = 'auto';
+      btnBak.title = 'Switch to Backup Feed';
+    }
+  }
+
   const priDot = document.getElementById('inspector-pri-dot');
   const bakDot = document.getElementById('inspector-bak-dot');
   if (priDot) priDot.className = ch.primary?.isReady ? 'status-indicator active pulse' : 'status-indicator offline';
-  if (bakDot) bakDot.className = ch.backup?.isReady ? 'status-indicator active pulse' : 'status-indicator offline';
+  if (bakDot) {
+    if (!ch.backup) {
+      bakDot.className = 'status-indicator';
+      bakDot.style.background = '#4b5563';
+      bakDot.style.boxShadow = 'none';
+    } else {
+      bakDot.className = ch.backup.isReady ? 'status-indicator active pulse' : 'status-indicator offline';
+    }
+  }
 
-  switchInspectorFeed(currentFeedType || 'primary');
+  // If currently on backup but channel has no backup, force switch to primary
+  const targetFeed = (!ch.backup && currentFeedType === 'backup') ? 'primary' : (currentFeedType || 'primary');
+  switchInspectorFeed(targetFeed);
 }
 
 function populateInspector(ch, feedType = 'primary') {
@@ -219,15 +256,16 @@ function populateInspector(ch, feedType = 'primary') {
   document.getElementById('inspector-empty').style.display = 'none';
   document.getElementById('inspector-details').style.display = 'flex';
 
-  const feedObj = (feedType === 'backup' && ch.backup) ? ch.backup : (ch.primary || ch);
+  const isBackup = (feedType === 'backup' && ch.backup);
+  const feedObj = isBackup ? ch.backup : (ch.primary || ch);
 
   const hlsInput = document.getElementById('endpoint-hls');
   const rtspInput = document.getElementById('endpoint-rtsp');
   const upstreamInput = document.getElementById('endpoint-upstream');
 
-  if (hlsInput) hlsInput.value = feedObj.outputHls || ch.outputHls;
-  if (rtspInput) rtspInput.value = feedObj.outputRtsp || ch.outputRtsp;
-  if (upstreamInput) upstreamInput.value = feedObj.source || ch.customPrimaryUrl || ch.customUrl || ch.resolvedSource || 'Auto-resolving...';
+  if (hlsInput) hlsInput.value = isBackup ? (ch.backup ? ch.backup.outputHls : 'No Backup Endpoint') : (ch.primary ? ch.primary.outputHls : ch.outputHls);
+  if (rtspInput) rtspInput.value = isBackup ? (ch.backup ? ch.backup.outputRtsp : 'No Backup Endpoint') : (ch.primary ? ch.primary.outputRtsp : ch.outputRtsp);
+  if (upstreamInput) upstreamInput.value = isBackup ? (ch.backup ? ch.backup.source : 'No Backup Source Configured') : (ch.primary ? ch.primary.source : (ch.customPrimaryUrl || ch.customUrl || ch.resolvedSource || 'Auto-resolving...'));
 }
 
 function closeSidebar() {
