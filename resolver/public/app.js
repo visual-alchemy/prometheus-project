@@ -11,7 +11,7 @@ async function fetchChannels() {
 
     if (currentInspectedId) {
       const activeCh = channelsData.find(c => c.id === currentInspectedId || c.name === currentInspectedId);
-      if (activeCh) populateInspector(activeCh);
+      if (activeCh) populateInspector(activeCh, currentFeedType);
     }
   } catch (e) {
     console.error('Failed to fetch channels:', e);
