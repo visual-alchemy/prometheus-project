@@ -283,7 +283,7 @@ app.get('/api/channels', async (req, res) => {
         source: sources.backup,
         isReady: isBackupReady,
         status: isBackupReady ? 'online' : 'offline',
-        outputHls: `http://${serverIp}:8880/live/${pathKey}/backup/index.m3u8?cookieCheck=1`,
+        outputHls: sources.backup,
         outputRtsp: `rtsp://${serverIp}:8554/live/${pathKey}/backup`
       };
     }
@@ -296,13 +296,13 @@ app.get('/api/channels', async (req, res) => {
         source: sources.primary,
         isReady: isPrimaryReady,
         status: isPrimaryReady ? 'online' : 'offline',
-        outputHls: `http://${serverIp}:8880/live/${pathKey}/primary/index.m3u8?cookieCheck=1`,
+        outputHls: sources.primary,
         outputRtsp: `rtsp://${serverIp}:8554/live/${pathKey}/primary`
       },
       backup: backupObj,
       // Backward compatibility aliases
       resolvedSource: sources.primary,
-      outputHls: `http://${serverIp}:8880/live/${pathKey}/primary/index.m3u8?cookieCheck=1`,
+      outputHls: sources.primary,
       outputRtsp: `rtsp://${serverIp}:8554/live/${pathKey}/primary`
     };
   });
