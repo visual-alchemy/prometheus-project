@@ -262,7 +262,15 @@ app.get('/live/:id/:feed/index.m3u8', async (req, res) => {
     res.setHeader('Content-Type', 'application/vnd.apple.mpegurl');
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Cache-Control', 'no-cache');
-    res.send(upstreamRes.data);
+
+    let manifestBody = upstreamRes.data;
+    if (manifestBody && typeof manifestBody === 'string') {
+      manifestBody = manifestBody.replace(/(URI=")?(\/etslive-v3-[^"\s\n]+)/g, (match, p1, p2) => {
+        return (p1 || '') + `${PROXY_HOST}${p2}`;
+      });
+    }
+
+    res.send(manifestBody);
   } catch (err) {
     res.status(502).send('#EXTM3U\n# Upstream Proxy Error');
   }
