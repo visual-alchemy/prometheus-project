@@ -26,8 +26,8 @@ hls: yes
 hlsAddress: :8880
 hlsAlwaysRemux: yes
 hlsVariant: mpegts
-hlsSegmentCount: 7
-hlsSegmentDuration: 2s
+hlsSegmentCount: 10
+hlsSegmentDuration: 4s
 hlsAllowOrigins: ["*"]
 
 # RTSP Output Configuration
