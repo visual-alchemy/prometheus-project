@@ -57,26 +57,34 @@ function findM3u8Urls(obj) {
 
 /**
  * Resolve Primary and Backup M3U8 source URLs for a channel.
- * If backup source is empty/blank, backup is set to null (no registration/probing).
+ * If backup source is explicitly blank or not configured, backup is set to null.
  */
 async function resolveStreamUrl(channel) {
   const primaryFallback = `${PROXY_HOST}/primary/etslive-v3-vidio-com-tokenized.akamaized.net/stream/${channel.id}/file/master.m3u8`;
   const backupFallback = `${PROXY_HOST}/backup/etslive-v3-vidio-com-tokenized.akamaized.net/stream/${channel.id}/file/master.m3u8`;
 
-  let primaryUrl = (channel.customPrimaryUrl || channel.customUrl || '').trim();
-  let backupUrl = (channel.customBackupUrl || '').trim();
+  const customPri = (channel.customPrimaryUrl || channel.customUrl || '').trim();
+  const customBak = (channel.customBackupUrl || '').trim();
 
-  // If customPrimaryUrl is set but customBackupUrl is explicitly empty (""), do NOT resolve backup
-  if (primaryUrl && channel.customBackupUrl === '') {
-    return { primary: primaryUrl, backup: null };
+  // Rule 1: If custom primary URL is set and custom backup URL is empty, BACKUP IS NULL (N/A)
+  if (customPri && !customBak) {
+    return { primary: customPri, backup: null };
   }
 
-  // If both custom URLs are set
-  if (primaryUrl && backupUrl) {
-    return { primary: primaryUrl, backup: backupUrl };
+  // Rule 2: If custom backup URL is explicitly empty string ""
+  if (channel.customBackupUrl === '') {
+    return { primary: customPri || primaryFallback, backup: null };
   }
 
-  // For auto-resolving channels
+  // Rule 3: If both custom URLs are provided
+  if (customPri && customBak) {
+    return { primary: customPri, backup: customBak };
+  }
+
+  // Rule 4: Auto-resolve Vidio channels
+  let primaryUrl = customPri;
+  let backupUrl = customBak;
+
   const vidioApiUrl = `https://api.vidio.com/livestreamings/${channel.id}/stream?initialize=true`;
   const headers = {
     'Referer': 'https://www.vidio.com/',
@@ -103,9 +111,7 @@ async function resolveStreamUrl(channel) {
         }
       }
     }
-  } catch (err) {
-    // Fall back to headend proxy format
-  }
+  } catch (err) {}
 
   return {
     primary: primaryUrl || primaryFallback,
@@ -194,10 +200,7 @@ async function pingUrl(url) {
  * Perform background health check on primary and backup streams
  */
 async function checkChannelHealth(channel) {
-  const sources = channel.resolvedSources || {
-    primary: channel.customPrimaryUrl || channel.customUrl || `${PROXY_HOST}/primary/etslive-v3-vidio-com-tokenized.akamaized.net/stream/${channel.id}/file/master.m3u8`,
-    backup: channel.customBackupUrl !== '' ? (channel.customBackupUrl || `${PROXY_HOST}/backup/etslive-v3-vidio-com-tokenized.akamaized.net/stream/${channel.id}/file/master.m3u8`) : null
-  };
+  const sources = channel.resolvedSources || await resolveStreamUrl(channel);
 
   const primaryOk = sources.primary ? await pingUrl(sources.primary) : false;
   const backupOk = sources.backup ? await pingUrl(sources.backup) : null;
@@ -267,8 +270,8 @@ app.get('/api/channels', async (req, res) => {
     const isPrimaryReady = (primaryMtxData ? primaryMtxData.ready === true : false) || (health.primary === true);
     
     const sources = ch.resolvedSources || {
-      primary: ch.customPrimaryUrl || ch.customUrl || `${PROXY_HOST}/primary/etslive-v3-vidio-com-tokenized.akamaized.net/stream/${ch.id}/file/master.m3u8`,
-      backup: ch.customBackupUrl !== '' ? (ch.customBackupUrl || `${PROXY_HOST}/backup/etslive-v3-vidio-com-tokenized.akamaized.net/stream/${ch.id}/file/master.m3u8`) : null
+      primary: (ch.customPrimaryUrl || ch.customUrl || '').trim() || `${PROXY_HOST}/primary/etslive-v3-vidio-com-tokenized.akamaized.net/stream/${ch.id}/file/master.m3u8`,
+      backup: (ch.customPrimaryUrl || ch.customUrl) && !ch.customBackupUrl ? null : ((ch.customBackupUrl || '').trim() || null)
     };
 
     const hasBackup = Boolean(sources.backup);
@@ -322,7 +325,7 @@ app.post('/api/channels', async (req, res) => {
     name: cleanName,
     title: title || cleanName.toUpperCase(),
     customPrimaryUrl: (customPrimaryUrl || customUrl || '').trim(),
-    customBackupUrl: customBackupUrl !== undefined ? customBackupUrl.trim() : ''
+    customBackupUrl: (customBackupUrl || '').trim()
   };
 
   channels.push(newChannel);
