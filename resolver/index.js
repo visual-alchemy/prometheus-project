@@ -448,6 +448,11 @@ app.listen(PORT, '0.0.0.0', () => {
     checkAllChannelsHealth();
   }, 8000);
 
+  // Auto-resync paths if MediaMTX container restarts or drops in-memory paths
+  setInterval(() => {
+    syncAllChannels();
+  }, 10000);
+
   // Background token refresh interval (every 15 minutes)
   setInterval(() => {
     console.log('[Resolver] Running scheduled token sync...');
