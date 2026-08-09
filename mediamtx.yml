@@ -25,7 +25,7 @@ metricsAddress: :9998
 hls: yes
 hlsAddress: :8880
 hlsAlwaysRemux: yes
-hlsVariant: fmp4
+hlsVariant: mpegts
 hlsSegmentCount: 5
 hlsSegmentDuration: 6s
 hlsAllowOrigins: ["*"]
