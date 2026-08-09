@@ -218,9 +218,15 @@
         </div>
 
         <div class="form-group">
-          <label for="form-custom-url">Custom HLS Akamai Source URL</label>
-          <textarea id="form-custom-url" rows="3" placeholder="http://192.168.40.54:80/primary/etslive.../master.m3u8?hdnts=..."></textarea>
-          <small>Leave blank to auto-resolve tokenized URL using Vidio Channel ID.</small>
+          <label for="form-custom-primary-url"><span class="feed-badge-pri">PRIMARY</span> Custom Primary HLS Source URL (ISP 1)</label>
+          <textarea id="form-custom-primary-url" rows="3" placeholder="http://192.168.40.54:80/primary/etslive.../master.m3u8?hdnts=..."></textarea>
+          <small>Leave blank to auto-resolve Primary tokenized URL using Vidio Channel ID.</small>
+        </div>
+
+        <div class="form-group" style="margin-top: 12px;">
+          <label for="form-custom-backup-url"><span class="feed-badge-bak">BACKUP</span> Custom Backup HLS Source URL (ISP 2)</label>
+          <textarea id="form-custom-backup-url" rows="3" placeholder="http://192.168.40.54:80/backup/etslive.../master.m3u8?hdnts=..."></textarea>
+          <small>Leave blank to auto-resolve Backup tokenized URL using Vidio Channel ID.</small>
         </div>
       </div>
       <div class="modal-footer">

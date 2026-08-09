@@ -254,7 +254,8 @@ function openAddModal() {
   document.getElementById('form-title').value = '';
   document.getElementById('form-slug').value = '';
   document.getElementById('form-vidio-id').value = '';
-  document.getElementById('form-custom-url').value = '';
+  document.getElementById('form-custom-primary-url').value = '';
+  document.getElementById('form-custom-backup-url').value = '';
   document.getElementById('stream-modal').classList.add('open');
 }
 
@@ -267,7 +268,8 @@ function openEditModal(id) {
   document.getElementById('form-title').value = ch.title;
   document.getElementById('form-slug').value = ch.name;
   document.getElementById('form-vidio-id').value = ch.id;
-  document.getElementById('form-custom-url').value = ch.customUrl || '';
+  document.getElementById('form-custom-primary-url').value = ch.customPrimaryUrl || ch.customUrl || '';
+  document.getElementById('form-custom-backup-url').value = ch.customBackupUrl || '';
   document.getElementById('stream-modal').classList.add('open');
 }
 
@@ -280,14 +282,21 @@ async function saveStreamForm() {
   const title = document.getElementById('form-title').value;
   const name = document.getElementById('form-slug').value;
   const id = document.getElementById('form-vidio-id').value;
-  const customUrl = document.getElementById('form-custom-url').value;
+  const customPrimaryUrl = document.getElementById('form-custom-primary-url').value;
+  const customBackupUrl = document.getElementById('form-custom-backup-url').value;
 
   if (!title || !name) {
     alert('Please fill in Display Title and Channel Slug.');
     return;
   }
 
-  const payload = { id: id || Date.now().toString(), name, title, customUrl };
+  const payload = { 
+    id: id || Date.now().toString(), 
+    name, 
+    title, 
+    customPrimaryUrl, 
+    customBackupUrl 
+  };
 
   try {
     if (editId) {
