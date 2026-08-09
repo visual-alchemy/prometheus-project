@@ -7,7 +7,7 @@ async function fetchChannels() {
     const res = await fetch('/api/channels');
     channelsData = await res.json();
     document.getElementById('channel-count').textContent = channelsData.length;
-    renderTable(channelsData);
+    filterChannels();
 
     if (currentInspectedId) {
       const activeCh = channelsData.find(c => c.id === currentInspectedId || c.name === currentInspectedId);
