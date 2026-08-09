@@ -244,6 +244,30 @@ async function syncAllChannels() {
   await checkAllChannelsHealth();
 }
 
+// Direct static HLS proxy endpoint (Passes untouched Akamai HLS feed for 100% smooth playback without MediaMTX engine frame skips)
+app.get('/live/:id/:feed/index.m3u8', async (req, res) => {
+  const { id, feed } = req.params;
+  const channels = loadChannels();
+  const target = channels.find(c => c.id === id || c.name === id);
+  
+  if (!target) return res.status(404).send('#EXTM3U\n# Channel Not Found');
+
+  const sources = await resolveStreamUrl(target);
+  const targetUrl = (feed === 'backup' && sources.backup) ? sources.backup : sources.primary;
+
+  if (!targetUrl) return res.status(404).send('#EXTM3U\n# Feed Not Available');
+
+  try {
+    const upstreamRes = await axios.get(targetUrl, { responseType: 'text', timeout: 5000 });
+    res.setHeader('Content-Type', 'application/vnd.apple.mpegurl');
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Cache-Control', 'no-cache');
+    res.send(upstreamRes.data);
+  } catch (err) {
+    res.status(502).send('#EXTM3U\n# Upstream Proxy Error');
+  }
+});
+
 // REST API Endpoints
 app.get('/api/channels', async (req, res) => {
   const channels = loadChannels();
@@ -283,7 +307,7 @@ app.get('/api/channels', async (req, res) => {
         source: sources.backup,
         isReady: isBackupReady,
         status: isBackupReady ? 'online' : 'offline',
-        outputHls: sources.backup,
+        outputHls: `http://${serverIp}:3000/live/${pathKey}/backup/index.m3u8`,
         outputRtsp: `rtsp://${serverIp}:8554/live/${pathKey}/backup`
       };
     }
@@ -296,13 +320,13 @@ app.get('/api/channels', async (req, res) => {
         source: sources.primary,
         isReady: isPrimaryReady,
         status: isPrimaryReady ? 'online' : 'offline',
-        outputHls: sources.primary,
+        outputHls: `http://${serverIp}:3000/live/${pathKey}/primary/index.m3u8`,
         outputRtsp: `rtsp://${serverIp}:8554/live/${pathKey}/primary`
       },
       backup: backupObj,
       // Backward compatibility aliases
       resolvedSource: sources.primary,
-      outputHls: sources.primary,
+      outputHls: `http://${serverIp}:3000/live/${pathKey}/primary/index.m3u8`,
       outputRtsp: `rtsp://${serverIp}:8554/live/${pathKey}/primary`
     };
   });
