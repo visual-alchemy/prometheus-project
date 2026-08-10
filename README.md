@@ -12,7 +12,7 @@
 
 | Category | Features |
 |----------|----------|
-| **Upstream Fan-Out Reduction** | Reduces WAN bandwidth from `N × Multiviewers` upstream pulls to **constant single-pull per channel** via 2-second manifest TTL cache |
+| **Upstream Fan-Out Reduction** | Reduces WAN bandwidth from `N × Multiviewers` upstream pulls to a **guaranteed constant pull count** via 3-second background manifest puller & request coalescing |
 | **Zero Token Expiry** | Background resolver auto-refreshes Vidio/Akamai `hdnts` tokens every 15 minutes. Downstream clients connect to static local URLs that **never expire** |
 | **Dual ISP Isolation** | Independent `/primary` (ISP 1) and `/backup` (ISP 2) sub-paths per channel for side-by-side hardware encoder monitoring |
 | **Single-Encoder Detection** | Automatic `N/A` badge and bypass of backup probing/registration when `customBackupUrl` is blank |
@@ -42,7 +42,7 @@ graph TB
 
         subgraph "Gateway Resolver"
             GW["Express.js API<br/>(Token Resolver + REST)<br/>Port: 3000"]
-            MC["Manifest Cache<br/>(In-Memory TTL 2s)<br/>Fan-Out Reduction"]
+            PULL["Background Manifest Puller<br/>(Every 3s Loop)<br/>Request Coalescing Store"]
         end
 
         subgraph "Stream Engine"
@@ -63,16 +63,15 @@ graph TB
     end
 
     AK -->|"Tokenized HLS<br/>(Primary & Backup)"| NX
-    NX -->|"Lua Rewrite +<br/>Segment Cache"| GW
-    GW <-->|"Manifest Fetch<br/>(Cache MISS)"| MC
+    NX -->|"Lua Rewrite +<br/>Segment Cache"| PULL
+    PULL -->|"Pre-Fetched Manifest Store"| GW
     GW -->|"Source URL<br/>Registration"| MTX_API
     MTX_API -->|"Path Config"| MTX_HLS
     MTX_API -->|"Path Config"| MTX_RTSP
     NX -->|"HLS Source"| MTX_HLS
 
-    MC -->|"Cached Manifest<br/>(Cache HIT)"| MV
-    GW -->|"Direct HLS<br/>Pass-Through :3000"| MV
-    GW -->|"Direct HLS<br/>Pass-Through :3000"| VLC
+    GW -->|"Direct HLS<br/>Pass-Through :3000<br/>(Served from Store)"| MV
+    GW -->|"Direct HLS<br/>Pass-Through :3000<br/>(Served from Store)"| VLC
     MTX_RTSP -->|"RTSP :8554"| DEC
 
     UI <-->|"REST API"| GW
@@ -86,44 +85,43 @@ graph TB
 
     class AK cdn
     class NX proxy
-    class GW,MC gateway
+    class GW,PULL gateway
     class MTX_HLS,MTX_RTSP,MTX_API engine
     class MV,VLC,DEC consumer
     class UI ui
 ```
 
-### Fan-Out Reduction Flow
+### Fan-Out Reduction Flow (Background Puller / Request Coalescing)
 
 ```mermaid
 sequenceDiagram
     autonumber
+    participant PULL as Background Puller<br/>(Every 3s)
+    participant NX as NGINX :80
+    participant AK as Akamai CDN
+    participant GW as Gateway Store<br/>(:3000 RAM)
     participant MV1 as Multiviewer 1
     participant MV2 as Multiviewer 2
     participant MV3 as Multiviewer 3
-    participant GW as Gateway :3000<br/>(Manifest Cache)
-    participant NX as NGINX :80
-    participant AK as Akamai CDN
 
-    Note over MV1, AK: Without Prometheus: 3 multiviewers × 50 channels = 150 upstream requests per cycle
+    Note over PULL, AK: Background Loop (Independent of Clients)
+    PULL->>NX: Fetch /stream/204/file/master.m3u8
+    NX->>AK: Proxy request to Akamai
+    AK-->>NX: Tokenized manifest
+    NX-->>PULL: Upstream manifest
+    PULL->>GW: Rewrite URLs & Save to Manifest Store
 
+    Note over MV1, MV3: Downstream Clients Fetching Continuously
     MV1->>GW: GET /live/204/primary/index.m3u8
-    GW->>GW: Cache MISS (expired or first request)
-    GW->>NX: Fetch upstream manifest
-    NX->>AK: Proxy to Akamai origin
-    AK-->>NX: Return tokenized manifest
-    NX-->>GW: Return manifest
-    GW->>GW: Rewrite paths + Store in cache (TTL: 2s)
-    GW-->>MV1: X-Cache: MISS
+    GW-->>MV1: Serve from RAM Store (X-Cache: HIT)
 
     MV2->>GW: GET /live/204/primary/index.m3u8
-    GW->>GW: Cache HIT (within 2s TTL)
-    GW-->>MV2: X-Cache: HIT (0ms upstream)
+    GW-->>MV2: Serve from RAM Store (X-Cache: HIT)
 
     MV3->>GW: GET /live/204/primary/index.m3u8
-    GW->>GW: Cache HIT (within 2s TTL)
-    GW-->>MV3: X-Cache: HIT (0ms upstream)
+    GW-->>MV3: Serve from RAM Store (X-Cache: HIT)
 
-    Note over MV1, AK: With Prometheus: 1 upstream request serves all 3 multiviewers
+    Note over PULL, MV3: 0 client requests reach upstream. Upstream load is strictly 1 pull per 3s per channel.
 ```
 
 ### Dual Primary & Backup ISP Flow

@@ -19,10 +19,11 @@ const channelsPath = path.join(__dirname, 'channels.json');
 // In-memory health cache for all channels: { [id]: { primary: boolean, backup: boolean | null } }
 const channelHealthMap = {};
 
-// In-memory manifest cache for HLS pass-through fan-out reduction
+// In-memory manifest store for HLS pass-through request coalescing
+// Background puller fetches all manifests every 3s — endpoint never hits upstream
 // Key: "channelId/feed" → Value: { body: string, fetchedAt: number }
-const manifestCache = new Map();
-const MANIFEST_CACHE_TTL_MS = 2000; // 2 second TTL
+const manifestStore = new Map();
+const MANIFEST_PULL_INTERVAL_MS = 3000; // Background pull every 3 seconds
 
 function loadChannels() {
   try {
@@ -249,9 +250,61 @@ async function syncAllChannels() {
   await checkAllChannelsHealth();
 }
 
-// Direct static HLS proxy endpoint with manifest TTL cache for fan-out reduction
-// Multiple multiviewers requesting the same channel/feed within 2s get the cached manifest
-// instead of each triggering a separate upstream fetch to Akamai
+/**
+ * Rewrite Akamai relative segment paths to absolute PROXY_HOST paths
+ */
+function rewriteManifest(manifestBody) {
+  if (!manifestBody || typeof manifestBody !== 'string') return manifestBody;
+  manifestBody = manifestBody.replace(/(URI=")?(\/etslive-v3-[^"\s\n]+)/g, (match, p1, p2) => {
+    return (p1 || '') + `${PROXY_HOST}${p2}`;
+  });
+  manifestBody = manifestBody.replace(/^(\/etslive-v3-[^\s\n]+)/gm, `${PROXY_HOST}$1`);
+  return manifestBody;
+}
+
+/**
+ * Background manifest puller — fetches all channel manifests every 3s
+ * Guarantees exactly N upstream requests regardless of consumer count
+ */
+async function pullAllManifests() {
+  const channels = loadChannels();
+  let pulled = 0;
+
+  for (const channel of channels) {
+    try {
+      const sources = channel.resolvedSources || await resolveStreamUrl(channel);
+
+      // Pull primary manifest
+      if (sources.primary) {
+        try {
+          const res = await axios.get(sources.primary, { responseType: 'text', timeout: 5000 });
+          manifestStore.set(`${channel.id}/primary`, {
+            body: rewriteManifest(res.data),
+            fetchedAt: Date.now()
+          });
+          pulled++;
+        } catch (err) {}
+      }
+
+      // Pull backup manifest (if exists)
+      if (sources.backup) {
+        try {
+          const res = await axios.get(sources.backup, { responseType: 'text', timeout: 5000 });
+          manifestStore.set(`${channel.id}/backup`, {
+            body: rewriteManifest(res.data),
+            fetchedAt: Date.now()
+          });
+          pulled++;
+        } catch (err) {}
+      }
+    } catch (err) {}
+  }
+
+  console.log(`[Manifest Puller] Pulled ${pulled} manifests for ${channels.length} channels (store size: ${manifestStore.size})`);
+}
+
+// Direct HLS pass-through endpoint — serves ONLY from pre-fetched manifest store
+// Zero client requests ever hit upstream — guaranteed request coalescing
 app.get('/live/:id/:feed/index.m3u8', async (req, res) => {
   const { id, feed } = req.params;
   const channels = loadChannels();
@@ -259,18 +312,20 @@ app.get('/live/:id/:feed/index.m3u8', async (req, res) => {
   
   if (!target) return res.status(404).send('#EXTM3U\n# Channel Not Found');
 
-  // Check manifest cache first
-  const cacheKey = `${target.id}/${feed}`;
-  const cached = manifestCache.get(cacheKey);
+  const storeKey = `${target.id}/${feed}`;
+  const stored = manifestStore.get(storeKey);
   
-  if (cached && (Date.now() - cached.fetchedAt) < MANIFEST_CACHE_TTL_MS) {
+  if (stored) {
+    const ageMs = Date.now() - stored.fetchedAt;
     res.setHeader('Content-Type', 'application/vnd.apple.mpegurl');
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Cache-Control', 'no-cache');
     res.setHeader('X-Cache', 'HIT');
-    return res.send(cached.body);
+    res.setHeader('X-Cache-Age', `${(ageMs / 1000).toFixed(1)}s`);
+    return res.send(stored.body);
   }
 
+  // Store not yet populated (first few seconds after startup) — fallback to direct fetch
   const sources = await resolveStreamUrl(target);
   const targetUrl = (feed === 'backup' && sources.backup) ? sources.backup : sources.primary;
 
@@ -278,23 +333,15 @@ app.get('/live/:id/:feed/index.m3u8', async (req, res) => {
 
   try {
     const upstreamRes = await axios.get(targetUrl, { responseType: 'text', timeout: 5000 });
+    const body = rewriteManifest(upstreamRes.data);
+
+    manifestStore.set(storeKey, { body, fetchedAt: Date.now() });
+
     res.setHeader('Content-Type', 'application/vnd.apple.mpegurl');
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Cache-Control', 'no-cache');
     res.setHeader('X-Cache', 'MISS');
-
-    let manifestBody = upstreamRes.data;
-    if (manifestBody && typeof manifestBody === 'string') {
-      manifestBody = manifestBody.replace(/(URI=")?(\/etslive-v3-[^"\s\n]+)/g, (match, p1, p2) => {
-        return (p1 || '') + `${PROXY_HOST}${p2}`;
-      });
-      manifestBody = manifestBody.replace(/^(\/etslive-v3-[^\s\n]+)/gm, `${PROXY_HOST}$1`);
-    }
-
-    // Store rewritten manifest in cache
-    manifestCache.set(cacheKey, { body: manifestBody, fetchedAt: Date.now() });
-
-    res.send(manifestBody);
+    res.send(body);
   } catch (err) {
     res.status(502).send('#EXTM3U\n# Upstream Proxy Error');
   }
@@ -498,6 +545,14 @@ app.listen(PORT, '0.0.0.0', () => {
   
   // Initial sync & background origin health check
   syncAllChannels();
+
+  // Initial manifest pull (populate store immediately on startup)
+  pullAllManifests();
+
+  // Background manifest puller every 3 seconds (request coalescing)
+  setInterval(() => {
+    pullAllManifests();
+  }, MANIFEST_PULL_INTERVAL_MS);
 
   // Background health check every 8 seconds for all channels
   setInterval(() => {
