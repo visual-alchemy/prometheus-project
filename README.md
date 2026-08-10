@@ -2,7 +2,7 @@
 
 > **Protocol Redistribution & Optimized Media Engine for Token-Isolated HLS & Enterprise Utility Streaming**
 
-> **v2.2.0**: Manifest TTL cache for upstream fan-out reduction, dual Primary/Backup ISP isolation, Direct HLS Pass-Through, RTSP redistribution, 49 active channel profiles.
+> **v2.3.0**: Option B Background Manifest Puller (Request Coalescing), dual Primary/Backup ISP isolation, Direct HLS Pass-Through, RTSP redistribution, 49 active channel profiles.
 
 ---
 
@@ -124,6 +124,18 @@ sequenceDiagram
     Note over PULL, MV3: 0 client requests reach upstream. Upstream load is strictly 1 pull per 3s per channel.
 ```
 
+### Upstream Request Reduction Matrix
+
+| Connected Multiviewers | Direct Upstream Requests (Without Prometheus) | Upstream Requests (With Prometheus Option B) | Reduction Factor |
+| :--- | :---: | :---: | :---: |
+| **0 Multiviewers** | 0 req / 3s | **49 req / 3s** | Constant baseline |
+| **1 Multiviewer** | 49 req / 3s | **49 req / 3s** | 1:1 match |
+| **4 Multiviewers** | 196 req / 3s | **49 req / 3s** | **75% reduction** |
+| **10 Multiviewers** | 490 req / 3s | **49 req / 3s** | **90% reduction** |
+| **100 Multiviewers** | 4,900 req / 3s | **49 req / 3s** | **99% reduction** |
+
+---
+
 ### Dual Primary & Backup ISP Flow
 
 ```mermaid
@@ -164,7 +176,7 @@ graph LR
 
 | Component | Technology | Purpose |
 |-----------|------------|---------|
-| **Backend** | Node.js 18 + Express 4 | Token resolver API, Direct HLS Pass-Through proxy, manifest cache |
+| **Backend** | Node.js 18 + Express 4 | Token resolver API, Direct HLS Pass-Through proxy, manifest store |
 | **Stream Engine** | MediaMTX (Golang) | RTSP/HLS/WebRTC fan-out with `sourceOnDemand` |
 | **Edge Proxy** | OpenResty / NGINX | Lua token proxy, AV1 codec exclusion, RAM segment caching |
 | **Frontend** | Vanilla JS + HLS.js | Telemetry dashboard, Live Feed Inspector, search/filter |
@@ -178,7 +190,7 @@ graph LR
 
 | Port | Service | Description | Protocol |
 |------|---------|-------------|:--------:|
-| **`3000`** | **Gateway Resolver & REST API** | Control Dashboard, Channels API, Direct HLS Pass-Through (`/live/:id/:feed/index.m3u8`) with manifest TTL cache | HTTP |
+| **`3000`** | **Gateway Resolver & REST API** | Control Dashboard, Channels API, Direct HLS Pass-Through (`/live/:id/:feed/index.m3u8`) with background manifest store | HTTP |
 | **`80`** | **NGINX Edge Proxy** | OpenResty Lua token proxy & AV1 exclusion (`/primary/...` & `/backup/...`), RAM segment cache | HTTP |
 | **`8554`** | **MediaMTX RTSP Engine** | Low-latency RTSP endpoints (`rtsp://<SERVER_IP>:8554/live/:id/:feed`) | RTSP |
 | **`8880`** | **MediaMTX HLS Engine** | Remuxed HLS endpoints (used internally by MediaMTX, not primary consumer path) | HTTP |
@@ -222,7 +234,7 @@ Downstream clients connect to **static local URLs that never expire**:
 | `POST` | `/api/channels/:id/refresh` | Force-refresh tokenized Akamai URLs for a specific channel |
 | `GET` | `/api/channels/export` | Download `channels.json` as a backup file |
 | `POST` | `/api/channels/import` | Replace full channel configuration and sync MediaMTX instantly |
-| `GET` | `/live/:id/:feed/index.m3u8` | Direct HLS Pass-Through with manifest TTL cache (fan-out reduction) |
+| `GET` | `/live/:id/:feed/index.m3u8` | Direct HLS Pass-Through served directly from RAM `manifestStore` |
 
 ---
 
@@ -241,13 +253,10 @@ sudo docker compose up -d --build gateway-resolver
 sudo docker compose restart mediamtx
 ```
 
-### Verify Cache is Working
+### Verify RAM Store Hit
 
 ```bash
-# First request should return X-Cache: MISS
-curl -sI http://192.168.40.54:3000/live/204/primary/index.m3u8 | grep X-Cache
-
-# Second request within 2s should return X-Cache: HIT
+# Returns X-Cache: HIT and X-Cache-Age header
 curl -sI http://192.168.40.54:3000/live/204/primary/index.m3u8 | grep X-Cache
 ```
 
@@ -271,11 +280,25 @@ curl -sI http://192.168.40.54:3000/live/204/primary/index.m3u8 | grep X-Cache
 
 | Interval | Purpose |
 |----------|---------|
-| **2 seconds** | Manifest TTL cache expiry (per channel/feed) |
+| **3 seconds** | Background manifest puller loop (`pullAllManifests`) for request coalescing |
 | **5 seconds** | Frontend UI polling for channel status updates |
 | **8 seconds** | Background health-check probes on all primary & backup URLs |
 | **10 seconds** | Auto-resync MediaMTX paths (recovery after container restarts) |
 | **15 minutes** | Scheduled Vidio/Akamai token refresh cycle |
+
+---
+
+## Maintenance & Log Rotation
+
+To prevent Docker logs from accumulating and filling server disk space over time, ensure container logging limits are configured in `docker-compose.yml`:
+
+```yaml
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+```
 
 ---
 
