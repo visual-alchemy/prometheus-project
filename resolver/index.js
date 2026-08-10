@@ -252,13 +252,14 @@ async function syncAllChannels() {
 
 /**
  * Rewrite Akamai relative segment paths to absolute PROXY_HOST paths
+ * Supports standard etslive-v3- as well as geo-restricted subdomains (geo-id-etslive-v3-, geo-id-gg-etslive-v3-, etc.)
  */
 function rewriteManifest(manifestBody) {
   if (!manifestBody || typeof manifestBody !== 'string') return manifestBody;
-  manifestBody = manifestBody.replace(/(URI=")?(\/etslive-v3-[^"\s\n]+)/g, (match, p1, p2) => {
+  manifestBody = manifestBody.replace(/(URI=")?(\/[^\s\n"]*etslive-v3-[^"\s\n]+)/g, (match, p1, p2) => {
     return (p1 || '') + `${PROXY_HOST}${p2}`;
   });
-  manifestBody = manifestBody.replace(/^(\/etslive-v3-[^\s\n]+)/gm, `${PROXY_HOST}$1`);
+  manifestBody = manifestBody.replace(/^(\/[^\s\n"]*etslive-v3-[^\s\n]+)/gm, `${PROXY_HOST}$1`);
   return manifestBody;
 }
 
