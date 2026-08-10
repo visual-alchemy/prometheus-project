@@ -3,37 +3,49 @@
     "id": "204",
     "name": "sctv",
     "title": "204 | SCTV Akamai",
-    "customUrl": "http://192.168.40.54:80/primary/etslive-v3-vidio-com-tokenized.akamaized.net/stream/204/file/master.m3u8?hdnts=exp=1796951962~acl=/stream/204/file/master.m3u8!/stream/204/file/*/aac/*!/stream/204/file/*/*-1080p/*!/stream/204/file/*/*-720p/*!/stream/204/file/*/*-480p/*!/stream/204/file/*/*-360p/*~id=45674768~hmac=7df9f106a04d994f75e690ae1e958cf3f310e7f7cfa07addc8d021ebdaa803a6"
+    "customUrl": "http://192.168.40.54:80/primary/etslive-v3-vidio-com-tokenized.akamaized.net/stream/204/file/master.m3u8?hdnts=exp=1796951962~acl=/stream/204/file/master.m3u8!/stream/204/file/*/aac/*!/stream/204/file/*/*-1080p/*!/stream/204/file/*/*-720p/*!/stream/204/file/*/*-480p/*!/stream/204/file/*/*-360p/*~id=45674768~hmac=7df9f106a04d994f75e690ae1e958cf3f310e7f7cfa07addc8d021ebdaa803a6",
+    "customPrimaryUrl": "http://192.168.40.54:80/primary/etslive-v3-vidio-com-tokenized.akamaized.net/stream/204/file/master.m3u8?hdnts=exp=1796951962~acl=/stream/204/file/master.m3u8!/stream/204/file/*/aac/*!/stream/204/file/*/*-1080p/*!/stream/204/file/*/*-720p/*!/stream/204/file/*/*-480p/*!/stream/204/file/*/*-360p/*~id=45674768~hmac=7df9f106a04d994f75e690ae1e958cf3f310e7f7cfa07addc8d021ebdaa803a6",
+    "customBackupUrl": "http://192.168.40.54:80/backup/etslive-v3-vidio-com-tokenized.akamaized.net/stream/204/file/master.m3u8?hdnts=exp=1796951962~acl=/stream/204/file/master.m3u8!/stream/204/file/*/aac/*!/stream/204/file/*/*-1080p/*!/stream/204/file/*/*-720p/*!/stream/204/file/*/*-480p/*!/stream/204/file/*/*-360p/*~id=45674768~hmac=7df9f106a04d994f75e690ae1e958cf3f310e7f7cfa07addc8d021ebdaa803a6"
   },
   {
     "id": "205",
     "name": "indosiar",
     "title": "205 | Indosiar Akamai",
-    "customUrl": "http://192.168.40.54:80/primary/etslive-v3-vidio-com-tokenized.akamaized.net/stream/205/file/master.m3u8?hdnts=exp=1809094440~acl=/stream/205/file/master.m3u8!/stream/205/file/*/aac/*!/stream/205/file/*/*-2160p/*!/stream/205/file/*/*-1440p/*!/stream/205/file/*/*-1080p/*!/stream/205/file/*/*-720p/*!/stream/205/file/*/*-480p/*!/stream/205/file/*/*-360p/*~id=93224450~hmac=d9e5e29af6efad6185f59a39075ab013e3c3d84aa85868e81a2f2cab7d7594e1"
+    "customUrl": "http://192.168.40.54:80/primary/etslive-v3-vidio-com-tokenized.akamaized.net/stream/205/file/master.m3u8?hdnts=exp=1809094440~acl=/stream/205/file/master.m3u8!/stream/205/file/*/aac/*!/stream/205/file/*/*-2160p/*!/stream/205/file/*/*-1440p/*!/stream/205/file/*/*-1080p/*!/stream/205/file/*/*-720p/*!/stream/205/file/*/*-480p/*!/stream/205/file/*/*-360p/*~id=93224450~hmac=d9e5e29af6efad6185f59a39075ab013e3c3d84aa85868e81a2f2cab7d7594e1",
+    "customPrimaryUrl": "http://192.168.40.54:80/primary/etslive-v3-vidio-com-tokenized.akamaized.net/stream/205/file/master.m3u8?hdnts=exp=1809094440~acl=/stream/205/file/master.m3u8!/stream/205/file/*/aac/*!/stream/205/file/*/*-2160p/*!/stream/205/file/*/*-1440p/*!/stream/205/file/*/*-1080p/*!/stream/205/file/*/*-720p/*!/stream/205/file/*/*-480p/*!/stream/205/file/*/*-360p/*~id=93224450~hmac=d9e5e29af6efad6185f59a39075ab013e3c3d84aa85868e81a2f2cab7d7594e1",
+    "customBackupUrl": "http://192.168.40.54:80/backup/etslive-v3-vidio-com-tokenized.akamaized.net/stream/205/file/master.m3u8?hdnts=exp=1809094440~acl=/stream/205/file/master.m3u8!/stream/205/file/*/aac/*!/stream/205/file/*/*-2160p/*!/stream/205/file/*/*-1440p/*!/stream/205/file/*/*-1080p/*!/stream/205/file/*/*-720p/*!/stream/205/file/*/*-480p/*!/stream/205/file/*/*-360p/*~id=93224450~hmac=d9e5e29af6efad6185f59a39075ab013e3c3d84aa85868e81a2f2cab7d7594e1"
   },
   {
     "id": "206",
     "name": "moji",
     "title": "206 | MOJI Akamai",
-    "customUrl": "http://192.168.40.54:80/primary/etslive-v3-vidio-com-tokenized.akamaized.net/stream/206/file/master.m3u8?hdnts=exp=1799834594~acl=/stream/206/file/master.m3u8!/stream/206/file/*/aac/*!/stream/206/file/*/*-1080p/*!/stream/206/file/*/*-720p/*!/stream/206/file/*/*-480p/*!/stream/206/file/*/*-360p/*~id=93224450~hmac=f01d5bf8c1d8d18a137bf8e1a306fc6eb0230f3d9b1001a5a873f9db2189790e"
+    "customUrl": "http://192.168.40.54:80/primary/etslive-v3-vidio-com-tokenized.akamaized.net/stream/206/file/master.m3u8?hdnts=exp=1799834594~acl=/stream/206/file/master.m3u8!/stream/206/file/*/aac/*!/stream/206/file/*/*-1080p/*!/stream/206/file/*/*-720p/*!/stream/206/file/*/*-480p/*!/stream/206/file/*/*-360p/*~id=93224450~hmac=f01d5bf8c1d8d18a137bf8e1a306fc6eb0230f3d9b1001a5a873f9db2189790e",
+    "customPrimaryUrl": "http://192.168.40.54:80/primary/etslive-v3-vidio-com-tokenized.akamaized.net/stream/206/file/master.m3u8?hdnts=exp=1799834594~acl=/stream/206/file/master.m3u8!/stream/206/file/*/aac/*!/stream/206/file/*/*-1080p/*!/stream/206/file/*/*-720p/*!/stream/206/file/*/*-480p/*!/stream/206/file/*/*-360p/*~id=93224450~hmac=f01d5bf8c1d8d18a137bf8e1a306fc6eb0230f3d9b1001a5a873f9db2189790e",
+    "customBackupUrl": "http://192.168.40.54:80/backup/etslive-v3-vidio-com-tokenized.akamaized.net/stream/206/file/master.m3u8?hdnts=exp=1799834594~acl=/stream/206/file/master.m3u8!/stream/206/file/*/aac/*!/stream/206/file/*/*-1080p/*!/stream/206/file/*/*-720p/*!/stream/206/file/*/*-480p/*!/stream/206/file/*/*-360p/*~id=93224450~hmac=f01d5bf8c1d8d18a137bf8e1a306fc6eb0230f3d9b1001a5a873f9db2189790e"
   },
   {
     "id": "733",
     "name": "transtv",
     "title": "733 | Trans TV Primary",
-    "customUrl": "http://192.168.40.54:80/primary/etslive-v3-vidio-com-tokenized.akamaized.net/stream/733/file/master.m3u8?hdnts=exp=1799834623~acl=/stream/733/file/master.m3u8!/stream/733/file/*/aac/*!/stream/733/file/*/*-1080p/*!/stream/733/file/*/*-720p/*!/stream/733/file/*/*-480p/*!/stream/733/file/*/*-360p/*~id=93224450~hmac=be6417e569fccaea9e9c74d9eaef6e20880a119cefb72787397452a2b2d0082b"
+    "customUrl": "http://192.168.40.54:80/primary/etslive-v3-vidio-com-tokenized.akamaized.net/stream/733/file/master.m3u8?hdnts=exp=1799834623~acl=/stream/733/file/master.m3u8!/stream/733/file/*/aac/*!/stream/733/file/*/*-1080p/*!/stream/733/file/*/*-720p/*!/stream/733/file/*/*-480p/*!/stream/733/file/*/*-360p/*~id=93224450~hmac=be6417e569fccaea9e9c74d9eaef6e20880a119cefb72787397452a2b2d0082b",
+    "customPrimaryUrl": "http://192.168.40.54:80/primary/etslive-v3-vidio-com-tokenized.akamaized.net/stream/733/file/master.m3u8?hdnts=exp=1799834623~acl=/stream/733/file/master.m3u8!/stream/733/file/*/aac/*!/stream/733/file/*/*-1080p/*!/stream/733/file/*/*-720p/*!/stream/733/file/*/*-480p/*!/stream/733/file/*/*-360p/*~id=93224450~hmac=be6417e569fccaea9e9c74d9eaef6e20880a119cefb72787397452a2b2d0082b",
+    "customBackupUrl": "http://192.168.40.54:80/backup/etslive-v3-vidio-com-tokenized.akamaized.net/stream/733/file/master.m3u8?hdnts=exp=1799834623~acl=/stream/733/file/master.m3u8!/stream/733/file/*/aac/*!/stream/733/file/*/*-1080p/*!/stream/733/file/*/*-720p/*!/stream/733/file/*/*-480p/*!/stream/733/file/*/*-360p/*~id=93224450~hmac=be6417e569fccaea9e9c74d9eaef6e20880a119cefb72787397452a2b2d0082b"
   },
   {
     "id": "734",
     "name": "trans7",
     "title": "734 | Trans 7 Primary",
-    "customUrl": "http://192.168.40.54:80/primary/etslive-v3-vidio-com-tokenized.akamaized.net/stream/734/file/master.m3u8?hdnts=exp=1799834650~acl=/stream/734/file/master.m3u8!/stream/734/file/*/aac/*!/stream/734/file/*/*-1080p/*!/stream/734/file/*/*-720p/*!/stream/734/file/*/*-480p/*!/stream/734/file/*/*-360p/*~id=93224450~hmac=d441ba0fb87f6d47c8f40af756a59ff2fd4ee04243f56a1ee624778a122b67fc"
+    "customUrl": "http://192.168.40.54:80/primary/etslive-v3-vidio-com-tokenized.akamaized.net/stream/734/file/master.m3u8?hdnts=exp=1799834650~acl=/stream/734/file/master.m3u8!/stream/734/file/*/aac/*!/stream/734/file/*/*-1080p/*!/stream/734/file/*/*-720p/*!/stream/734/file/*/*-480p/*!/stream/734/file/*/*-360p/*~id=93224450~hmac=d441ba0fb87f6d47c8f40af756a59ff2fd4ee04243f56a1ee624778a122b67fc",
+    "customPrimaryUrl": "http://192.168.40.54:80/primary/etslive-v3-vidio-com-tokenized.akamaized.net/stream/734/file/master.m3u8?hdnts=exp=1799834650~acl=/stream/734/file/master.m3u8!/stream/734/file/*/aac/*!/stream/734/file/*/*-1080p/*!/stream/734/file/*/*-720p/*!/stream/734/file/*/*-480p/*!/stream/734/file/*/*-360p/*~id=93224450~hmac=d441ba0fb87f6d47c8f40af756a59ff2fd4ee04243f56a1ee624778a122b67fc",
+    "customBackupUrl": "http://192.168.40.54:80/backup/etslive-v3-vidio-com-tokenized.akamaized.net/stream/734/file/master.m3u8?hdnts=exp=1799834650~acl=/stream/734/file/master.m3u8!/stream/734/file/*/aac/*!/stream/734/file/*/*-1080p/*!/stream/734/file/*/*-720p/*!/stream/734/file/*/*-480p/*!/stream/734/file/*/*-360p/*~id=93224450~hmac=d441ba0fb87f6d47c8f40af756a59ff2fd4ee04243f56a1ee624778a122b67fc"
   },
   {
     "id": "782",
     "name": "antv",
     "title": "782 | ANTV",
-    "customUrl": "http://192.168.40.54:80/primary/geo-id-etslive-v3-vidio-com-tokenized.akamaized.net/stream/782/file/master.m3u8?hdnts=exp=1799834676~acl=/stream/782/file/master.m3u8!/stream/782/file/*/aac/*!/stream/782/file/*/*-1080p/*!/stream/782/file/*/*-720p/*!/stream/782/file/*/*-480p/*!/stream/782/file/*/*-360p/*~id=93224450~hmac=48366dce853245fbb0c9e0c70b0550c3c8bcc3e5014dbf87dee920fc6961c92a"
+    "customUrl": "http://192.168.40.54:80/primary/geo-id-etslive-v3-vidio-com-tokenized.akamaized.net/stream/782/file/master.m3u8?hdnts=exp=1799834676~acl=/stream/782/file/master.m3u8!/stream/782/file/*/aac/*!/stream/782/file/*/*-1080p/*!/stream/782/file/*/*-720p/*!/stream/782/file/*/*-480p/*!/stream/782/file/*/*-360p/*~id=93224450~hmac=48366dce853245fbb0c9e0c70b0550c3c8bcc3e5014dbf87dee920fc6961c92a",
+    "customPrimaryUrl": "http://192.168.40.54:80/primary/geo-id-etslive-v3-vidio-com-tokenized.akamaized.net/stream/782/file/master.m3u8?hdnts=exp=1799834676~acl=/stream/782/file/master.m3u8!/stream/782/file/*/aac/*!/stream/782/file/*/*-1080p/*!/stream/782/file/*/*-720p/*!/stream/782/file/*/*-480p/*!/stream/782/file/*/*-360p/*~id=93224450~hmac=48366dce853245fbb0c9e0c70b0550c3c8bcc3e5014dbf87dee920fc6961c92a",
+    "customBackupUrl": ""
   },
   {
     "id": "874",
@@ -105,7 +117,9 @@
     "id": "8237",
     "name": "mentari",
     "title": "8237 | Mentari",
-    "customUrl": "http://192.168.40.54:80/primary/geo-id-etslive-v3-vidio-com-tokenized.akamaized.net/stream/8237/file/master.m3u8?hdnts=exp=1806459582~acl=/stream/8237/file/master.m3u8!/stream/8237/file/*/aac/*!/stream/8237/file/*/*-1080p/*!/stream/8237/file/*/*-720p/*!/stream/8237/file/*/*-480p/*!/stream/8237/file/*/*-360p/*~id=93224450~hmac=e7c9ab413df20ced0af58c0b52aa6bfdaf3f448403676c2d06dbaa6a9b7c8630"
+    "customUrl": "http://192.168.40.54:80/primary/geo-id-etslive-v3-vidio-com-tokenized.akamaized.net/stream/8237/file/master.m3u8?hdnts=exp=1806459582~acl=/stream/8237/file/master.m3u8!/stream/8237/file/*/aac/*!/stream/8237/file/*/*-1080p/*!/stream/8237/file/*/*-720p/*!/stream/8237/file/*/*-480p/*!/stream/8237/file/*/*-360p/*~id=93224450~hmac=e7c9ab413df20ced0af58c0b52aa6bfdaf3f448403676c2d06dbaa6a9b7c8630",
+    "customPrimaryUrl": "http://192.168.40.54:80/primary/geo-id-etslive-v3-vidio-com-tokenized.akamaized.net/stream/8237/file/master.m3u8?hdnts=exp=1806459582~acl=/stream/8237/file/master.m3u8!/stream/8237/file/*/aac/*!/stream/8237/file/*/*-1080p/*!/stream/8237/file/*/*-720p/*!/stream/8237/file/*/*-480p/*!/stream/8237/file/*/*-360p/*~id=93224450~hmac=e7c9ab413df20ced0af58c0b52aa6bfdaf3f448403676c2d06dbaa6a9b7c8630",
+    "customBackupUrl": "http://192.168.40.54:80/backup/geo-id-etslive-v3-vidio-com-tokenized.akamaized.net/stream/8237/file/master.m3u8?hdnts=exp=1806459582~acl=/stream/8237/file/master.m3u8!/stream/8237/file/*/aac/*!/stream/8237/file/*/*-1080p/*!/stream/8237/file/*/*-720p/*!/stream/8237/file/*/*-480p/*!/stream/8237/file/*/*-360p/*~id=93224450~hmac=e7c9ab413df20ced0af58c0b52aa6bfdaf3f448403676c2d06dbaa6a9b7c8630"
   },
   {
     "id": "12607",
@@ -129,7 +143,9 @@
     "id": "7464",
     "name": "ajwa",
     "title": "7464 | AJWA",
-    "customUrl": "http://192.168.40.54:80/primary/etslive-v3-vidio-com-tokenized.akamaized.net/stream/7464/file/master.m3u8?hdnts=exp=1799835201~acl=/stream/7464/file/master.m3u8!/stream/7464/file/*/aac/*!/stream/7464/file/*/*-1080p/*!/stream/7464/file/*/*-480p/*!/stream/7464/file/*/*-360p/*~id=93224450~hmac=cb74d46c4b4d9a79f982d04e4f61f17ebed7b231db2b79b191e7ca6f78a46027"
+    "customUrl": "http://192.168.40.54:80/primary/etslive-v3-vidio-com-tokenized.akamaized.net/stream/7464/file/master.m3u8?hdnts=exp=1799835201~acl=/stream/7464/file/master.m3u8!/stream/7464/file/*/aac/*!/stream/7464/file/*/*-1080p/*!/stream/7464/file/*/*-480p/*!/stream/7464/file/*/*-360p/*~id=93224450~hmac=cb74d46c4b4d9a79f982d04e4f61f17ebed7b231db2b79b191e7ca6f78a46027",
+    "customPrimaryUrl": "http://192.168.40.54:80/primary/etslive-v3-vidio-com-tokenized.akamaized.net/stream/7464/file/master.m3u8?hdnts=exp=1799835201~acl=/stream/7464/file/master.m3u8!/stream/7464/file/*/aac/*!/stream/7464/file/*/*-1080p/*!/stream/7464/file/*/*-720p/*!/stream/7464/file/*/*-480p/*!/stream/7464/file/*/*-360p/*~id=93224450~hmac=cb74d46c4b4d9a79f982d04e4f61f17ebed7b231db2b79b191e7ca6f78a46027",
+    "customBackupUrl": ""
   },
   {
     "id": "6852",
@@ -142,5 +158,180 @@
     "name": "jaktv",
     "title": "5415 | Jak TV",
     "customUrl": "http://192.168.40.54:80/primary/etslive-v3-vidio-com-tokenized.akamaized.net/stream/5415/file/master.m3u8?hdnts=exp=1796952934~acl=/stream/5415/file/master.m3u8!/stream/5415/file/*/aac/*!/stream/5415/file/*/*-1080p/*!/stream/5415/file/*/*-720p/*!/stream/5415/file/*/*-480p/*!/stream/5415/file/*/*-360p/*~id=45674768~hmac=88b1e900f9de73eccb60b059df88b8f996241117758900d954a9eda579745172"
+  },
+  {
+    "id": "6685",
+    "name": "ctv1",
+    "title": "Champions TV 1",
+    "customPrimaryUrl": "http://192.168.40.54:80/primary/geo-id-tl-etslive-v3-vidio-com-tokenized.akamaized.net/stream/6685/res=360p/monitoring=1/file/drm/hls/master.m3u8?hdnts=exp=1806690642~acl=/stream/6685/res=360p/monitoring=1/file/drm/hls/master.m3u8!/stream/6685/file/*/aac/*!/stream/6685/file/*/ingest_*_360p/*~id=89449960~hmac=acaa0f428fe992d8f22955fbd232a3819b19b35ea0dd0b00b269c8b79b2e2065",
+    "customBackupUrl": "http://192.168.40.54:80/backup/geo-id-tl-etslive-v3-vidio-com-tokenized.akamaized.net/stream/6685/res=360p/monitoring=1/file/drm/hls/master.m3u8?hdnts=exp=1806690642~acl=/stream/6685/res=360p/monitoring=1/file/drm/hls/master.m3u8!/stream/6685/file/*/aac/*!/stream/6685/file/*/ingest_*_360p/*~id=89449960~hmac=acaa0f428fe992d8f22955fbd232a3819b19b35ea0dd0b00b269c8b79b2e2065"
+  },
+  {
+    "id": "6686",
+    "name": "ctv2",
+    "title": "Champions TV 2",
+    "customPrimaryUrl": "http://192.168.40.54:80/primary/geo-id-tl-etslive-v3-vidio-com-tokenized.akamaized.net/stream/6686/res=360p/monitoring=1/file/drm/hls/master.m3u8?hdnts=exp=1806764357~acl=/stream/6686/res=360p/monitoring=1/file/drm/hls/master.m3u8!/stream/6686/file/*/aac/*!/stream/6686/file/*/ingest_*_360p/*~id=89449960~hmac=841550602705f50189cbbe3a69260ef94659418c301b5989083862d598e843f6",
+    "customBackupUrl": "http://192.168.40.54:80/backup/geo-id-tl-etslive-v3-vidio-com-tokenized.akamaized.net/stream/6686/res=360p/monitoring=1/file/drm/hls/master.m3u8?hdnts=exp=1806764357~acl=/stream/6686/res=360p/monitoring=1/file/drm/hls/master.m3u8!/stream/6686/file/*/aac/*!/stream/6686/file/*/ingest_*_360p/*~id=89449960~hmac=841550602705f50189cbbe3a69260ef94659418c301b5989083862d598e843f6"
+  },
+  {
+    "id": "6786",
+    "name": "ctv3",
+    "title": "Champions TV 3",
+    "customPrimaryUrl": "http://192.168.40.54:80/primary/geo-id-tl-etslive-v3-vidio-com-tokenized.akamaized.net/stream/6786/res=360p/monitoring=1/file/drm/hls/master.m3u8?hdnts=exp=1806690697~acl=/stream/6786/res=360p/monitoring=1/file/drm/hls/master.m3u8!/stream/6786/file/*/aac/*!/stream/6786/file/*/ingest_*_360p/*~id=89449960~hmac=b0ef99b8ca1c20c5ba983590810b6f12876705e86db92714d2f202ac1b90e589",
+    "customBackupUrl": "http://192.168.40.54:80/backup/geo-id-tl-etslive-v3-vidio-com-tokenized.akamaized.net/stream/6786/res=360p/monitoring=1/file/drm/hls/master.m3u8?hdnts=exp=1806690697~acl=/stream/6786/res=360p/monitoring=1/file/drm/hls/master.m3u8!/stream/6786/file/*/aac/*!/stream/6786/file/*/ingest_*_360p/*~id=89449960~hmac=b0ef99b8ca1c20c5ba983590810b6f12876705e86db92714d2f202ac1b90e589"
+  },
+  {
+    "id": "9182",
+    "name": "ctv5",
+    "title": "Champions TV 5",
+    "customPrimaryUrl": "http://192.168.40.54:80/primary/geo-id-tl-etslive-v3-vidio-com-tokenized.akamaized.net/stream/9182/res=360p/monitoring=1/file/drm/hls/master.m3u8?hdnts=exp=1806690731~acl=/stream/9182/res=360p/monitoring=1/file/drm/hls/master.m3u8!/stream/9182/file/*/aac/*!/stream/9182/file/*/ingest_*_360p/*~id=89449960~hmac=9c15a15fb18f819876aa488a6d88615fa3e5df0fb6d63509902f58b820756921",
+    "customBackupUrl": "http://192.168.40.54:80/backup/geo-id-tl-etslive-v3-vidio-com-tokenized.akamaized.net/stream/9182/res=360p/monitoring=1/file/drm/hls/master.m3u8?hdnts=exp=1806690731~acl=/stream/9182/res=360p/monitoring=1/file/drm/hls/master.m3u8!/stream/9182/file/*/aac/*!/stream/9182/file/*/ingest_*_360p/*~id=89449960~hmac=9c15a15fb18f819876aa488a6d88615fa3e5df0fb6d63509902f58b820756921"
+  },
+  {
+    "id": "9183",
+    "name": "ctv6",
+    "title": "Champions TV 6",
+    "customPrimaryUrl": "http://192.168.40.54:80/primary/geo-id-tl-etslive-v3-vidio-com-tokenized.akamaized.net/stream/9183/res=360p/monitoring=1/file/drm/hls/master.m3u8?hdnts=exp=1806690757~acl=/stream/9183/res=360p/monitoring=1/file/drm/hls/master.m3u8!/stream/9183/file/*/aac/*!/stream/9183/file/*/ingest_*_360p/*~id=89449960~hmac=321108e01603b2a2543e09985096ded5e5d0c4e134664c9f81a3c424c7371e2b",
+    "customBackupUrl": "http://192.168.40.54:80/backup/geo-id-tl-etslive-v3-vidio-com-tokenized.akamaized.net/stream/9183/res=360p/monitoring=1/file/drm/hls/master.m3u8?hdnts=exp=1806690757~acl=/stream/9183/res=360p/monitoring=1/file/drm/hls/master.m3u8!/stream/9183/file/*/aac/*!/stream/9183/file/*/ingest_*_360p/*~id=89449960~hmac=321108e01603b2a2543e09985096ded5e5d0c4e134664c9f81a3c424c7371e2b"
+  },
+  {
+    "id": "6299",
+    "name": "bein1",
+    "title": "Bein 1",
+    "customPrimaryUrl": "http://192.168.40.54:80/primary/geo-id-tl-etslive-v3-vidio-com-tokenized.akamaized.net/stream/6299/res=360p/monitoring=1/file/drm/hls/master.m3u8?hdnts=exp=1817755586~acl=/stream/6299/res=360p/monitoring=1/file/drm/hls/master.m3u8!/stream/6299/file/*/aac/*!/stream/6299/file/*/ingest_*_360p/*~id=14059565~hmac=3caa28ce4e80182b2295fc6d5b84e1f6c34aa92274f7e4546df5f68bf38e28dc",
+    "customBackupUrl": "http://192.168.40.54:80/backup/geo-id-tl-etslive-v3-vidio-com-tokenized.akamaized.net/stream/6299/res=360p/monitoring=1/file/drm/hls/master.m3u8?hdnts=exp=1817755586~acl=/stream/6299/res=360p/monitoring=1/file/drm/hls/master.m3u8!/stream/6299/file/*/aac/*!/stream/6299/file/*/ingest_*_360p/*~id=14059565~hmac=3caa28ce4e80182b2295fc6d5b84e1f6c34aa92274f7e4546df5f68bf38e28dc"
+  },
+  {
+    "id": "17875",
+    "name": "bein2",
+    "title": "Bein 2 | 17875 P",
+    "customPrimaryUrl": "http://192.168.40.54:80/primary/geo-id-tl-etslive-v3-vidio-com-tokenized.akamaized.net/stream/17875/res=360p/monitoring=1/file/drm/hls/master.m3u8?hdnts=exp=1806687984~acl=/stream/17875/res=360p/monitoring=1/file/drm/hls/master.m3u8!/stream/17875/file/*/aac/*!/stream/17875/file/*/ingest_*_360p/*~id=89449960~hmac=17253263bf54861884637e41601662796a0542527c02581a128b4f831b37e27d",
+    "customBackupUrl": "http://192.168.40.54:80/backup/geo-id-tl-etslive-v3-vidio-com-tokenized.akamaized.net/stream/17875/res=360p/monitoring=1/file/drm/hls/master.m3u8?hdnts=exp=1806687984~acl=/stream/17875/res=360p/monitoring=1/file/drm/hls/master.m3u8!/stream/17875/file/*/aac/*!/stream/17875/file/*/ingest_*_360p/*~id=89449960~hmac=17253263bf54861884637e41601662796a0542527c02581a128b4f831b37e27d"
+  },
+  {
+    "id": "6317",
+    "name": "bein3",
+    "title": "Bein 3 | 6317 P",
+    "customPrimaryUrl": "http://192.168.40.54:80/primary/geo-id-tl-etslive-v3-vidio-com-tokenized.akamaized.net/stream/6317/res=360p/monitoring=1/file/drm/hls/master.m3u8?hdnts=exp=1806690465~acl=/stream/6317/res=360p/monitoring=1/file/drm/hls/master.m3u8!/stream/6317/file/*/aac/*!/stream/6317/file/*/ingest_*_360p/*~id=89449960~hmac=b68021e75919114f89a7bd23e0f32339429215c10c6d927e71b88bf07c9a0195",
+    "customBackupUrl": "http://192.168.40.54:80/backup/geo-id-tl-etslive-v3-vidio-com-tokenized.akamaized.net/stream/6317/res=360p/monitoring=1/file/drm/hls/master.m3u8?hdnts=exp=1806690465~acl=/stream/6317/res=360p/monitoring=1/file/drm/hls/master.m3u8!/stream/6317/file/*/aac/*!/stream/6317/file/*/ingest_*_360p/*~id=89449960~hmac=b68021e75919114f89a7bd23e0f32339429215c10c6d927e71b88bf07c9a0195"
+  },
+  {
+    "id": "7150",
+    "name": "abcaustralia",
+    "title": "ABC AUSTRALIA | 7150 P",
+    "customPrimaryUrl": "http://192.168.40.54:80/primary/etslive-v3-vidio-com-tokenized.akamaized.net/stream/7150/file/master.m3u8?hdnts=exp=1806690524~acl=/stream/7150/file/master.m3u8!/stream/7150/file/*/aac/*!/stream/7150/file/*/*-2160p/*!/stream/7150/file/*/*-1440p/*!/stream/7150/file/*/*-1080p/*!/stream/7150/file/*/*-720p/*!/stream/7150/file/*/*-480p/*!/stream/7150/file/*/*-360p/*~id=89449960~hmac=3a17cc04c1f2941c9aa318227b9fd74e997f24a66683e24f33d6dbe38da4f636",
+    "customBackupUrl": "http://192.168.40.54:80/backup/etslive-v3-vidio-com-tokenized.akamaized.net/stream/7150/file/master.m3u8?hdnts=exp=1806690524~acl=/stream/7150/file/master.m3u8!/stream/7150/file/*/aac/*!/stream/7150/file/*/*-2160p/*!/stream/7150/file/*/*-1440p/*!/stream/7150/file/*/*-1080p/*!/stream/7150/file/*/*-720p/*!/stream/7150/file/*/*-480p/*!/stream/7150/file/*/*-360p/*~id=89449960~hmac=3a17cc04c1f2941c9aa318227b9fd74e997f24a66683e24f33d6dbe38da4f636"
+  },
+  {
+    "id": "9353",
+    "name": "plcs",
+    "title": "PLCS | 9353 P",
+    "customPrimaryUrl": "http://192.168.40.54:80/primary/geo-id-tl-etslive-v3-vidio-com-tokenized.akamaized.net/stream/9353/res=360p/monitoring=1/file/drm/hls/master.m3u8?hdnts=exp=1806690591~acl=/stream/9353/res=360p/monitoring=1/file/drm/hls/master.m3u8!/stream/9353/file/*/aac/*!/stream/9353/file/*/ingest_*_360p/*~id=89449960~hmac=22422763bf90d1c38f2241e85c7ff4c1183fb609cf1d054a7ef812ec4863fe12",
+    "customBackupUrl": "http://192.168.40.54:80/backup/geo-id-tl-etslive-v3-vidio-com-tokenized.akamaized.net/stream/9353/res=360p/monitoring=1/file/drm/hls/master.m3u8?hdnts=exp=1806690591~acl=/stream/9353/res=360p/monitoring=1/file/drm/hls/master.m3u8!/stream/9353/file/*/aac/*!/stream/9353/file/*/ingest_*_360p/*~id=89449960~hmac=22422763bf90d1c38f2241e85c7ff4c1183fb609cf1d054a7ef812ec4863fe12"
+  },
+  {
+    "id": "17938",
+    "name": "ctv1seriea",
+    "title": "CTV 1 - SERIE A | 17938 P",
+    "customPrimaryUrl": "http://192.168.40.54:80/primary/geo-id-etslive-v3-vidio-com-tokenized.akamaized.net/stream/17938/res=360p/monitoring=1/file/drm/hls/master.m3u8?hdnts=exp=1806690794~acl=/stream/17938/res=360p/monitoring=1/file/drm/hls/master.m3u8!/stream/17938/file/*/aac/*!/stream/17938/file/*/ingest_*_360p/*~id=89449960~hmac=0624428ad5fd511bf9c4854511b8c63bbc73b4c23be8e4ffeb43daec0e9ac3b7",
+    "customBackupUrl": "http://192.168.40.54:80/backup/geo-id-etslive-v3-vidio-com-tokenized.akamaized.net/stream/17938/res=360p/monitoring=1/file/drm/hls/master.m3u8?hdnts=exp=1806690794~acl=/stream/17938/res=360p/monitoring=1/file/drm/hls/master.m3u8!/stream/17938/file/*/aac/*!/stream/17938/file/*/ingest_*_360p/*~id=89449960~hmac=0624428ad5fd511bf9c4854511b8c63bbc73b4c23be8e4ffeb43daec0e9ac3b7"
+  },
+  {
+    "id": "17939",
+    "name": "ctv2seriea",
+    "title": "CTV 2 - SERIE A | 17939 P",
+    "customPrimaryUrl": "http://192.168.40.54:80/primary/geo-id-etslive-v3-vidio-com-tokenized.akamaized.net/stream/17939/res=360p/monitoring=1/file/drm/hls/master.m3u8?hdnts=exp=1806690812~acl=/stream/17939/res=360p/monitoring=1/file/drm/hls/master.m3u8!/stream/17939/file/*/aac/*!/stream/17939/file/*/ingest_*_360p/*~id=89449960~hmac=dc13995e06f57124c1153f65e3d22be7cc5ce362bf9ccf4023997aa22799dbe3",
+    "customBackupUrl": "http://192.168.40.54:80/backup/geo-id-etslive-v3-vidio-com-tokenized.akamaized.net/stream/17939/res=360p/monitoring=1/file/drm/hls/master.m3u8?hdnts=exp=1806690812~acl=/stream/17939/res=360p/monitoring=1/file/drm/hls/master.m3u8!/stream/17939/file/*/aac/*!/stream/17939/file/*/ingest_*_360p/*~id=89449960~hmac=dc13995e06f57124c1153f65e3d22be7cc5ce362bf9ccf4023997aa22799dbe3"
+  },
+  {
+    "id": "19404",
+    "name": "ctv3seriea",
+    "title": "CTV 3 - SERIE A | 19404 P",
+    "customPrimaryUrl": "http://192.168.40.54:80/primary/geo-id-etslive-v3-vidio-com-tokenized.akamaized.net/stream/19404/res=360p/monitoring=1/file/drm/hls/master.m3u8?hdnts=exp=1806712602~acl=/stream/19404/res=360p/monitoring=1/file/drm/hls/master.m3u8!/stream/19404/file/*/aac/*!/stream/19404/file/*/ingest_*_360p/*~id=129902012~hmac=a5c5ce8b25359c649a17ba24c98fa17820ed3955c0605ac3d1e48efc7f3da98f",
+    "customBackupUrl": "http://192.168.40.54:80/backup/geo-id-etslive-v3-vidio-com-tokenized.akamaized.net/stream/19404/res=360p/monitoring=1/file/drm/hls/master.m3u8?hdnts=exp=1806712602~acl=/stream/19404/res=360p/monitoring=1/file/drm/hls/master.m3u8!/stream/19404/file/*/aac/*!/stream/19404/file/*/ingest_*_360p/*~id=129902012~hmac=a5c5ce8b25359c649a17ba24c98fa17820ed3955c0605ac3d1e48efc7f3da98f"
+  },
+  {
+    "id": "6397",
+    "name": "horee",
+    "title": "Horee! | 6397 P",
+    "customPrimaryUrl": "http://192.168.40.54:80/primary/geo-id-etslive-v3-vidio-com-tokenized.akamaized.net/stream/6397/file/master.m3u8?hdnts=exp=1806690858~acl=/stream/6397/file/master.m3u8!/stream/6397/file/*/aac/*!/stream/6397/file/*/*-2160p/*!/stream/6397/file/*/*-1440p/*!/stream/6397/file/*/*-1080p/*!/stream/6397/file/*/*-720p/*!/stream/6397/file/*/*-480p/*!/stream/6397/file/*/*-360p/*~id=89449960~hmac=e1f4c81a1b7f469822ba96caf9985855ae8fe891a9b0f53ded8f5d42fb138c98",
+    "customBackupUrl": "http://192.168.40.54:80/backup/geo-id-etslive-v3-vidio-com-tokenized.akamaized.net/stream/6397/file/master.m3u8?hdnts=exp=1806690858~acl=/stream/6397/file/master.m3u8!/stream/6397/file/*/aac/*!/stream/6397/file/*/*-2160p/*!/stream/6397/file/*/*-1440p/*!/stream/6397/file/*/*-1080p/*!/stream/6397/file/*/*-720p/*!/stream/6397/file/*/*-480p/*!/stream/6397/file/*/*-360p/*~id=89449960~hmac=e1f4c81a1b7f469822ba96caf9985855ae8fe891a9b0f53ded8f5d42fb138c98"
+  },
+  {
+    "id": "6362",
+    "name": "tvn",
+    "title": "TVN | 6362 P",
+    "customPrimaryUrl": "http://192.168.40.54:80/primary/geo-id-etslive-v3-vidio-com-tokenized.akamaized.net/stream/6362/res=360p/monitoring=1/file/drm/hls/master.m3u8?hdnts=exp=1817792561~acl=/stream/6362/res=360p/monitoring=1/file/drm/hls/master.m3u8!/stream/6362/file/*/aac/*!/stream/6362/file/*/ingest_*_360p/*~id=93224450~hmac=d8e26f4f7144701385cba19359a71239ea4becbf8054761b0b831848f7dc8116",
+    "customBackupUrl": "http://192.168.40.54:80/backup/geo-id-etslive-v3-vidio-com-tokenized.akamaized.net/stream/6362/res=360p/monitoring=1/file/drm/hls/master.m3u8?hdnts=exp=1817792561~acl=/stream/6362/res=360p/monitoring=1/file/drm/hls/master.m3u8!/stream/6362/file/*/aac/*!/stream/6362/file/*/ingest_*_360p/*~id=93224450~hmac=d8e26f4f7144701385cba19359a71239ea4becbf8054761b0b831848f7dc8116"
+  },
+  {
+    "id": "7052",
+    "name": "hiphiphoree",
+    "title": "Hip Hip Horee | 7052",
+    "customPrimaryUrl": "http://192.168.40.54:80/primary/geo-id-etslive-v3-vidio-com-tokenized.akamaized.net/stream/7052/file/master.m3u8?hdnts=exp=1806690954~acl=/stream/7052/file/master.m3u8!/stream/7052/file/*/aac/*!/stream/7052/file/*/*-2160p/*!/stream/7052/file/*/*-1440p/*!/stream/7052/file/*/*-1080p/*!/stream/7052/file/*/*-720p/*!/stream/7052/file/*/*-480p/*!/stream/7052/file/*/*-360p/*~id=89449960~hmac=68a4a55bf25908fda51fbfeff55cb386e7c735a82358c1eb7c7c5967ac34e00f",
+    "customBackupUrl": "http://192.168.40.54:80/backup/geo-id-etslive-v3-vidio-com-tokenized.akamaized.net/stream/7052/file/master.m3u8?hdnts=exp=1806690954~acl=/stream/7052/file/master.m3u8!/stream/7052/file/*/aac/*!/stream/7052/file/*/*-2160p/*!/stream/7052/file/*/*-1440p/*!/stream/7052/file/*/*-1080p/*!/stream/7052/file/*/*-720p/*!/stream/7052/file/*/*-480p/*!/stream/7052/file/*/*-360p/*~id=89449960~hmac=68a4a55bf25908fda51fbfeff55cb386e7c735a82358c1eb7c7c5967ac34e00f"
+  },
+  {
+    "id": "8121",
+    "name": "rockaction",
+    "title": "Rock Action | 8121 P",
+    "customPrimaryUrl": "http://192.168.40.54:80/primary/geo-id-gg-etslive-v3-vidio-com-tokenized.akamaized.net/stream/8121/res=360p/monitoring=1/file/drm/hls/master.m3u8?hdnts=exp=1806691009~acl=/stream/8121/res=360p/monitoring=1/file/drm/hls/master.m3u8!/stream/8121/file/*/aac/*!/stream/8121/file/*/ingest_*_360p/*~id=89449960~hmac=d5d113244dfe5a70e2bf7546a3eedfd2063953227751050477ba406773365a0b",
+    "customBackupUrl": "http://192.168.40.54:80/backup/geo-id-gg-etslive-v3-vidio-com-tokenized.akamaized.net/stream/8121/res=360p/monitoring=1/file/drm/hls/master.m3u8?hdnts=exp=1806691009~acl=/stream/8121/res=360p/monitoring=1/file/drm/hls/master.m3u8!/stream/8121/file/*/aac/*!/stream/8121/file/*/ingest_*_360p/*~id=89449960~hmac=d5d113244dfe5a70e2bf7546a3eedfd2063953227751050477ba406773365a0b"
+  },
+  {
+    "id": "17139",
+    "name": "spotv1",
+    "title": "SPOTV 1 | 17139 P",
+    "customPrimaryUrl": "http://192.168.40.54:80/primary/geo-id-tl-etslive-v3-vidio-com-tokenized.akamaized.net/stream/17139/res=360p/monitoring=1/file/drm/hls/master.m3u8?hdnts=exp=1806691035~acl=/stream/17139/res=360p/monitoring=1/file/drm/hls/master.m3u8!/stream/17139/file/*/aac/*!/stream/17139/file/*/ingest_*_360p/*~id=89449960~hmac=95368b78c9ee5971c9557add54215ed3130531e9654c92b00d6d28fa2088b4d2",
+    "customBackupUrl": "http://192.168.40.54:80/backup/geo-id-tl-etslive-v3-vidio-com-tokenized.akamaized.net/stream/17139/res=360p/monitoring=1/file/drm/hls/master.m3u8?hdnts=exp=1806691035~acl=/stream/17139/res=360p/monitoring=1/file/drm/hls/master.m3u8!/stream/17139/file/*/aac/*!/stream/17139/file/*/ingest_*_360p/*~id=89449960~hmac=95368b78c9ee5971c9557add54215ed3130531e9654c92b00d6d28fa2088b4d2"
+  },
+  {
+    "id": "17140",
+    "name": "spotv2",
+    "title": "SPOTV 2 | 17140 P",
+    "customPrimaryUrl": "http://192.168.40.54:80/primary/geo-id-tl-etslive-v3-vidio-com-tokenized.akamaized.net/stream/17140/res=360p/monitoring=1/file/drm/hls/master.m3u8?hdnts=exp=1806691055~acl=/stream/17140/res=360p/monitoring=1/file/drm/hls/master.m3u8!/stream/17140/file/*/aac/*!/stream/17140/file/*/ingest_*_360p/*~id=89449960~hmac=7e7b67a62c6cf9483f6fee58f7067cd3b9df68e39e65ee58adf313f354eaf0ce",
+    "customBackupUrl": "http://192.168.40.54:80/backup/geo-id-tl-etslive-v3-vidio-com-tokenized.akamaized.net/stream/17140/res=360p/monitoring=1/file/drm/hls/master.m3u8?hdnts=exp=1806691055~acl=/stream/17140/res=360p/monitoring=1/file/drm/hls/master.m3u8!/stream/17140/file/*/aac/*!/stream/17140/file/*/ingest_*_360p/*~id=89449960~hmac=7e7b67a62c6cf9483f6fee58f7067cd3b9df68e39e65ee58adf313f354eaf0ce"
+  },
+  {
+    "id": "7619",
+    "name": "musica",
+    "title": "Musica | 7619",
+    "customPrimaryUrl": "http://192.168.40.54:80/primary/etslive-v3-vidio-com-tokenized.akamaized.net/stream/7619/file/master.m3u8?hdnts=exp=1806691098~acl=/stream/7619/file/master.m3u8!/stream/7619/file/*/aac/*!/stream/7619/file/*/*-2160p/*!/stream/7619/file/*/*-1440p/*!/stream/7619/file/*/*-1080p/*!/stream/7619/file/*/*-720p/*!/stream/7619/file/*/*-480p/*!/stream/7619/file/*/*-360p/*~id=89449960~hmac=dd5aa46dc2653d8d3a49d0c61f94577c75c28e3ce7c83469cd884dd9beba8260",
+    "customBackupUrl": ""
+  },
+  {
+    "id": "18189",
+    "name": "ctv1golf",
+    "title": "CTV 1 GOLF | 18189 P",
+    "customPrimaryUrl": "http://192.168.40.54:80/primary/geo-id-etslive-v3-vidio-com-tokenized.akamaized.net/stream/18189/res=360p/monitoring=1/file/drm/hls/master.m3u8?hdnts=exp=1806691145~acl=/stream/18189/res=360p/monitoring=1/file/drm/hls/master.m3u8!/stream/18189/file/*/aac/*!/stream/18189/file/*/ingest_*_360p/*~id=89449960~hmac=43a3a39bbe329a830f7c70bbe5557eb9c22bee422e8ea42ac905c3017022c479",
+    "customBackupUrl": "http://192.168.40.54:80/backup/geo-id-etslive-v3-vidio-com-tokenized.akamaized.net/stream/18189/res=360p/monitoring=1/file/drm/hls/master.m3u8?hdnts=exp=1806691145~acl=/stream/18189/res=360p/monitoring=1/file/drm/hls/master.m3u8!/stream/18189/file/*/aac/*!/stream/18189/file/*/ingest_*_360p/*~id=89449960~hmac=43a3a39bbe329a830f7c70bbe5557eb9c22bee422e8ea42ac905c3017022c479"
+  },
+  {
+    "id": "18190",
+    "name": "ctv2golf",
+    "title": "CTV 2 GOLF | 18190 P",
+    "customPrimaryUrl": "http://192.168.40.54:80/primary/geo-id-etslive-v3-vidio-com-tokenized.akamaized.net/stream/18190/res=360p/monitoring=1/file/drm/hls/master.m3u8?hdnts=exp=1806691176~acl=/stream/18190/res=360p/monitoring=1/file/drm/hls/master.m3u8!/stream/18190/file/*/aac/*!/stream/18190/file/*/ingest_*_360p/*~id=89449960~hmac=3f740e5e5ba8e04c00a8ee13649fb38462adea3bc3f4aa6a803c643c9d8d2459",
+    "customBackupUrl": "http://192.168.40.54:80/backup/geo-id-etslive-v3-vidio-com-tokenized.akamaized.net/stream/18190/res=360p/monitoring=1/file/drm/hls/master.m3u8?hdnts=exp=1806691176~acl=/stream/18190/res=360p/monitoring=1/file/drm/hls/master.m3u8!/stream/18190/file/*/aac/*!/stream/18190/file/*/ingest_*_360p/*~id=89449960~hmac=3f740e5e5ba8e04c00a8ee13649fb38462adea3bc3f4aa6a803c643c9d8d2459"
+  },
+  {
+    "id": "20216",
+    "name": "championfight",
+    "title": "Champion Fight | 20216 P",
+    "customPrimaryUrl": "http://192.168.40.54:80/primary/geo-id-etslive-v3-vidio-com-tokenized.akamaized.net/stream/20216/res=360p/monitoring=1/file/drm/hls/master.m3u8?hdnts=exp=1806691241~acl=/stream/20216/res=360p/monitoring=1/file/drm/hls/master.m3u8!/stream/20216/file/*/aac/*!/stream/20216/file/*/ingest_*_360p/*~id=89449960~hmac=95538a793f5451bc893b7a23b18bb956738eac5926de8ddf78564efa0476fb15",
+    "customBackupUrl": "http://192.168.40.54:80/backup/geo-id-etslive-v3-vidio-com-tokenized.akamaized.net/stream/20216/res=360p/monitoring=1/file/drm/hls/master.m3u8?hdnts=exp=1806691241~acl=/stream/20216/res=360p/monitoring=1/file/drm/hls/master.m3u8!/stream/20216/file/*/aac/*!/stream/20216/file/*/ingest_*_360p/*~id=89449960~hmac=95538a793f5451bc893b7a23b18bb956738eac5926de8ddf78564efa0476fb15"
+  },
+  {
+    "id": "21289",
+    "name": "citraplus21289",
+    "title": "Citra Plus | 21289",
+    "customPrimaryUrl": "http://192.168.40.54:80/primary/geo-id-etslive-v3-vidio-com-tokenized.akamaized.net/stream/21289/res=360p/monitoring=1/file/drm/hls/master.m3u8?hdnts=exp=1810014583~acl=/stream/21289/res=360p/monitoring=1/file/drm/hls/master.m3u8!/stream/21289/file/*/aac/*!/stream/21289/file/*/ingest_*_360p/*~id=14059060~hmac=969bc497511a6394525b22da760d54b25554f48350328e31a9bdb0652261ac04",
+    "customBackupUrl": "http://192.168.40.54:80/backup/geo-id-etslive-v3-vidio-com-tokenized.akamaized.net/stream/21289/res=360p/monitoring=1/file/drm/hls/master.m3u8?hdnts=exp=1810014583~acl=/stream/21289/res=360p/monitoring=1/file/drm/hls/master.m3u8!/stream/21289/file/*/aac/*!/stream/21289/file/*/ingest_*_360p/*~id=14059060~hmac=969bc497511a6394525b22da760d54b25554f48350328e31a9bdb0652261ac04"
+  },
+  {
+    "id": "21179",
+    "name": "citradrama21179",
+    "title": "Citra Drama | 21179",
+    "customPrimaryUrl": "http://192.168.40.54:80/primary/geo-id-tl-etslive-v3-vidio-com-tokenized.akamaized.net/stream/21179/res=360p/monitoring=1/file/drm/hls/master.m3u8?hdnts=exp=1807753447~acl=/stream/21179/res=360p/monitoring=1/file/drm/hls/master.m3u8!/stream/21179/file/*/aac/*!/stream/21179/file/*/ingest_*_360p/*~id=14237364~hmac=39b16619c2e3a096f5d4753e2c98cc13bb58c2b809ba8096f61c838d20150845",
+    "customBackupUrl": "http://192.168.40.54:80/backup/geo-id-tl-etslive-v3-vidio-com-tokenized.akamaized.net/stream/21179/res=360p/monitoring=1/file/drm/hls/master.m3u8?hdnts=exp=1807753447~acl=/stream/21179/res=360p/monitoring=1/file/drm/hls/master.m3u8!/stream/21179/file/*/aac/*!/stream/21179/file/*/ingest_*_360p/*~id=14237364~hmac=39b16619c2e3a096f5d4753e2c98cc13bb58c2b809ba8096f61c838d20150845"
   }
 ]

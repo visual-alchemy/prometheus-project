@@ -19,6 +19,11 @@ const channelsPath = path.join(__dirname, 'channels.json');
 // In-memory health cache for all channels: { [id]: { primary: boolean, backup: boolean | null } }
 const channelHealthMap = {};
 
+// In-memory manifest cache for HLS pass-through fan-out reduction
+// Key: "channelId/feed" → Value: { body: string, fetchedAt: number }
+const manifestCache = new Map();
+const MANIFEST_CACHE_TTL_MS = 2000; // 2 second TTL
+
 function loadChannels() {
   try {
     const raw = fs.readFileSync(channelsPath, 'utf8');
@@ -244,13 +249,27 @@ async function syncAllChannels() {
   await checkAllChannelsHealth();
 }
 
-// Direct static HLS proxy endpoint (Passes untouched Akamai HLS feed for 100% smooth playback without MediaMTX engine frame skips)
+// Direct static HLS proxy endpoint with manifest TTL cache for fan-out reduction
+// Multiple multiviewers requesting the same channel/feed within 2s get the cached manifest
+// instead of each triggering a separate upstream fetch to Akamai
 app.get('/live/:id/:feed/index.m3u8', async (req, res) => {
   const { id, feed } = req.params;
   const channels = loadChannels();
   const target = channels.find(c => c.id === id || c.name === id);
   
   if (!target) return res.status(404).send('#EXTM3U\n# Channel Not Found');
+
+  // Check manifest cache first
+  const cacheKey = `${target.id}/${feed}`;
+  const cached = manifestCache.get(cacheKey);
+  
+  if (cached && (Date.now() - cached.fetchedAt) < MANIFEST_CACHE_TTL_MS) {
+    res.setHeader('Content-Type', 'application/vnd.apple.mpegurl');
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Cache-Control', 'no-cache');
+    res.setHeader('X-Cache', 'HIT');
+    return res.send(cached.body);
+  }
 
   const sources = await resolveStreamUrl(target);
   const targetUrl = (feed === 'backup' && sources.backup) ? sources.backup : sources.primary;
@@ -262,6 +281,7 @@ app.get('/live/:id/:feed/index.m3u8', async (req, res) => {
     res.setHeader('Content-Type', 'application/vnd.apple.mpegurl');
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Cache-Control', 'no-cache');
+    res.setHeader('X-Cache', 'MISS');
 
     let manifestBody = upstreamRes.data;
     if (manifestBody && typeof manifestBody === 'string') {
@@ -270,6 +290,9 @@ app.get('/live/:id/:feed/index.m3u8', async (req, res) => {
       });
       manifestBody = manifestBody.replace(/^(\/etslive-v3-[^\s\n]+)/gm, `${PROXY_HOST}$1`);
     }
+
+    // Store rewritten manifest in cache
+    manifestCache.set(cacheKey, { body: manifestBody, fetchedAt: Date.now() });
 
     res.send(manifestBody);
   } catch (err) {
