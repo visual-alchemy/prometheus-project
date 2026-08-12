@@ -333,5 +333,12 @@
     "title": "Citra Drama | 21179",
     "customPrimaryUrl": "http://192.168.40.54:80/primary/geo-id-tl-etslive-v3-vidio-com-tokenized.akamaized.net/stream/21179/res=360p/monitoring=1/file/drm/hls/master.m3u8?hdnts=exp=1807753447~acl=/stream/21179/res=360p/monitoring=1/file/drm/hls/master.m3u8!/stream/21179/file/*/aac/*!/stream/21179/file/*/ingest_*_360p/*~id=14237364~hmac=39b16619c2e3a096f5d4753e2c98cc13bb58c2b809ba8096f61c838d20150845",
     "customBackupUrl": "http://192.168.40.54:80/backup/geo-id-tl-etslive-v3-vidio-com-tokenized.akamaized.net/stream/21179/res=360p/monitoring=1/file/drm/hls/master.m3u8?hdnts=exp=1807753447~acl=/stream/21179/res=360p/monitoring=1/file/drm/hls/master.m3u8!/stream/21179/file/*/aac/*!/stream/21179/file/*/ingest_*_360p/*~id=14237364~hmac=39b16619c2e3a096f5d4753e2c98cc13bb58c2b809ba8096f61c838d20150845"
+  },
+  {
+    "id": "665",
+    "name": "rcti",
+    "title": "RCTI",
+    "customPrimaryUrl": "http://192.168.40.54:80/primary/geo-id-etslive-v3-vidio-com-tokenized.akamaized.net/stream/665/res=360p/monitoring=1/file/drm/hls/master.m3u8?hdnts=exp=1806772370~acl=/stream/665/res=360p/monitoring=1/file/drm/hls/master.m3u8!/stream/665/file/*/aac/*!/stream/665/file/*/ingest_*_360p/*~id=89449960~hmac=24e182b582eb209e1a799691290cbb1397c1c90e4eacc018656c1c418b44365d",
+    "customBackupUrl": "http://192.168.40.54:80/backup/geo-id-etslive-v3-vidio-com-tokenized.akamaized.net/stream/665/res=360p/monitoring=1/file/drm/hls/master.m3u8?hdnts=exp=1806772370~acl=/stream/665/res=360p/monitoring=1/file/drm/hls/master.m3u8!/stream/665/file/*/aac/*!/stream/665/file/*/ingest_*_360p/*~id=89449960~hmac=24e182b582eb209e1a799691290cbb1397c1c90e4eacc018656c1c418b44365d"
   }
 ]
