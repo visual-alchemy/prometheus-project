@@ -292,6 +292,59 @@ function rewriteManifest(manifestBody) {
 }
 
 /**
+ * Fetch manifest for a channel feed with on-demand 403/401 token auto-healing
+ * If Akamai returns 403/401 (token expired), it automatically re-resolves a fresh token ONLY for that channel.
+ */
+async function fetchManifestWithAutoHealing(channel, feedType) {
+  let targetUrl = channel.resolvedSources ? channel.resolvedSources[feedType] : null;
+
+  if (!targetUrl) {
+    const sources = await resolveStreamUrl(channel);
+    channel.resolvedSources = sources;
+    targetUrl = sources[feedType];
+  }
+
+  if (!targetUrl) return null;
+
+  const cacheKey = `${channel.id}/${feedType}`;
+
+  try {
+    const res = await axios.get(targetUrl, { responseType: 'text', timeout: 5000 });
+    const rewritten = rewriteManifest(res.data);
+    manifestStore.set(cacheKey, {
+      body: rewritten,
+      fetchedAt: Date.now()
+    });
+    return rewritten;
+  } catch (err) {
+    const status = err.response?.status;
+    // On 401, 403 (Token Expired) or 404: Auto-heal token on-demand ONLY for this specific channel
+    if (status === 403 || status === 401 || status === 404) {
+      console.log(`[Auto-Heal] ${status} detected on channel ${channel.name || channel.id} (${feedType}). Re-resolving token...`);
+      try {
+        const freshSources = await resolveStreamUrl(channel);
+        channel.resolvedSources = freshSources;
+        const freshUrl = freshSources[feedType];
+
+        if (freshUrl) {
+          const freshRes = await axios.get(freshUrl, { responseType: 'text', timeout: 5000 });
+          const rewritten = rewriteManifest(freshRes.data);
+          manifestStore.set(cacheKey, {
+            body: rewritten,
+            fetchedAt: Date.now()
+          });
+          console.log(`[Auto-Heal] Successfully refreshed token on-demand for ${channel.name || channel.id} (${feedType})`);
+          return rewritten;
+        }
+      } catch (healErr) {
+        console.error(`[Auto-Heal] Failed to re-resolve token for ${channel.name || channel.id}:`, healErr.message);
+      }
+    }
+    return null;
+  }
+}
+
+/**
  * Background manifest puller — fetches all channel manifests every 3s
  * Guarantees exactly N upstream requests regardless of consumer count
  */
@@ -301,30 +354,12 @@ async function pullAllManifests() {
 
   for (const channel of channels) {
     try {
-      const sources = channel.resolvedSources || await resolveStreamUrl(channel);
+      const primaryResult = await fetchManifestWithAutoHealing(channel, 'primary');
+      if (primaryResult) pulled++;
 
-      // Pull primary manifest
-      if (sources.primary) {
-        try {
-          const res = await axios.get(sources.primary, { responseType: 'text', timeout: 5000 });
-          manifestStore.set(`${channel.id}/primary`, {
-            body: rewriteManifest(res.data),
-            fetchedAt: Date.now()
-          });
-          pulled++;
-        } catch (err) {}
-      }
-
-      // Pull backup manifest (if exists)
-      if (sources.backup) {
-        try {
-          const res = await axios.get(sources.backup, { responseType: 'text', timeout: 5000 });
-          manifestStore.set(`${channel.id}/backup`, {
-            body: rewriteManifest(res.data),
-            fetchedAt: Date.now()
-          });
-          pulled++;
-        } catch (err) {}
+      if (channel.customBackupUrl !== '') {
+        const backupResult = await fetchManifestWithAutoHealing(channel, 'backup');
+        if (backupResult) pulled++;
       }
     } catch (err) {}
   }
@@ -578,7 +613,7 @@ app.listen(PORT, '0.0.0.0', () => {
   // Initial manifest pull (populate store immediately on startup)
   pullAllManifests();
 
-  // Background manifest puller every 3 seconds (request coalescing)
+  // Background manifest puller every 3 seconds (request coalescing + 403 on-demand auto-heal)
   setInterval(() => {
     pullAllManifests();
   }, MANIFEST_PULL_INTERVAL_MS);
@@ -592,10 +627,5 @@ app.listen(PORT, '0.0.0.0', () => {
   setInterval(() => {
     syncAllChannels();
   }, 10000);
-
-  // Background token refresh interval (every 15 minutes)
-  setInterval(() => {
-    console.log('[Resolver] Running scheduled token sync...');
-    syncAllChannels();
-  }, REFRESH_INTERVAL_MS);
 });
+

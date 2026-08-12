@@ -2,7 +2,7 @@
 
 > **Protocol Redistribution & Optimized Media Engine for Token-Isolated HLS & Enterprise Utility Streaming**
 
-> **v2.4.0**: Option B Background Manifest Puller (Request Coalescing), 18-second Live Edge Safety Offset (Zero-Stall Buffer), dual Primary/Backup ISP isolation, Direct HLS Pass-Through, RTSP redistribution, 49 active channel profiles.
+> **v2.5.0**: On-Demand 403 Token Auto-Healing (Zero Global Video Wall Outages), Option B Background Manifest Puller (Request Coalescing), 18-second Live Edge Safety Offset (Zero-Stall Buffer), dual Primary/Backup ISP isolation, Direct HLS Pass-Through, RTSP redistribution, 49 active channel profiles.
 
 ---
 
@@ -12,9 +12,10 @@
 
 | Category | Features |
 |----------|----------|
+| **On-Demand 403 Auto-Healing** | Intercepts `403 Forbidden` / `401 Unauthorized` token expiry per-channel and re-resolves tokens on-demand, **eliminating global 25-panel "No Input" video wall outages forever** |
 | **Upstream Fan-Out Reduction** | Reduces WAN bandwidth from `N × Multiviewers` upstream pulls to a **guaranteed constant pull count** via 3-second background manifest puller & request coalescing |
 | **Live Edge Safety Offset** | Applies an **18-second (3-segment) safety delay offset** (`#EXT-X-START:TIME-OFFSET=-18.0` + segment trimming) to eliminate live edge collisions and prevent 24/7 multiviewer video freezes |
-| **Zero Token Expiry** | Background resolver auto-refreshes Vidio/Akamai `hdnts` tokens every 15 minutes. Downstream clients connect to static local URLs that **never expire** |
+| **Zero Token Expiry** | Auto-healing Token Resolver re-fetches Vidio/Akamai `hdnts` tokens as needed. Downstream clients connect to static local URLs that **never expire** |
 | **Dual ISP Isolation** | Independent `/primary` (ISP 1) and `/backup` (ISP 2) sub-paths per channel for side-by-side hardware encoder monitoring |
 | **Single-Encoder Detection** | Automatic `N/A` badge and bypass of backup probing/registration when `customBackupUrl` is blank |
 | **Direct HLS Pass-Through** | Zero-demuxing manifest proxy on `:3000` that preserves Akamai's native fMP4 timestamps with **0 frame skips** and **0 timestamp resets** |
