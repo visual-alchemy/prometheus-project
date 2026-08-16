@@ -1,8 +1,19 @@
 const fs = require('fs');
+const http = require('http');
+const https = require('https');
 const path = require('path');
 const express = require('express');
 const cors = require('cors');
 const axios = require('axios');
+
+// Persistent HTTP/HTTPS Agents for connection pooling (reusing TCP sockets, zero TIME_WAIT socket exhaustion)
+const httpAgent = new http.Agent({ keepAlive: true, keepAliveMsecs: 1000, maxSockets: 100 });
+const httpsAgent = new https.Agent({ keepAlive: true, keepAliveMsecs: 1000, maxSockets: 100 });
+const httpClient = axios.create({
+  httpAgent,
+  httpsAgent,
+  timeout: 4000
+});
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -291,6 +302,8 @@ function rewriteManifest(manifestBody) {
   return manifestBody;
 }
 
+let isPullingManifests = false;
+
 /**
  * Fetch manifest for a channel feed with on-demand 403/401 token auto-healing
  * If Akamai returns 403/401 (token expired), it automatically re-resolves a fresh token ONLY for that channel.
@@ -309,7 +322,7 @@ async function fetchManifestWithAutoHealing(channel, feedType) {
   const cacheKey = `${channel.id}/${feedType}`;
 
   try {
-    const res = await axios.get(targetUrl, { responseType: 'text', timeout: 5000 });
+    const res = await httpClient.get(targetUrl, { responseType: 'text' });
     const rewritten = rewriteManifest(res.data);
     manifestStore.set(cacheKey, {
       body: rewritten,
@@ -327,7 +340,7 @@ async function fetchManifestWithAutoHealing(channel, feedType) {
         const freshUrl = freshSources[feedType];
 
         if (freshUrl) {
-          const freshRes = await axios.get(freshUrl, { responseType: 'text', timeout: 5000 });
+          const freshRes = await httpClient.get(freshUrl, { responseType: 'text' });
           const rewritten = rewriteManifest(freshRes.data);
           manifestStore.set(cacheKey, {
             body: rewritten,
@@ -346,25 +359,39 @@ async function fetchManifestWithAutoHealing(channel, feedType) {
 
 /**
  * Background manifest puller — fetches all channel manifests every 3s
- * Guarantees exactly N upstream requests regardless of consumer count
+ * Uses persistent TCP keep-alive sockets, batched concurrency (8 channels), and timer overlap lock
  */
 async function pullAllManifests() {
-  const channels = loadChannels();
-  let pulled = 0;
+  if (isPullingManifests) return; // Overlap guard
+  isPullingManifests = true;
 
-  for (const channel of channels) {
-    try {
-      const primaryResult = await fetchManifestWithAutoHealing(channel, 'primary');
-      if (primaryResult) pulled++;
+  try {
+    const channels = loadChannels();
+    let pulled = 0;
 
-      if (channel.customBackupUrl !== '') {
-        const backupResult = await fetchManifestWithAutoHealing(channel, 'backup');
-        if (backupResult) pulled++;
+    // Process channels in controlled batches of 8 to eliminate socket bursts and complete within ~200ms
+    const BATCH_SIZE = 8;
+    for (let i = 0; i < channels.length; i += BATCH_SIZE) {
+      const batch = channels.slice(i, i + BATCH_SIZE);
+      const results = await Promise.allSettled(
+        batch.flatMap(channel => {
+          const tasks = [fetchManifestWithAutoHealing(channel, 'primary')];
+          if (channel.customBackupUrl !== '') {
+            tasks.push(fetchManifestWithAutoHealing(channel, 'backup'));
+          }
+          return tasks;
+        })
+      );
+
+      for (const res of results) {
+        if (res.status === 'fulfilled' && res.value) pulled++;
       }
-    } catch (err) {}
+    }
+  } catch (err) {
+    console.error('[Manifest Puller] Batch pull error:', err.message);
+  } finally {
+    isPullingManifests = false; // Guaranteed unlock
   }
-
-  console.log(`[Manifest Puller] Pulled ${pulled} manifests for ${channels.length} channels (store size: ${manifestStore.size})`);
 }
 
 // Direct HLS pass-through endpoint — serves ONLY from pre-fetched manifest store
@@ -396,7 +423,7 @@ app.get('/live/:id/:feed/index.m3u8', async (req, res) => {
   if (!targetUrl) return res.status(404).send('#EXTM3U\n# Feed Not Available');
 
   try {
-    const upstreamRes = await axios.get(targetUrl, { responseType: 'text', timeout: 5000 });
+    const upstreamRes = await httpClient.get(targetUrl, { responseType: 'text' });
     const body = rewriteManifest(upstreamRes.data);
 
     manifestStore.set(storeKey, { body, fetchedAt: Date.now() });

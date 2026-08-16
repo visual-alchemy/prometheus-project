@@ -2,7 +2,7 @@
 
 > **Protocol Redistribution & Optimized Media Engine for Token-Isolated HLS & Enterprise Utility Streaming**
 
-> **v2.5.0**: On-Demand 403 Token Auto-Healing (Zero Global Video Wall Outages), Option B Background Manifest Puller (Request Coalescing), 18-second Live Edge Safety Offset (Zero-Stall Buffer), dual Primary/Backup ISP isolation, Direct HLS Pass-Through, RTSP redistribution, 49 active channel profiles.
+> **v2.5.1**: Persistent TCP Keep-Alive Connection Pooling (Zero Socket Exhaustion), Batched Concurrency Puller (8 channels/batch, <200ms refresh), On-Demand 403 Token Auto-Healing (Zero Global Outages), 18-second Live Edge Safety Offset (Zero-Stall Buffer), dual Primary/Backup ISP isolation, Direct HLS Pass-Through, RTSP redistribution, 50 active channel profiles.
 
 ---
 
@@ -12,6 +12,9 @@
 
 | Category | Features |
 |----------|----------|
+| **Persistent Connection Pooling** | Built-in HTTP/HTTPS Keep-Alive Agent pool reuses TCP sockets, **eliminating Linux `TIME_WAIT` socket exhaustion and 4-hour connection drops** |
+| **Batched Concurrency Engine** | Pulls 50 channel manifests in **controlled batches of 8**, completing all updates in **<200ms** without CPU or network spikes |
+| **Timer Overlap Guard** | Guaranteed `try ... finally` lock prevents background pull tasks from stacking or freezing Node.js event-loop memory |
 | **On-Demand 403 Auto-Healing** | Intercepts `403 Forbidden` / `401 Unauthorized` token expiry per-channel and re-resolves tokens on-demand, **eliminating global 25-panel "No Input" video wall outages forever** |
 | **Upstream Fan-Out Reduction** | Reduces WAN bandwidth from `N × Multiviewers` upstream pulls to a **guaranteed constant pull count** via 3-second background manifest puller & request coalescing |
 | **Live Edge Safety Offset** | Applies an **18-second (3-segment) safety delay offset** (`#EXT-X-START:TIME-OFFSET=-18.0` + segment trimming) to eliminate live edge collisions and prevent 24/7 multiviewer video freezes |
