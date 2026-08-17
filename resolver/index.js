@@ -610,7 +610,7 @@ app.post('/api/channels/import', async (req, res) => {
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`[Resolver] Prometheus Gateway Resolver API running on port ${PORT}`);
   
-  // Initial sync & background origin health check
+  // Initial sync & background origin health check on startup
   syncAllChannels();
 
   // Initial manifest pull (populate store immediately on startup)
@@ -621,14 +621,9 @@ app.listen(PORT, '0.0.0.0', () => {
     pullAllManifests();
   }, MANIFEST_PULL_INTERVAL_MS);
 
-  // Background health check every 8 seconds for all channels
+  // Background health check every 60 seconds for dashboard UI status badges
   setInterval(() => {
     checkAllChannelsHealth();
-  }, 8000);
-
-  // Auto-resync paths if MediaMTX container restarts or drops in-memory paths
-  setInterval(() => {
-    syncAllChannels();
-  }, 10000);
+  }, 60000);
 });
 
