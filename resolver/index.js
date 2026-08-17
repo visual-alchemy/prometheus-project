@@ -264,40 +264,16 @@ async function syncAllChannels() {
 /**
  * Rewrite Akamai relative segment paths to absolute PROXY_HOST paths
  * Supports standard etslive-v3- as well as geo-restricted subdomains (geo-id-etslive-v3-, geo-id-gg-etslive-v3-, etc.)
- * Applies a 18-second (3-segment) safety delay offset to prevent live edge collisions & player video stalls
+ * Delivers pure, untouched native fMP4 manifests identical to direct Port :80 stream for 24/7 stability
  */
 function rewriteManifest(manifestBody) {
   if (!manifestBody || typeof manifestBody !== 'string') return manifestBody;
 
-  // 1. Rewrite Akamai relative segment paths to absolute PROXY_HOST paths
+  // Rewrite Akamai relative segment paths to absolute PROXY_HOST paths
   manifestBody = manifestBody.replace(/(URI=")?(\/[^\s\n"]*etslive-v3-[^"\s\n]+)/g, (match, p1, p2) => {
     return (p1 || '') + `${PROXY_HOST}${p2}`;
   });
   manifestBody = manifestBody.replace(/^(\/[^\s\n"]*etslive-v3-[^\s\n]+)/gm, `${PROXY_HOST}$1`);
-
-  // 2. Inject RFC 8216 HLS Live Start Offset (-18.0s) for Master Playlists
-  if (manifestBody.includes('#EXT-X-STREAM-INF') && !manifestBody.includes('#EXT-X-START')) {
-    manifestBody = manifestBody.replace('#EXTM3U', '#EXTM3U\n#EXT-X-START:TIME-OFFSET=-18.0');
-  }
-
-  // 3. Trim the newest 3 segments (18s safety delay) for Media Playlists containing #EXTINF lines
-  if (manifestBody.includes('#EXTINF')) {
-    const lines = manifestBody.split('\n');
-    const extinfIndices = [];
-    for (let i = 0; i < lines.length; i++) {
-      if (lines[i].startsWith('#EXTINF:')) {
-        extinfIndices.push(i);
-      }
-    }
-
-    // If playlist has at least 5 segments, trim the last 3 segments (18s safety buffer)
-    const TRIM_COUNT = 3;
-    if (extinfIndices.length > TRIM_COUNT + 2) {
-      const cutoffIndex = extinfIndices[extinfIndices.length - TRIM_COUNT];
-      const headerLines = lines.slice(0, cutoffIndex);
-      manifestBody = headerLines.join('\n') + '\n';
-    }
-  }
 
   return manifestBody;
 }
