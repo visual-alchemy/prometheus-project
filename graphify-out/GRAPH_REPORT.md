@@ -1,16 +1,16 @@
-# Graph Report - prometheus-project  (2026-08-10)
+# Graph Report - prometheus-project  (2026-08-18)
 
 ## Corpus Check
-- 15 files · ~6,250 words
+- 18 files · ~89,239 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 77 nodes · 95 edges · 12 communities (9 shown, 3 thin omitted)
+- 124 nodes · 143 edges · 8 communities
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `74c96a71`
+- Built from commit: `8b7e838a`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -23,39 +23,26 @@
 - [[_COMMUNITY_Community 5|Community 5]]
 - [[_COMMUNITY_Community 6|Community 6]]
 - [[_COMMUNITY_Community 7|Community 7]]
-- [[_COMMUNITY_Community 8|Community 8]]
-- [[_COMMUNITY_Community 9|Community 9]]
-- [[_COMMUNITY_Community 10|Community 10]]
-- [[_COMMUNITY_Community 11|Community 11]]
 
 ## God Nodes (most connected - your core abstractions)
-1. `fetchChannels()` - 7 edges
-2. `Prometheus IP Stream Gateway — Product Requirement Document (PRD) & Tech Stack` - 7 edges
-3. `Prometheus Stream Gateway` - 6 edges
-4. `syncAllChannels()` - 5 edges
-5. `4. Technology Stack Specification` - 5 edges
-6. `resolveStreamUrl()` - 4 edges
-7. `updateMediaMtxPath()` - 4 edges
-8. `switchInspectorFeed()` - 4 edges
-9. `2. Product Requirements Document (PRD)` - 4 edges
-10. `loadChannels()` - 3 edges
+1. `Prometheus IP Stream Gateway` - 11 edges
+2. `AGENTS.md — Prometheus IP Stream Gateway` - 8 edges
+3. `fetchChannels()` - 7 edges
+4. `Prometheus IP Stream Gateway — Product Requirement Document (PRD) & Tech Stack` - 7 edges
+5. `Key Architecture & Reliability Decisions (24/7 Stability)` - 6 edges
+6. `Architecture` - 6 edges
+7. `resolveStreamUrl()` - 5 edges
+8. `syncAllChannels()` - 5 edges
+9. `MEMORY.md — Prometheus IP Stream Gateway` - 5 edges
+10. `4. Technology Stack Specification` - 5 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `syncAllChannels()` --calls--> `resolveStreamUrl()`  [EXTRACTED]
-  resolver/index.js → resolver/index.js  _Bridges community 7 → community 9_
-- `syncAllChannels()` --calls--> `updateMediaMtxPath()`  [EXTRACTED]
-  resolver/index.js → resolver/index.js  _Bridges community 8 → community 9_
-- `fetchChannels()` --calls--> `filterChannels()`  [EXTRACTED]
-  resolver/public/app.js → resolver/public/app.js  _Bridges community 5 → community 11_
-- `fetchChannels()` --calls--> `populateInspector()`  [EXTRACTED]
-  resolver/public/app.js → resolver/public/app.js  _Bridges community 5 → community 6_
-- `saveStreamForm()` --calls--> `fetchChannels()`  [EXTRACTED]
-  resolver/public/app.js → resolver/public/app.js  _Bridges community 5 → community 10_
+- None detected - all connections are within the same source files.
 
 ## Import Cycles
 - None detected.
 
-## Communities (12 total, 3 thin omitted)
+## Communities (8 total, 0 thin omitted)
 
 ### Community 0 - "Community 0"
 Cohesion: 0.13
@@ -66,42 +53,47 @@ Cohesion: 0.18
 Nodes (10): dependencies, axios, cors, express, description, main, name, scripts (+2 more)
 
 ### Community 2 - "Community 2"
-Cohesion: 0.20
-Nodes (8): app, axios, channelHealthMap, channelsPath, cors, express, fs, path
+Cohesion: 0.10
+Nodes (28): app, axios, channelHealthMap, channelsPath, checkAllChannelsHealth(), checkChannelHealth(), cors, express (+20 more)
 
 ### Community 3 - "Community 3"
-Cohesion: 0.22
-Nodes (8): 1. Build and Start the Gateway, 2. Check Container Health & Logs, 📁 Architecture Overview, 📺 Available Stream Endpoints, ⚙️ Configuration & Custom Channels, 🚀 Key Features, Prometheus Stream Gateway, 🛠️ Quick Start & Running
+Cohesion: 0.13
+Nodes (14): API Reference, Background Timers, Build & Deploy, Core Capabilities, Documentation & Knowledge Base, Environment Variables, Features, HLS Endpoints (Port 3000 — Recommended) (+6 more)
+
+### Community 4 - "Community 4"
+Cohesion: 0.15
+Nodes (14): channelsData, closeModal(), closeSidebar(), deleteChannel(), fetchChannels(), filterChannels(), inspectChannel(), loadVideoPlayerForFeed() (+6 more)
 
 ### Community 5 - "Community 5"
-Cohesion: 0.40
-Nodes (5): closeSidebar(), deleteChannel(), fetchChannels(), refreshAllChannels(), refreshChannel()
+Cohesion: 0.14
+Nodes (13): 1. Zero-Disk-Thrash Channel Caching (`channelsCache`), 2. Persistent TCP Connection Pooling (`httpClient`), 3. Pure HLS Pass-Through Manifests (`:3000`), 4. Background Manifest Coalescing (`manifestStore`), 5. NGINX Edge Proxy Segment Caching & DNS Tuning, AGENTS.md — Prometheus IP Stream Gateway, Build & Verification Commands, Current Branch: `main` (+5 more)
 
 ### Community 6 - "Community 6"
-Cohesion: 0.50
-Nodes (4): inspectChannel(), loadVideoPlayerForFeed(), populateInspector(), switchInspectorFeed()
+Cohesion: 0.17
+Nodes (11): 1. Executive Summary & Mission, 2. Deep Incident Analysis: The 4-Hour Mividi Drop (Resolved), 3. Key Source Files & Architecture, 4. Diagnostics & Verification Reference, Log Signatures:, MEMORY.md — Prometheus IP Stream Gateway, Port & Service Topology:, Quick Python One-Liner to Check Mividi Session Durations: (+3 more)
 
 ### Community 7 - "Community 7"
-Cohesion: 0.50
-Nodes (4): checkChannelHealth(), findM3u8Urls(), pingUrl(), resolveStreamUrl()
-
-### Community 8 - "Community 8"
-Cohesion: 0.50
-Nodes (4): registerSingleMtxPath(), removeMediaMtxPath(), removeSingleMtxPath(), updateMediaMtxPath()
-
-### Community 9 - "Community 9"
-Cohesion: 1.00
-Nodes (3): checkAllChannelsHealth(), loadChannels(), syncAllChannels()
+Cohesion: 0.33
+Nodes (6): Architecture, Dual Primary & Backup ISP Flow, Fan-Out Reduction Flow (Background Puller / Request Coalescing), System Overview, Technology Stack, Upstream Request Reduction Matrix
 
 ## Knowledge Gaps
-- **34 isolated node(s):** `fs`, `path`, `express`, `cors`, `axios` (+29 more)
+- **67 isolated node(s):** `fs`, `http`, `https`, `path`, `express` (+62 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **3 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **What connects `fs`, `path`, `express` to the rest of the system?**
-  _34 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **Why does `Prometheus IP Stream Gateway` connect `Community 3` to `Community 7`?**
+  _High betweenness centrality (0.023) - this node is a cross-community bridge._
+- **Why does `Architecture` connect `Community 7` to `Community 3`?**
+  _High betweenness centrality (0.011) - this node is a cross-community bridge._
+- **What connects `fs`, `http`, `https` to the rest of the system?**
+  _67 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 0` be split into smaller, more focused modules?**
   _Cohesion score 0.13333333333333333 - nodes in this community are weakly interconnected._
+- **Should `Community 2` be split into smaller, more focused modules?**
+  _Cohesion score 0.09885057471264368 - nodes in this community are weakly interconnected._
+- **Should `Community 3` be split into smaller, more focused modules?**
+  _Cohesion score 0.13333333333333333 - nodes in this community are weakly interconnected._
+- **Should `Community 5` be split into smaller, more focused modules?**
+  _Cohesion score 0.14285714285714285 - nodes in this community are weakly interconnected._
