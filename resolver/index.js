@@ -36,19 +36,33 @@ const channelHealthMap = {};
 const manifestStore = new Map();
 const MANIFEST_PULL_INTERVAL_MS = 3000; // Background pull every 3 seconds
 
+// In-memory channels cache — eliminates synchronous disk reads on every 3s tick and client request
+let channelsCache = null;
+let channelsCacheMtime = 0;
+
 function loadChannels() {
   try {
+    const stat = fs.statSync(channelsPath);
+    const mtime = stat.mtimeMs;
+    if (channelsCache && mtime === channelsCacheMtime) {
+      return channelsCache;
+    }
     const raw = fs.readFileSync(channelsPath, 'utf8');
-    return JSON.parse(raw);
+    channelsCache = JSON.parse(raw);
+    channelsCacheMtime = mtime;
+    return channelsCache;
   } catch (err) {
     console.error('[Resolver] Failed to load channels.json:', err.message);
-    return [];
+    return channelsCache || [];
   }
 }
 
 function saveChannels(channels) {
   try {
     fs.writeFileSync(channelsPath, JSON.stringify(channels, null, 2), 'utf8');
+    // Invalidate cache so next loadChannels() picks up the new data
+    channelsCache = channels;
+    channelsCacheMtime = fs.statSync(channelsPath).mtimeMs;
     return true;
   } catch (err) {
     console.error('[Resolver] Failed to save channels.json:', err.message);
@@ -116,7 +130,7 @@ async function resolveStreamUrl(channel) {
   if (process.env.VIDIO_VISITOR_ID) headers['X-Visitor-Id'] = process.env.VIDIO_VISITOR_ID;
 
   try {
-    const response = await axios.get(vidioApiUrl, { headers, timeout: 8000 });
+    const response = await httpClient.get(vidioApiUrl, { headers, timeout: 8000 });
     const urls = findM3u8Urls(response.data);
     if (urls.length > 0) {
       let resolvedUrl = urls[0];
@@ -203,7 +217,7 @@ async function removeMediaMtxPath(pathName) {
 async function pingUrl(url) {
   if (!url) return false;
   try {
-    const res = await axios.get(url, { 
+    const res = await httpClient.get(url, { 
       timeout: 3000,
       validateStatus: (status) => status >= 200 && status < 400
     });

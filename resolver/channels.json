@@ -28,16 +28,16 @@
     "name": "transtv",
     "title": "733 | Trans TV Primary",
     "customUrl": "http://192.168.40.54:80/primary/etslive-v3-vidio-com-tokenized.akamaized.net/stream/733/file/master.m3u8?hdnts=exp=1799834623~acl=/stream/733/file/master.m3u8!/stream/733/file/*/aac/*!/stream/733/file/*/*-1080p/*!/stream/733/file/*/*-720p/*!/stream/733/file/*/*-480p/*!/stream/733/file/*/*-360p/*~id=93224450~hmac=be6417e569fccaea9e9c74d9eaef6e20880a119cefb72787397452a2b2d0082b",
-    "customPrimaryUrl": "http://192.168.40.54:80/primary/etslive-v3-vidio-com-tokenized.akamaized.net/stream/733/file/master.m3u8?hdnts=exp=1799834623~acl=/stream/733/file/master.m3u8!/stream/733/file/*/aac/*!/stream/733/file/*/*-1080p/*!/stream/733/file/*/*-720p/*!/stream/733/file/*/*-480p/*!/stream/733/file/*/*-360p/*~id=93224450~hmac=be6417e569fccaea9e9c74d9eaef6e20880a119cefb72787397452a2b2d0082b",
-    "customBackupUrl": "http://192.168.40.54:80/backup/etslive-v3-vidio-com-tokenized.akamaized.net/stream/733/file/master.m3u8?hdnts=exp=1799834623~acl=/stream/733/file/master.m3u8!/stream/733/file/*/aac/*!/stream/733/file/*/*-1080p/*!/stream/733/file/*/*-720p/*!/stream/733/file/*/*-480p/*!/stream/733/file/*/*-360p/*~id=93224450~hmac=be6417e569fccaea9e9c74d9eaef6e20880a119cefb72787397452a2b2d0082b"
+    "customPrimaryUrl": "http://192.168.40.54:80/primary/etslive-v3-vidio-com-tokenized.akamaized.net/stream/733/res=360p/monitoring=1/file/drm/hls/master.m3u8?hdnts=exp=1817957543~acl=/stream/733/res=360p/monitoring=1/file/drm/hls/master.m3u8!/stream/733/file/*/aac/*!/stream/733/file/*/ingest_*_360p/*~id=93224450~hmac=81f0eec5bdd02dcec62549931adb79d0b897ddf49398c23722219b44c81042ba",
+    "customBackupUrl": "http://192.168.40.54:80/backup/etslive-v3-vidio-com-tokenized.akamaized.net/stream/733/res=360p/monitoring=1/file/drm/hls/master.m3u8?hdnts=exp=1817957543~acl=/stream/733/res=360p/monitoring=1/file/drm/hls/master.m3u8!/stream/733/file/*/aac/*!/stream/733/file/*/ingest_*_360p/*~id=93224450~hmac=81f0eec5bdd02dcec62549931adb79d0b897ddf49398c23722219b44c81042ba"
   },
   {
     "id": "734",
     "name": "trans7",
     "title": "734 | Trans 7 Primary",
     "customUrl": "http://192.168.40.54:80/primary/etslive-v3-vidio-com-tokenized.akamaized.net/stream/734/file/master.m3u8?hdnts=exp=1799834650~acl=/stream/734/file/master.m3u8!/stream/734/file/*/aac/*!/stream/734/file/*/*-1080p/*!/stream/734/file/*/*-720p/*!/stream/734/file/*/*-480p/*!/stream/734/file/*/*-360p/*~id=93224450~hmac=d441ba0fb87f6d47c8f40af756a59ff2fd4ee04243f56a1ee624778a122b67fc",
-    "customPrimaryUrl": "http://192.168.40.54:80/primary/etslive-v3-vidio-com-tokenized.akamaized.net/stream/734/file/master.m3u8?hdnts=exp=1799834650~acl=/stream/734/file/master.m3u8!/stream/734/file/*/aac/*!/stream/734/file/*/*-1080p/*!/stream/734/file/*/*-720p/*!/stream/734/file/*/*-480p/*!/stream/734/file/*/*-360p/*~id=93224450~hmac=d441ba0fb87f6d47c8f40af756a59ff2fd4ee04243f56a1ee624778a122b67fc",
-    "customBackupUrl": "http://192.168.40.54:80/backup/etslive-v3-vidio-com-tokenized.akamaized.net/stream/734/file/master.m3u8?hdnts=exp=1799834650~acl=/stream/734/file/master.m3u8!/stream/734/file/*/aac/*!/stream/734/file/*/*-1080p/*!/stream/734/file/*/*-720p/*!/stream/734/file/*/*-480p/*!/stream/734/file/*/*-360p/*~id=93224450~hmac=d441ba0fb87f6d47c8f40af756a59ff2fd4ee04243f56a1ee624778a122b67fc"
+    "customPrimaryUrl": "http://192.168.40.54:80/primary/etslive-v3-vidio-com-tokenized.akamaized.net/stream/734/res=360p/monitoring=1/file/drm/hls/master.m3u8?hdnts=exp=1817957579~acl=/stream/734/res=360p/monitoring=1/file/drm/hls/master.m3u8!/stream/734/file/*/aac/*!/stream/734/file/*/ingest_*_360p/*~id=93224450~hmac=34d761e9b925a3331ebd67e30f23bd9d2f477bd14b7a02448d52b45c9063d289",
+    "customBackupUrl": "http://192.168.40.54:80/backup/etslive-v3-vidio-com-tokenized.akamaized.net/stream/734/res=360p/monitoring=1/file/drm/hls/master.m3u8?hdnts=exp=1817957579~acl=/stream/734/res=360p/monitoring=1/file/drm/hls/master.m3u8!/stream/734/file/*/aac/*!/stream/734/file/*/ingest_*_360p/*~id=93224450~hmac=34d761e9b925a3331ebd67e30f23bd9d2f477bd14b7a02448d52b45c9063d289"
   },
   {
     "id": "782",
@@ -51,7 +51,9 @@
     "id": "874",
     "name": "kompastv",
     "title": "874 | Kompas TV",
-    "customUrl": "http://192.168.40.54:80/primary/etslive-v3-vidio-com-tokenized.akamaized.net/stream/874/file/master.m3u8?hdnts=exp=1799834720~acl=/stream/874/file/master.m3u8!/stream/874/file/*/aac/*!/stream/874/file/*/*-1080p/*!/stream/874/file/*/*-720p/*!/stream/874/file/*/*-480p/*!/stream/874/file/*/*-360p/*~id=93224450~hmac=aefee2e1031a978ca7845857794b9801ae864f17d7534d74c7145772eb5f3f24"
+    "customUrl": "http://192.168.40.54:80/primary/etslive-v3-vidio-com-tokenized.akamaized.net/stream/874/file/master.m3u8?hdnts=exp=1799834720~acl=/stream/874/file/master.m3u8!/stream/874/file/*/aac/*!/stream/874/file/*/*-1080p/*!/stream/874/file/*/*-720p/*!/stream/874/file/*/*-480p/*!/stream/874/file/*/*-360p/*~id=93224450~hmac=aefee2e1031a978ca7845857794b9801ae864f17d7534d74c7145772eb5f3f24",
+    "customPrimaryUrl": "http://192.168.40.54:80/primary/etslive-v3-vidio-com-tokenized.akamaized.net/stream/874/res=360p/monitoring=1/file/drm/hls/master.m3u8?hdnts=exp=1818063373~acl=/stream/874/res=360p/monitoring=1/file/drm/hls/master.m3u8!/stream/874/file/*/aac/*!/stream/874/file/*/ingest_*_360p/*~id=128636557~hmac=6f80734fa1995e451e85cc5397abcb37ea8fa6f63c5f8cff83324f40a028b862",
+    "customBackupUrl": ""
   },
   {
     "id": "777",
@@ -254,8 +256,8 @@
     "id": "6397",
     "name": "horee",
     "title": "Horee! | 6397 P",
-    "customPrimaryUrl": "http://192.168.40.54:80/primary/geo-id-etslive-v3-vidio-com-tokenized.akamaized.net/stream/6397/file/master.m3u8?hdnts=exp=1806690858~acl=/stream/6397/file/master.m3u8!/stream/6397/file/*/aac/*!/stream/6397/file/*/*-2160p/*!/stream/6397/file/*/*-1440p/*!/stream/6397/file/*/*-1080p/*!/stream/6397/file/*/*-720p/*!/stream/6397/file/*/*-480p/*!/stream/6397/file/*/*-360p/*~id=89449960~hmac=e1f4c81a1b7f469822ba96caf9985855ae8fe891a9b0f53ded8f5d42fb138c98",
-    "customBackupUrl": "http://192.168.40.54:80/backup/geo-id-etslive-v3-vidio-com-tokenized.akamaized.net/stream/6397/file/master.m3u8?hdnts=exp=1806690858~acl=/stream/6397/file/master.m3u8!/stream/6397/file/*/aac/*!/stream/6397/file/*/*-2160p/*!/stream/6397/file/*/*-1440p/*!/stream/6397/file/*/*-1080p/*!/stream/6397/file/*/*-720p/*!/stream/6397/file/*/*-480p/*!/stream/6397/file/*/*-360p/*~id=89449960~hmac=e1f4c81a1b7f469822ba96caf9985855ae8fe891a9b0f53ded8f5d42fb138c98"
+    "customPrimaryUrl": "http://192.168.40.54:80/primary/geo-id-etslive-v3-vidio-com-tokenized.akamaized.net/stream/6397/res=360p/monitoring=1/file/drm/hls/master.m3u8?hdnts=exp=1817958660~acl=/stream/6397/res=360p/monitoring=1/file/drm/hls/master.m3u8!/stream/6397/file/*/aac/*!/stream/6397/file/*/ingest_*_360p/*~id=93224450~hmac=290cb503871500858f1d842611c579823779068d51cf72b92c7ca016f5774f01",
+    "customBackupUrl": "http://192.168.40.54:80/backup/geo-id-etslive-v3-vidio-com-tokenized.akamaized.net/stream/6397/res=360p/monitoring=1/file/drm/hls/master.m3u8?hdnts=exp=1817958660~acl=/stream/6397/res=360p/monitoring=1/file/drm/hls/master.m3u8!/stream/6397/file/*/aac/*!/stream/6397/file/*/ingest_*_360p/*~id=93224450~hmac=290cb503871500858f1d842611c579823779068d51cf72b92c7ca016f5774f01"
   },
   {
     "id": "6362",
@@ -268,8 +270,8 @@
     "id": "7052",
     "name": "hiphiphoree",
     "title": "Hip Hip Horee | 7052",
-    "customPrimaryUrl": "http://192.168.40.54:80/primary/geo-id-etslive-v3-vidio-com-tokenized.akamaized.net/stream/7052/file/master.m3u8?hdnts=exp=1806690954~acl=/stream/7052/file/master.m3u8!/stream/7052/file/*/aac/*!/stream/7052/file/*/*-2160p/*!/stream/7052/file/*/*-1440p/*!/stream/7052/file/*/*-1080p/*!/stream/7052/file/*/*-720p/*!/stream/7052/file/*/*-480p/*!/stream/7052/file/*/*-360p/*~id=89449960~hmac=68a4a55bf25908fda51fbfeff55cb386e7c735a82358c1eb7c7c5967ac34e00f",
-    "customBackupUrl": "http://192.168.40.54:80/backup/geo-id-etslive-v3-vidio-com-tokenized.akamaized.net/stream/7052/file/master.m3u8?hdnts=exp=1806690954~acl=/stream/7052/file/master.m3u8!/stream/7052/file/*/aac/*!/stream/7052/file/*/*-2160p/*!/stream/7052/file/*/*-1440p/*!/stream/7052/file/*/*-1080p/*!/stream/7052/file/*/*-720p/*!/stream/7052/file/*/*-480p/*!/stream/7052/file/*/*-360p/*~id=89449960~hmac=68a4a55bf25908fda51fbfeff55cb386e7c735a82358c1eb7c7c5967ac34e00f"
+    "customPrimaryUrl": "http://192.168.40.54:80/primary/geo-id-etslive-v3-vidio-com-tokenized.akamaized.net/stream/7052/res=360p/monitoring=1/file/drm/hls/master.m3u8?hdnts=exp=1818357759~acl=/stream/7052/res=360p/monitoring=1/file/drm/hls/master.m3u8!/stream/7052/file/*/aac/*!/stream/7052/file/*/ingest_*_360p/*~id=93224450~hmac=1ba9e333fd3241dfd7671bdee0e59fd1f9977b3ce222d781e82d3452ce5a5cc6",
+    "customBackupUrl": "http://192.168.40.54:80/backup/geo-id-etslive-v3-vidio-com-tokenized.akamaized.net/stream/7052/res=360p/monitoring=1/file/drm/hls/master.m3u8?hdnts=exp=1818357759~acl=/stream/7052/res=360p/monitoring=1/file/drm/hls/master.m3u8!/stream/7052/file/*/aac/*!/stream/7052/file/*/ingest_*_360p/*~id=93224450~hmac=1ba9e333fd3241dfd7671bdee0e59fd1f9977b3ce222d781e82d3452ce5a5cc6"
   },
   {
     "id": "8121",
